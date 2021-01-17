@@ -1,0 +1,15 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.buttonContainer {
+	position: fixed;
+	top: var(--small-gap);
+	left: var(--small-gap);
+	display: grid;
+	gap: var(--small-gap);
+	width: 9.5rem;
+}

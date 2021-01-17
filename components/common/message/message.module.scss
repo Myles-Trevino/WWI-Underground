@@ -1,0 +1,26 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.message {
+	pointer-events: none;
+	z-index: 3;
+	position: absolute;
+	bottom: var(--small-gap);
+	left: calc(50vw - 10rem);
+	display: flex;
+	align-items: center;
+	width: 20rem;
+	min-height: 5rem;
+	padding: var(--small-gap);
+	background-color: var(--section-color);
+	transition: opacity var(--medium-transition-duration);
+
+	span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}

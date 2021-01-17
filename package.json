@@ -1,0 +1,44 @@
+{
+	"author": "Myles Trevino",
+	"name": "wwi-underground",
+	"productName": "WWI Underground",
+	"version": "2021.1.16",
+	"description": "A website dedicated to the preservation of French WWI caves and the documentation of the soldiers that sought refuge in them.",
+	"license": "Apache-2.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . --ext ts --ext tsx"
+	},
+	"dependencies": {
+		"axios": "^0.21.1",
+		"classnames": "^2.2.6",
+		"formik": "^2.2.6",
+		"loadash": "^1.0.0",
+		"mobx": "^6.0.4",
+		"mobx-react-lite": "^3.1.6",
+		"next": "^10.0.0",
+		"react": "16.13.1",
+		"react-dom": "16.13.1",
+		"sass": "^1.32.2",
+		"three": "^0.124.0",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@types/classnames": "^2.2.11",
+		"@types/jquery": "^3.5.5",
+		"@types/lodash": "^4.14.167",
+		"@types/node": "^14.14.20",
+		"@types/react": "^17.0.0",
+		"@types/react-dom": "^17.0.0",
+		"@types/uuid": "^8.3.0",
+		"@typescript-eslint/eslint-plugin": "^4.12.0",
+		"@typescript-eslint/parser": "^4.12.0",
+		"eslint": "^7.17.0",
+		"eslint-plugin-react": "^7.22.0",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"typescript": "^4.1.3"
+	}
+}

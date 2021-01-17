@@ -1,0 +1,38 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+{
+	"compilerOptions": {
+		"target": "es6",
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+
+		"strict": true,
+		"allowJs": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve"
+	},
+
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx"
+	],
+
+	"exclude": ["node_modules"]
+}

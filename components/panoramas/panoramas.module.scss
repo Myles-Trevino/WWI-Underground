@@ -1,0 +1,44 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.nodeModal {
+	position: fixed;
+	top: var(--small-gap);
+	right: var(--small-gap);
+	display: grid;
+	gap: var(--small-gap);
+	grid-template-rows: min-content auto min-content;
+	width: 23rem;
+	height: calc(100% - var(--small-gap) * 2);
+	padding: var(--small-gap);
+	background-color: var(--section-color);
+	opacity: 0;
+
+	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+
+	h2 { color: var(--text-color); }
+
+	button { width: 5rem; }
+}
+
+
+/* Inputs. */
+.inputs, .input {
+	display: grid;
+	gap: var(--small-gap);
+	height: min-content;
+}
+
+
+/* Buttons. */
+.buttonContainer, .buttonGroup {
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--small-gap);
+}
+
+.buttonGroup { justify-self: right; }

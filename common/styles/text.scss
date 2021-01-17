@@ -1,0 +1,36 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* Fonts. */
+@font-face {
+	font-family: "Open Sans Regular";
+	src: url("/fonts/open-sans-regular.ttf");
+}
+
+@font-face {
+	font-family: "Zilla Slab Light";
+	src: url("/fonts/zilla-slab-light.ttf");
+}
+
+
+/* Text elements. */
+p, span, button, a, input, textarea { color: var(--text-color); }
+
+h1, h2, .title {
+	font-family: "Zilla Slab Light";
+	font-weight: 600;
+	color: var(--accent-color);
+}
+
+h1 { font-size: 3rem; }
+
+h2, .title { font-size: 1.75rem; }
+
+p, span, button, input, textarea {
+	font-family: "Open Sans Regular";
+	font-size: 1rem;
+}

@@ -1,0 +1,41 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.canvas {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	opacity: 0;
+
+	:global { animation: fadeIn var(--long-transition-duration) .5s forwards; }
+}
+
+
+.editModeInformation {
+	z-index: 1;
+	position: fixed;
+	left: var(--small-gap);
+	bottom: var(--small-gap);
+	display: grid;
+	padding: var(--small-gap);
+	background-color: var(--section-color);
+
+	button{ margin-top: var(--small-gap); }
+}
+
+
+.crosshair {
+	z-index: 1;
+	position: fixed;
+	top: 50vh;
+	left: 50vw;
+	width: var(--double-line-width);
+	height: var(--double-line-width);
+	border-radius: calc(var(--double-line-width) / 2);
+	background-color: var(--accent-color);
+	transform: translate(-50%, -50%);
+}

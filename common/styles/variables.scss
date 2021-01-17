@@ -1,0 +1,23 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+:root {
+	--background-color: rgb(39, 39, 39);
+	--section-color: rgba(0, 0, 0, .5);
+	--text-color: rgba(255, 255, 255);
+	--accent-color: rgba(255, 255, 0);
+	--selection-color: rgba(255, 255, 0, .25);
+
+	--small-gap: 1rem;
+	--medium-gap: 2rem;
+	--input-height: 2.3rem;
+	--line-width: .12rem;
+	--double-line-width: calc(var(--line-width) * 2);
+
+	--medium-transition-duration: 80ms;
+	--long-transition-duration: .5s;
+}

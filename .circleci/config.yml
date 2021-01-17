@@ -1,0 +1,62 @@
+# Copyright Myles Trevino
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
+
+
+version: 2.1
+
+
+executors:
+  wwi-underground-executor:
+      docker:
+        - image: circleci/node:latest-browsers
+      working_directory: ~/wwi-underground
+
+
+jobs:
+  install:
+    executor: wwi-underground-executor
+    steps:
+      - checkout
+      - restore_cache:
+          key: wwi-underground-{{.Branch}}-{{checksum "package-lock.json"}}
+      - run: npm install --no-save
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - .next/cache
+
+  build:
+    executor: wwi-underground-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: npm run build
+      - save_cache:
+          key: wwi-underground-{{.Branch}}-{{checksum "package-lock.json"}}
+          paths:
+            - node_modules
+            - .next/cache
+
+  lint:
+    executor: wwi-underground-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: npm run lint
+
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - install
+      - build:
+          requires:
+            - install
+      - lint:
+          requires:
+            - install

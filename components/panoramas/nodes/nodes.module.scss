@@ -1,0 +1,29 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.node {
+	cursor: pointer;
+	position: fixed;
+	border: var(--line-width) solid var(--text-color);
+	opacity: 0;
+	transition: border-color var(--medium-transition-duration);
+
+	:global { animation: fadeIn var(--medium-transition-duration) 32ms forwards; }
+
+	&:hover {
+		border-color: var(--accent-color);
+		.nodeLabel{ color: var(--accent-color); }
+	}
+}
+
+.nodeLabel {
+	position: absolute;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	transition: color var(--medium-transition-duration);
+}
