@@ -11,7 +11,7 @@
 	height: 100vh;
 	opacity: 0;
 
-	:global { animation: fadeIn var(--long-transition-duration) .5s forwards; }
+	:global { animation: fadeIn var(--long-transition-duration) 160ms forwards; }
 }
 
 

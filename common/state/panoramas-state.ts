@@ -89,13 +89,15 @@ export default class PanoramasState {
 	public setNodeName(name: string | undefined, newName: string): void {
 
 		if(!name) return;
-		const panorama = this.getDefinedPanorama();
-		const nodeCopy = _.cloneDeep(panorama.nodes[name]);
-		delete panorama.nodes[name];
 
+		// If the new name is already taken, throw an error.
+		const panorama = this.getDefinedPanorama();
 		if(_.has(panorama.nodes, newName))
 			throw new Error('A node with this name already exists.');
 
+		// Set the new name.
+		const nodeCopy = _.cloneDeep(panorama.nodes[name]);
+		delete panorama.nodes[name];
 		panorama.nodes[newName] = nodeCopy;
 	}
 

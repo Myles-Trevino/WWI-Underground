@@ -45,21 +45,31 @@ export default observer(function NodeEditor(){
 	// Saves the changes to the node and exits.
 	function save(values: FormValues): void {
 
-		// Change the node's properties.
-		const name = getName();
-		const newName = values.name;
-		delete values.name;
-		state.panoramas.setNode(name, values);
+		try {
 
-		// Change the node's name if it was modified.
-		if(newName && newName !== name){
-			state.panoramas.setNodeName(name, newName);
-			state.panoramas.setEditNode(newName);
+			const oldName = getName();
+			const name = values.name;
+			delete values.name;
+
+			// Validate.
+			if(!name) throw new Error('Please enter a name.');
+
+			// Change the node's name if it was modified.
+			if(name !== oldName){
+				state.panoramas.setNodeName(oldName, name);
+				state.panoramas.setEditNode(name);
+			}
+
+			// Change the node's properties.
+			state.panoramas.setNode(name, values);
+
+			// Exit.
+			state.app.setMessage('Changes saved.');
+			exit();
 		}
 
-		// Exit.
-		state.app.setMessage('Changes saved.');
-		exit();
+		// Handle errors.
+		catch(error: unknown){ state.app.setErrorMessage(error as Error); }
 	}
 
 

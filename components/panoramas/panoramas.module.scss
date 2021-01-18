@@ -5,20 +5,28 @@
 */
 
 
+@import "../../common/styles/mixins.scss";
+
+
 .nodeModal {
+	z-index: 1;
 	position: fixed;
 	top: var(--small-gap);
 	right: var(--small-gap);
 	display: grid;
 	gap: var(--small-gap);
 	grid-template-rows: min-content auto min-content;
-	width: 23rem;
+	width: 24rem;
 	height: calc(100% - var(--small-gap) * 2);
 	padding: var(--small-gap);
 	background-color: var(--section-color);
 	opacity: 0;
 
 	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+
+	@include mobile {
+		width: calc(100% - 2 * var(--small-gap));
+	}
 
 	h2 { color: var(--text-color); }
 

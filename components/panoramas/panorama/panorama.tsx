@@ -10,6 +10,7 @@ import {observer} from 'mobx-react-lite';
 import * as Three from 'three';
 
 import type * as Types from '../../../common/types';
+import * as Helpers from '../../../common/helpers';
 import Styles from './panorama.module.scss';
 import StateContext from '../../../common/state/state-context';
 
@@ -72,24 +73,11 @@ export default observer(function Panorama(): JSX.Element {
 			const container = containerRef.current;
 			if(!container) throw new Error('No panorama container.');
 
-			// Remove the canvas if it exists.
-			if(renderer) container.removeChild(renderer.domElement);
-
 			// Create the scene if necessary.
 			if(!scene) scene = new Three.Scene();
 
-			// Create the camera if necessary.
-			if(!camera) camera = new Three.PerspectiveCamera(state.panoramas.defaultFov,
-				window.innerWidth/window.innerHeight, nearClip, farClip);
-
-			// Set the default FOV and rotation.
-			camera.fov = state.panoramas.defaultFov;
-			state.panoramas.setFov(state.panoramas.defaultFov);
-			rotation.set(panorama.defaultRotation.x, panorama.defaultRotation.y);
-			camera.setRotationFromEuler(getEuler());
-			camera.updateProjectionMatrix();
-
 			// Load the cubemap.
+			await Helpers.sleep(80); // Wait for content to update before loading.
 			const texture = await new Promise<Three.CubeTexture>((resolve) => {
 
 				if(!state.panoramas.panoramaName) throw new Error('No panorama.');
@@ -101,6 +89,17 @@ export default observer(function Panorama(): JSX.Element {
 			});
 
 			scene.background = texture;
+
+			// Create the camera if necessary.
+			if(!camera) camera = new Three.PerspectiveCamera(state.panoramas.defaultFov,
+				window.innerWidth/window.innerHeight, nearClip, farClip);
+
+			// Set the default FOV and rotation.
+			camera.fov = state.panoramas.defaultFov;
+			state.panoramas.setFov(state.panoramas.defaultFov);
+			rotation.set(panorama.defaultRotation.x, panorama.defaultRotation.y);
+			camera.setRotationFromEuler(getEuler());
+			camera.updateProjectionMatrix();
 
 			// Create the renderer if necessary.
 			if(!renderer){
@@ -207,6 +206,9 @@ export default observer(function Panorama(): JSX.Element {
 	// Pointer down callback.
 	function onPointerDown(event: React.PointerEvent): void {
 		if(!event.isPrimary) return;
+		const downPointerPosition = new Three.Vector2(event.clientX, event.clientY);
+		pointerPosition = downPointerPosition.clone();
+		previousPointerPosition = downPointerPosition.clone();
 		dragging = true;
 	}
 
@@ -215,6 +217,7 @@ export default observer(function Panorama(): JSX.Element {
 	function onPointerMove(event: React.PointerEvent): void {
 		if(!event.isPrimary) return;
 		if(!pointerPosition) pointerPosition = new Three.Vector2();
+		console.log('Move');
 		pointerPosition.set(event.clientX, event.clientY);
 	}
 
@@ -222,6 +225,7 @@ export default observer(function Panorama(): JSX.Element {
 	// Pointer up callback.
 	function onPointerUp(event: PointerEvent): void {
 		if(!event.isPrimary) return;
+		console.log('Up');
 		dragging = false;
 	}
 
