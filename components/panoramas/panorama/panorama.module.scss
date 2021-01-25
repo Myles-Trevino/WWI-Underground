@@ -15,19 +15,6 @@
 }
 
 
-.editModeInformation {
-	z-index: 1;
-	position: fixed;
-	left: var(--small-gap);
-	bottom: var(--small-gap);
-	display: grid;
-	padding: var(--small-gap);
-	background-color: var(--section-color);
-
-	button{ margin-top: var(--small-gap); }
-}
-
-
 .crosshair {
 	z-index: 1;
 	position: fixed;

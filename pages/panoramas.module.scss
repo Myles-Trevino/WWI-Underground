@@ -13,3 +13,19 @@
 	gap: var(--small-gap);
 	width: 9.5rem;
 }
+
+
+.editModeInformation {
+	z-index: 1;
+	position: fixed;
+	left: var(--small-gap);
+	bottom: var(--small-gap);
+	display: grid;
+	padding: var(--small-gap);
+	background-color: var(--section-color);
+	opacity: 0;
+
+	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+
+	button{ margin-top: var(--small-gap); }
+}

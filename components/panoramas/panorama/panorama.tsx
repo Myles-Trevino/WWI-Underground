@@ -238,32 +238,13 @@ export default observer(function Panorama(): JSX.Element {
 	}
 
 
-	// Sets the panorama's default rotation.
-	function setDefaultRotation(): void {
-		state.panoramas.getDefinedPanorama().defaultRotation =
-			state.panoramas.rotation.clone();
-
-		state.app.setMessage('Default rotation set.');
-	}
-
-
 	// Render.
-	const editModeInformation =
-		<div className={Styles.editModeInformation}>
-			<span>Edit Mode</span>
-			<span>Panorama: {state.panoramas.panoramaName}</span>
-			<button onClick={setDefaultRotation}>Set Default Rotation</button>
-		</div>;
-
 	return (
 		<div ref={containerRef}>
 
 			{/* Canvas. */}
 			<canvas ref={canvasRef} className={Styles.canvas} onWheel={onWheel}
 				onPointerDown={onPointerDown} onPointerMove={onPointerMove}></canvas>
-
-			{/* Information. */}
-			{state.panoramas.editMode && editModeInformation}
 
 			{/* Crosshair. */}
 			<div className={Styles.crosshair}></div>

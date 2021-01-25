@@ -10,6 +10,9 @@
 	bottom: var(--small-gap);
 	left: var(--small-gap);
 	width: 20rem;
+	opacity: 0;
+
+	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
 }
 
 

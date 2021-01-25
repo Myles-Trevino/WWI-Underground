@@ -32,7 +32,6 @@ const defaultPanorama = '1';
 export default observer(function Viewer(): JSX.Element {
 
 	const state = useContext(StateContext);
-
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 
@@ -95,6 +94,15 @@ export default observer(function Viewer(): JSX.Element {
 	}
 
 
+	// Sets the panorama's default rotation.
+	function setDefaultRotation(): void {
+		state.panoramas.getDefinedPanorama().defaultRotation =
+			state.panoramas.rotation.clone();
+
+		state.app.setMessage('Default rotation set.');
+	}
+
+
 	// Adds a node to the current panorama.
 	function addNode(type: Types.NodeType): void {
 
@@ -142,18 +150,26 @@ export default observer(function Viewer(): JSX.Element {
 			<button onClick={toggleEditMode}>
 				{state.panoramas.editMode ? 'View Mode' : 'Edit Mode'}
 			</button>
+			<button onClick={selectWwiu}>Load WWIU</button>
+			<button onClick={saveWwiu}>Save WWIU</button>
+		</div>
+
+		{/* Map. */}
+		{!state.panoramas.editMode && <Map></Map>}
+
+		{/* Edit mode popup. */}
+		{state.panoramas.editMode &&
+		<div className={Styles.editModeInformation}>
+			<span>Edit Mode</span>
+			<span>Panorama: {state.panoramas.panoramaName}</span>
+			<button onClick={setDefaultRotation}>Set Default Rotation</button>
 			<button onClick={(): void => { addNode('Information'); }}>
 				Add Information
 			</button>
 			<button onClick={(): void => { addNode('Navigation'); }}>
 				Add Navigation
 			</button>
-			<button onClick={selectWwiu}>Load WWIU</button>
-			<button onClick={saveWwiu}>Save WWIU</button>
-		</div>
-
-		{/* Map. */}
-		<Map></Map>
+		</div>}
 
 		{/* Message. */}
 		<Message></Message>
