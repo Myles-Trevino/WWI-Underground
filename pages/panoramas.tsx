@@ -18,6 +18,7 @@ import Constants from '../common/constants';
 import Styles from './panoramas.module.scss';
 import StateContext from '../common/state/state-context';
 import Panorama from '../components/panoramas/panorama/panorama';
+import Map from '../components/panoramas/map/map';
 import Nodes from '../components/panoramas/nodes/nodes';
 import NodeViewer from '../components/panoramas/node-viewer';
 import NodeEditor from '../components/panoramas/node-editor';
@@ -150,6 +151,9 @@ export default observer(function Viewer(): JSX.Element {
 			<button onClick={selectWwiu}>Load WWIU</button>
 			<button onClick={saveWwiu}>Save WWIU</button>
 		</div>
+
+		{/* Map. */}
+		<Map></Map>
 
 		{/* Message. */}
 		<Message></Message>

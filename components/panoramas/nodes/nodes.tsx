@@ -52,7 +52,7 @@ export default observer(function Nodes(){
 
 
 	// For each node in the loaded panorama...
-	const nodes = [];
+	const nodes: JSX.Element[] = [];
 	for(const [name, value] of Object.entries(panorama.nodes)){
 
 		// Calculate the node's screen space position.

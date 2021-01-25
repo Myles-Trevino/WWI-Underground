@@ -2,7 +2,7 @@
 	"author": "Myles Trevino",
 	"name": "wwi-underground",
 	"productName": "WWI Underground",
-	"version": "2021.1.16",
+	"version": "2021.1.25",
 	"description": "A website dedicated to the preservation of French WWI caves and the documentation of the soldiers that sought refuge in them.",
 	"license": "Apache-2.0",
 	"private": true,

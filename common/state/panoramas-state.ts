@@ -22,6 +22,7 @@ export default class PanoramasState {
 	public panoramaName?: string;
 	public editMode = false;
 	public fov = this.defaultFov;
+	public rotation = new Three.Vector2();
 	public camera = new Three.Camera();
 	public viewNodeName?: string;
 	public editNodeName?: string;
@@ -71,6 +72,8 @@ export default class PanoramasState {
 	public toggleEditMode(): void { this.editMode = !this.editMode; }
 
 	public setFov(fov: number): void { this.fov = fov; }
+
+	public setRotation(rotation: Three.Vector2): void { this.rotation = rotation; }
 
 	public setCamera(camera: Three.Camera): void { this.camera = camera; }
 

@@ -1,0 +1,36 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.svg {
+	position: fixed;
+	bottom: var(--small-gap);
+	left: var(--small-gap);
+	width: 20rem;
+}
+
+
+.map {
+	fill: var(--text-color);
+	fill-opacity: .2;
+	stroke: var(--text-color);
+	stroke-width: .5rem;
+}
+
+.fov {
+	position: fixed;
+	width: 3rem;
+	fill: var(--accent-color);
+}
+
+
+.point {
+	cursor: pointer;
+	fill: var(--text-color);
+	transition: fill var(--medium-transition-duration);
+
+	&:hover { fill: var(--accent-color); }
+}

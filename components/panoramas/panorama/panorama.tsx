@@ -34,7 +34,6 @@ let pointerPosition: Three.Vector2 | undefined = undefined;
 let dragging = false;
 let fovVelocity = 0;
 const rotationVelocity = new Three.Vector2();
-const rotation = new Three.Vector2();
 let animationFrameHandle: number | undefined = undefined;
 let firstRender = true;
 
@@ -53,7 +52,8 @@ export default observer(function Panorama(): JSX.Element {
 
 	// Returns a euler created from the current rotation.
 	function getEuler(): Three.Euler {
-		return new Three.Euler(-rotation.y, -rotation.x, 0, 'YXZ');
+		return new Three.Euler(-state.panoramas.rotation.y,
+			-state.panoramas.rotation.x, 0, 'YXZ');
 	}
 
 
@@ -66,8 +66,8 @@ export default observer(function Panorama(): JSX.Element {
 			if(!panorama) return;
 
 			// Set the loading message.
-			state.app.setMessage('Loading panorama.');
 			state.panoramas.setLoading(true);
+			state.app.setMessage('Loading panorama.');
 
 			// Get the panorama container.
 			const container = containerRef.current;
@@ -97,7 +97,8 @@ export default observer(function Panorama(): JSX.Element {
 			// Set the default FOV and rotation.
 			camera.fov = state.panoramas.defaultFov;
 			state.panoramas.setFov(state.panoramas.defaultFov);
-			rotation.set(panorama.defaultRotation.x, panorama.defaultRotation.y);
+			state.panoramas.setRotation(new Three.Vector2(
+				panorama.defaultRotation.x, panorama.defaultRotation.y));
 			camera.setRotationFromEuler(getEuler());
 			camera.updateProjectionMatrix();
 
@@ -158,8 +159,10 @@ export default observer(function Panorama(): JSX.Element {
 
 		if(rotationVelocity.length() > minimumVelocity){
 			rotationVelocity.divideScalar(rotationDamping);
+			const rotation = state.panoramas.rotation.clone();
 			rotation.add(rotationVelocity);
 			rotation.y = Three.MathUtils.clamp(rotation.y, -pitchLimit, pitchLimit);
+			state.panoramas.setRotation(rotation);
 			camera.setRotationFromEuler(getEuler());
 		}
 
@@ -217,7 +220,6 @@ export default observer(function Panorama(): JSX.Element {
 	function onPointerMove(event: React.PointerEvent): void {
 		if(!event.isPrimary) return;
 		if(!pointerPosition) pointerPosition = new Three.Vector2();
-		console.log('Move');
 		pointerPosition.set(event.clientX, event.clientY);
 	}
 
@@ -225,7 +227,6 @@ export default observer(function Panorama(): JSX.Element {
 	// Pointer up callback.
 	function onPointerUp(event: PointerEvent): void {
 		if(!event.isPrimary) return;
-		console.log('Up');
 		dragging = false;
 	}
 
@@ -239,7 +240,9 @@ export default observer(function Panorama(): JSX.Element {
 
 	// Sets the panorama's default rotation.
 	function setDefaultRotation(): void {
-		state.panoramas.getDefinedPanorama().defaultRotation = rotation.clone();
+		state.panoramas.getDefinedPanorama().defaultRotation =
+			state.panoramas.rotation.clone();
+
 		state.app.setMessage('Default rotation set.');
 	}
 
