@@ -103,14 +103,11 @@ export default observer(function Panorama(): JSX.Element {
 			camera.updateProjectionMatrix();
 
 			// Create the renderer if necessary.
-			if(!renderer){
-				const canvas = canvasRef.current;
-				if(!canvas) throw new Error('No panorama canvas.');
-				renderer = new Three.WebGLRenderer({canvas});
-				renderer.setPixelRatio(window.devicePixelRatio);
-				renderer.setSize(window.innerWidth, window.innerHeight);
-			}
-
+			const canvas = canvasRef.current;
+			if(!canvas) throw new Error('No panorama canvas.');
+			renderer = new Three.WebGLRenderer({canvas});
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
 			container.appendChild(renderer.domElement);
 
 			// Bind the event callbacks.
