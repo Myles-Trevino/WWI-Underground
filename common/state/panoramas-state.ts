@@ -16,7 +16,7 @@ export default class PanoramasState {
 
 	public readonly minimumFov = 35;
 	public readonly maximumFov = 140;
-	public readonly defaultFov = 120;
+	public readonly defaultFov = 110;
 
 	public panoramas: Record<string, Types.Panorama> = {};
 	public panoramaName?: string;

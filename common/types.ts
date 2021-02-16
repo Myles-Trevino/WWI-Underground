@@ -5,6 +5,16 @@
 */
 
 
+import type AppState from './state/app-state';
+import type PanoramasState from './state/panoramas-state';
+
+
+export type State = {
+	app: AppState;
+	panoramas: PanoramasState;
+};
+
+
 export type Position = {
 	x: number;
 	y: number;
