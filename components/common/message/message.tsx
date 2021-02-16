@@ -34,13 +34,8 @@ export default observer(function Message(): JSX.Element {
 
 
 	// Render.
-	const classes = classNames({
-		[Styles.message]: true,
-		hidden
-	});
-
 	return (
-		<div className={classes}>
+		<div className={classNames(Styles.message, {hidden})}>
 			<span>{state.app.message}</span>
 		</div>
 	);

@@ -7,16 +7,20 @@
 
 :root {
 	--background-color: rgb(22, 22, 22);
+	--overlay-color: rgba(22, 22, 22, 0.9);
 	--section-color: rgba(0, 0, 0, .75);
 	--text-color: rgba(255, 255, 255);
-	--accent-color: rgba(255, 255, 0);
-	--selection-color: rgba(255, 255, 0, .25);
+	--accent-color: rgb(0, 168, 255);
+	--hover-color: rgba(255, 255, 255, 0.2);
+	--selection-color: rgba(255, 255, 255, 0.2);
 
 	--small-gap: 1rem;
 	--medium-gap: 2rem;
 	--input-height: 2.3rem;
 	--line-width: .13rem;
 	--double-line-width: calc(var(--line-width) * 2);
+	--navbar-height: 4rem;
+	--page-height: calc(100vh - var(--navbar-height));
 
 	--medium-transition-duration: 80ms;
 	--long-transition-duration: .5s;

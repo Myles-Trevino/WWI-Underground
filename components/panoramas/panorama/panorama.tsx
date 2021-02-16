@@ -7,6 +7,7 @@
 
 import React, {useContext, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react-lite';
+import classNames from 'classnames';
 import * as Three from 'three';
 
 import type * as Types from '../../../common/types';
@@ -37,8 +38,12 @@ const rotationVelocity = new Three.Vector2();
 let animationFrameHandle: number | undefined = undefined;
 let firstRender = true;
 
+type Props = {
+	demoMode?: boolean;
+};
 
-export default observer(function Panorama(): JSX.Element {
+
+export default observer<Props>(function Panorama({demoMode = false}): JSX.Element {
 
 	const state = useContext(StateContext);
 
@@ -154,10 +159,14 @@ export default observer(function Panorama(): JSX.Element {
 		rotationVelocity.add(pointerDelta.multiplyScalar(
 			rotationSpeed*fovRotationSpeedModifier));
 
-		if(rotationVelocity.length() > minimumVelocity){
+		if(rotationVelocity.length() > minimumVelocity || demoMode){
+
 			rotationVelocity.divideScalar(rotationDamping);
 			const rotation = state.panoramas.rotation.clone();
+
 			rotation.add(rotationVelocity);
+			if(demoMode) rotation.add(new Three.Vector2(0.001, 0));
+
 			rotation.y = Three.MathUtils.clamp(rotation.y, -pitchLimit, pitchLimit);
 			state.panoramas.setRotation(rotation);
 			camera.setRotationFromEuler(getEuler());
@@ -237,7 +246,8 @@ export default observer(function Panorama(): JSX.Element {
 
 	// Render.
 	return (
-		<div ref={containerRef}>
+		<div className={classNames(Styles.container,
+			{[Styles.demoMode]: demoMode})} ref={containerRef}>
 
 			{/* Canvas. */}
 			<canvas ref={canvasRef} className={Styles.canvas} onWheel={onWheel}

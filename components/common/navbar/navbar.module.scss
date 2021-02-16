@@ -1,0 +1,45 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "../../../common/styles/mixins.scss";
+
+
+.navbar {
+	position: sticky;
+	top: 0;
+	display: grid;
+	grid-template-columns: min-content auto repeat(4, min-content);
+	width: 100vw;
+	height: var(--navbar-height);
+
+	span { width: 6rem; }
+
+	@include mobile { span{ display: none; } }
+}
+
+.logo, .menuSvg {
+	height: var(--navbar-height);
+}
+
+.menuSvg {
+	display: none;
+	@include mobile{ display: block; }
+}
+
+.menuOverlay {
+	position: fixed;
+	top: var(--navbar-height);
+	display: grid;
+	gap: var(--small-gap);
+	justify-items: center;
+	align-content: center;
+	width: 100vw;
+	height: var(--page-height);
+	background-color: var(--overlay-color);
+
+	h2{ cursor: pointer; }
+}

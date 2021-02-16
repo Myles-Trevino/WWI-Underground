@@ -10,12 +10,12 @@ import Head from 'next/head';
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import * as Three from 'three';
-import Axios from 'axios';
 import * as _ from 'lodash';
 
 import type * as Types from '../common/types';
+import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
-import Styles from './panoramas.module.scss';
+import Styles from './tour.module.scss';
 import StateContext from '../common/state/state-context';
 import Panorama from '../components/panoramas/panorama/panorama';
 import Map from '../components/panoramas/map/map';
@@ -26,7 +26,6 @@ import Message from '../components/common/message/message';
 
 
 const defaultNodeSize = 5;
-const defaultPanorama = '1';
 
 
 export default observer(function Viewer(): JSX.Element {
@@ -36,25 +35,7 @@ export default observer(function Viewer(): JSX.Element {
 
 
 	// One-time initialization.
-	useEffect(() => { initialize(); }, []);
-
-
-	// Loads the default WWIU file.
-	async function initialize(): Promise<void> {
-		try {
-			const response = await Axios.get(Constants.defaultWwiuUrl);
-			loadWwiu(response.data);
-		}
-
-		catch(error: unknown){ state.app.setErrorMessage(error as Error); }
-	}
-
-
-	// Loads the given WWIU file data.
-	function loadWwiu(panoramas: Record<string, Types.Panorama>): void {
-		state.panoramas.setPanoramas(panoramas);
-		state.panoramas.setPanorama(defaultPanorama);
-	}
+	useEffect(() => { Helpers.loadDefaultWwiu(state); }, []);
 
 
 	// Opens a file selector for WWIU loading.
@@ -70,7 +51,7 @@ export default observer(function Viewer(): JSX.Element {
 		event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
 		const files = event.target.files;
 		if(!files) return;
-		loadWwiu(JSON.parse(await files[0].text()));
+		Helpers.loadWwiu(state, JSON.parse(await files[0].text()));
 	}
 
 
@@ -132,7 +113,7 @@ export default observer(function Viewer(): JSX.Element {
 
 		{/* Head. */}
 		<Head>
-			<title>WWI Underground</title>
+			<title>Tour - {Constants.websiteName}</title>
 		</Head>
 
 		{/* Panorama. */}

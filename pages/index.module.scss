@@ -7,7 +7,16 @@
 
 .content {
 	display: grid;
-	gap: var(--medium-gap);
-	margin: var(--medium-gap);
+	align-content: center;
+	justify-content: center;
+	min-height: var(--page-height);
+}
+
+.section {
+	display: grid;
+	justify-items: center;
+	gap: var(--small-gap);
+	padding: var(--small-gap);
 	max-width: 50rem;
+	margin: var(--small-gap);
 }

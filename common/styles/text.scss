@@ -7,23 +7,22 @@
 
 /* Fonts. */
 @font-face {
-	font-family: "Open Sans Regular";
-	src: url("/fonts/open-sans-regular.ttf");
+	font-family: "DM Sans Regular";
+	src: url("/fonts/dm-sans-regular.ttf");
 }
 
 @font-face {
-	font-family: "Zilla Slab Light";
-	src: url("/fonts/zilla-slab-light.ttf");
+	font-family: "Roboto Medium";
+	src: url("/fonts/roboto-medium.ttf");
 }
 
 
 /* Text elements. */
-p, span, button, a, input, textarea { color: var(--text-color); }
+p, span, h1, h2, .title, button, a, input, textarea { color: var(--text-color); }
 
 h1, h2, .title {
-	font-family: "Zilla Slab Light";
-	font-weight: 600;
-	color: var(--accent-color);
+	font-family: "DM Sans Regular";
+	letter-spacing: -.05rem;
 }
 
 h1 { font-size: 3rem; }
@@ -31,6 +30,6 @@ h1 { font-size: 3rem; }
 h2, .title { font-size: 1.75rem; }
 
 p, span, button, input, textarea {
-	font-family: "Open Sans Regular";
+	font-family: "Roboto Medium";
 	font-size: 1rem;
 }

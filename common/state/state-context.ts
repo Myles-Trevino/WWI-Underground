@@ -8,6 +8,7 @@
 import {createContext} from 'react';
 import {enableStaticRendering} from 'mobx-react-lite';
 
+import type * as Types from '../types';
 import AppState from './app-state';
 import PanoramasState from './panoramas-state';
 
@@ -20,16 +21,11 @@ enableStaticRendering(isServer);
 
 
 // The global state interface.
-type State = {
-	app: AppState;
-	panoramas: PanoramasState;
-};
-
-let state: State | undefined = undefined;
+let state: Types.State | undefined = undefined;
 
 
 // Returns the global state.
-function getState(): State {
+function getState(): Types.State {
 
 	// Create a new global state object if necessary.
 	if(isServer || !state){
@@ -51,5 +47,5 @@ function getState(): State {
 
 
 // The state context.
-const StateContext = createContext<State>(getState());
+const StateContext = createContext<Types.State>(getState());
 export default StateContext;
