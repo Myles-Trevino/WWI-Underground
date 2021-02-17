@@ -5,14 +5,17 @@
 */
 
 
-import React, {useState} from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
 import Styles from './navbar.module.scss';
 
 
-export default function Navbar(): JSX.Element {
+type Props = {color?: string};
+
+
+export default function Navbar({color = 'transparent'}: Props): JSX.Element {
 
 	const [menu, setMenu] = useState(false);
 
@@ -29,13 +32,15 @@ export default function Navbar(): JSX.Element {
 	</svg>;
 
 	// Render.
-	return (<div className={Styles.navbar}>
+	return (<div className={Styles.navbar} style={{backgroundColor: color}}>
 
 		{/* Logo. */}
-		<svg className={classNames(Styles.logo, 'button')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-			<path className="svg-filled-glyph" d="M7.85,8.25H11.9v8.2s0,6.48,6,7.63c-10.1,1.56-10-7.94-10-7.94Z"/>
-			<path className="svg-filled-glyph" d="M19.87,8.25h4s0,7.27,0,8c0,1.43-1.05,5.33-6,3.62,2-1,2-3.62,2-3.62Z"/>
-		</svg>
+		<Link href="/">
+			<svg className={classNames(Styles.logo, 'button')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-filled-glyph" d="M7.85,8.25H11.9v8.2s0,6.48,6,7.63c-10.1,1.56-10-7.94-10-7.94Z"/>
+				<path className="svg-filled-glyph" d="M19.87,8.25h4s0,7.27,0,8c0,1.43-1.05,5.33-6,3.62,2-1,2-3.62,2-3.62Z"/>
+			</svg>
+		</Link>
 
 		{/* Empty space. */}
 		<div></div>

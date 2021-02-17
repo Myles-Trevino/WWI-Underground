@@ -7,6 +7,7 @@
 
 import {useContext} from 'react';
 import {observer} from 'mobx-react-lite';
+import classNames from 'classnames';
 
 import PanoramasStyles from './panoramas.module.scss';
 import StateContext from '../../common/state/state-context';
@@ -29,7 +30,7 @@ export default observer(function NodeViewer(){
 
 	// Render the information node.
 	return (
-		<div className={PanoramasStyles.nodeModal}>
+		<div className={classNames('tile', PanoramasStyles.nodeModal)}>
 
 			{/* Name. */}
 			<h2>{name}</h2>

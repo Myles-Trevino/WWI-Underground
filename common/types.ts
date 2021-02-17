@@ -26,7 +26,6 @@ export type NodeType = 'Information' | 'Navigation';
 
 export type Node = {
 	type: NodeType;
-	size: number;
 	position: Position;
 	description?: string;
 	panorama?: string;

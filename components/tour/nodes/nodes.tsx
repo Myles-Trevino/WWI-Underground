@@ -5,9 +5,10 @@
 */
 
 
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {observer} from 'mobx-react-lite';
 import * as Three from 'three';
+import classNames from 'classnames';
 
 import Styles from './nodes.module.scss';
 import StateContext from '../../../common/state/state-context';
@@ -61,36 +62,36 @@ export default observer(function Nodes(){
 
 		if(position.z < 1) continue; // Skip mirrored nodes.
 
-		// Calculate the FOV scaling.
-		const fovScale = Three.MathUtils.mapLinear(state.panoramas.fov,
-			state.panoramas.maximumFov, state.panoramas.minimumFov, 0.5, 2);
-
-		// Generate the style.
-		const size = value.size*fovScale;
-		const halfSize = size/2;
-
-		const nodeStyle = {
+		// Generate the node style.
+		const style = {
 			left: (position.x+1)/2*window.innerWidth,
 			top: (-position.y+1)/2*window.innerHeight,
-			width: `${size}rem`,
-			height: `${size}rem`,
-			borderRadius: (value.type === 'Information') ? `${halfSize}rem` : undefined,
 			transform: `translate(-50%, -50%)`
 		};
 
-		const labelStyle = {
-			bottom: `${size-0.5}rem`,
-			left: `${size/2}rem`,
-			transform: `translate(-50%, -50%)`
-		};
-
-		// Add the node object.
-		nodes.push(
-			<div key={name} className={Styles.node} style={nodeStyle}
-				onClick={(): void => { nodeClickCallback(name); }}>
-				<span className={Styles.nodeLabel} style={labelStyle}>{name}</span>
-			</div>
+		// Information node.
+		if(value.type === 'Information') nodes.push(
+			<span key={name} className={classNames('tile', Styles.informationNode)} style={style} onClick={(): void => { nodeClickCallback(name); }}>{name}</span>
 		);
+
+		// Navigation node.
+		else {
+			const fovScale = Three.MathUtils.mapLinear(state.panoramas.fov,
+				state.panoramas.maximumFov, state.panoramas.minimumFov, 0.5, 2);
+
+			const markerStyle = {
+				width: `${5*fovScale}rem`,
+				height: `${5*fovScale}rem`
+			};
+
+			nodes.push(
+				<div key={name} className={classNames('tile', Styles.navigationNode)} style={style}
+					onClick={(): void => { nodeClickCallback(name); }}>
+					<div style={markerStyle}></div>
+					<span>{name}</span>
+				</div>
+			);
+		}
 	}
 
 	// Render the nodes.

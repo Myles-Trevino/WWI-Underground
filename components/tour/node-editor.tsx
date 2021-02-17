@@ -8,6 +8,7 @@
 import {useContext} from 'react';
 import {observer} from 'mobx-react-lite';
 import {Formik, Field, Form} from 'formik';
+import classNames from 'classnames';
 
 import type * as Types from '../../common/types';
 import PanoramasStyles from './panoramas.module.scss';
@@ -84,8 +85,7 @@ export default observer(function NodeEditor(){
 	const initialValues: FormValues = {
 		name,
 		type: node.type,
-		position: node.position,
-		size: node.size
+		position: node.position
 	};
 
 	if(node.type === 'Information')
@@ -98,20 +98,20 @@ export default observer(function NodeEditor(){
 
 	if(node.type === 'Information') typeSpecificInputs =
 		<div className={PanoramasStyles.input}>
-			<span>Description:</span>
+			<span>Description</span>
 			<Field name="description" type="text" as="textarea"/>
 		</div>;
 
 	else typeSpecificInputs =
 		<div className={PanoramasStyles.input}>
-			<span>Panorama:</span>
+			<span>Panorama</span>
 			<Field name="panorama" type="text"/>
 		</div>;
 
 	// Render.
 	return (
 		<Formik initialValues={initialValues} onSubmit={save}>
-			<Form className={PanoramasStyles.nodeModal}>
+			<Form className={classNames('tile', PanoramasStyles.nodeModal)}>
 
 				{/* Title. */}
 				<h2>Node Editor</h2>
@@ -121,14 +121,8 @@ export default observer(function NodeEditor(){
 
 					{/* Name */}
 					<div className={PanoramasStyles.input}>
-						<span>Name:</span>
+						<span>Name</span>
 						<Field name="name" type="text"></Field>
-					</div>
-
-					{/* Size. */}
-					<div className={PanoramasStyles.input}>
-						<span>Size:</span>
-						<Field name="size" type="text"></Field>
 					</div>
 
 					{/* Type-specific inputs. */}
