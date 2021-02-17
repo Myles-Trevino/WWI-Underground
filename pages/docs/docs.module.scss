@@ -1,0 +1,16 @@
+.container {
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	width: 100vw;
+	height: var(--page-height);
+}
+
+.helpDocHeading {
+	margin-left: 15%;
+	font-size: 12em;
+}
+
+.helpDocText {
+	margin-left: 18%;
+}
