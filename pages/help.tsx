@@ -17,7 +17,7 @@ export default function Help(): JSX.Element {
 		<Navbar></Navbar>
 		<div className = {Styles.container}>
 			<h1>Help and Documentation</h1>
-			<br></br>
+			<br/>
 			<p><Link href = "/docs/testdoc">Test Link</Link></p>
 		</div>
 	</>);

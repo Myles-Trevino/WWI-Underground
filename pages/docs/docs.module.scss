@@ -3,14 +3,14 @@
 	justify-items: center;
 	align-content: center;
 	width: 100vw;
-	height: var(--page-height);
+	//height: var(--page-height);
 }
 
 .helpDocHeading {
-	margin-left: 15%;
-	font-size: 12em;
+	margin-left: 15%; // 15% here for responsive web design, 18% in the text for indentation
 }
 
 .helpDocText {
-	margin-left: 18%;
+	margin-left: 18%; // text looks bad when it goes from window edge to window edge. let's prevent that.
+	margin-right: 18%;
 }
