@@ -18,7 +18,8 @@
 
 
 /* Text elements. */
-p, span, h1, h2, .title, button, a, input, textarea { color: var(--text-color); }
+p, span, h1, h2, .title, button, input, textarea { color: var(--text-color); }
+a { color: var(--accent-color); }
 
 h1, h2, .title {
 	font-family: "DM Sans Regular";
