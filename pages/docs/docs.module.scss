@@ -13,4 +13,18 @@
 .helpDocText {
 	margin-left: 18%; // text looks bad when it goes from window edge to window edge. let's prevent that.
 	margin-right: 18%;
+	display: grid;
+}
+
+.svgContainer {
+	vertical-align: bottom;
+	display: inline-block;
+	vertical-align: auto;
+	svg {
+		width: 2rem;
+		border: var(--line-width) solid var(--text-color);
+		border-radius: var(--small-radius);
+	}
+
+	svg > * { stroke-width: .14rem; }
 }

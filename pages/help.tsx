@@ -17,8 +17,17 @@ export default function Help(): JSX.Element {
 		<Navbar></Navbar>
 		<div className = {Styles.container}>
 			<h1>Help and Documentation</h1>
-			<br/>
-			<p><Link href = "/docs/testdoc">Test Link</Link></p>
 		</div>
+		<br/>
+		<div className = {Styles.helpHeadings}>
+			<h2>First Steps</h2>
+		</div>
+		<div className = {Styles.helpLink}>
+			<p><Link href = "/docs/tour">Tour, Map, and Further Exploration</Link></p>
+		</div>
+		<div className = {Styles.helpLink}>
+			<p>Creating an Account</p>
+		</div>
+
 	</>);
 }
