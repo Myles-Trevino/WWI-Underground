@@ -20,6 +20,7 @@
 /* Text elements. */
 p, span, h1, h2, .title, button, input, textarea { color: var(--text-color); }
 a { color: var(--accent-color); }
+.caption { color: var(--caption-color); }
 
 h1, h2, .title {
 	font-family: "DM Sans Regular";
@@ -33,4 +34,9 @@ h2, .title { font-size: 1.75rem; }
 p, span, button, input, textarea {
 	font-family: "Roboto Medium";
 	font-size: 1rem;
+}
+
+.caption {
+	font-family: "Roboto Medium";
+	font-size: 0.8rem;
 }
