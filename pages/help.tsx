@@ -21,12 +21,18 @@ export default function Help(): JSX.Element {
 		<br/>
 		<div className = {Styles.helpHeadings}>
 			<h2>First Steps</h2>
+			<div className = {Styles.helpLink}>
+				<p><Link href = "/docs/tour">Tour, Map, and Further Exploration</Link></p>
+			</div>
+			<div className = {Styles.helpLink}>
+				<p>Creating an Account</p>
+			</div>
 		</div>
-		<div className = {Styles.helpLink}>
-			<p><Link href = "/docs/tour">Tour, Map, and Further Exploration</Link></p>
-		</div>
-		<div className = {Styles.helpLink}>
-			<p>Creating an Account</p>
+		<div className = {Styles.helpHeadings}>
+			<h2>Editing and Collaboration</h2>
+			<div className = {Styles.helpLink}>
+				<p><Link href = "docs/editing">Editing the Cave Tour</Link></p>
+			</div>
 		</div>
 
 	</>);

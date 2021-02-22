@@ -1,3 +1,9 @@
+/**
+ * Copyright Chris Dunphy
+ * Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 import Navbar from '../../components/common/navbar/navbar';
 import Head from 'next/head';
 import Style from './docs.module.scss';
