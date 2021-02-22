@@ -19,19 +19,6 @@
 }
 
 
-.crosshair {
-	z-index: 1;
-	position: fixed;
-	top: 50vh;
-	left: 50vw;
-	width: var(--double-line-width);
-	height: var(--double-line-width);
-	border-radius: calc(var(--double-line-width) / 2);
-	background-color: var(--accent-color);
-	transform: translate(-50%, -50%);
-}
-
-
 .demoMode{
 	z-index: -1;
 	opacity: .5;

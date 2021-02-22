@@ -5,27 +5,53 @@
 */
 
 
-.buttonContainer {
+.crosshair {
+	z-index: 2;
 	position: fixed;
-	top: var(--small-gap);
-	left: var(--small-gap);
-	display: grid;
-	gap: var(--small-gap);
-	width: 9.5rem;
+	top: 50vh;
+	left: 50vw;
+	width: .25rem;
+	height: .25rem;
+	border-radius: .125rem;
+	background-color: var(--accent-color);
+	transform: translate(-50%, -50%);
 }
 
 
-.editModeInformation {
+.buttonContainer {
+	position: fixed;
+	top: calc(var(--navbar-height) + var(--small-gap));
+	left: var(--small-gap);
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--small-gap);
+
+	svg {
+		width: 2rem;
+		border: var(--line-width) solid var(--text-color);
+		border-radius: var(--small-radius);
+	}
+
+	svg > * { stroke-width: .14rem; }
+}
+
+
+.editModeTile {
 	z-index: 1;
 	position: fixed;
 	left: var(--small-gap);
 	bottom: var(--small-gap);
 	display: grid;
-	padding: var(--small-gap);
-	background-color: var(--section-color);
+	gap: var(--small-gap);
 	opacity: 0;
 
 	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+}
 
-	button{ margin-top: var(--small-gap); }
+
+.editModeTileTop {
+	display: grid;
+	justify-items: center;;
+
+	h2{ margin-bottom: .5rem; }
 }

@@ -5,7 +5,7 @@
 */
 
 
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import classNames from 'classnames';
 
@@ -35,7 +35,7 @@ export default observer(function Message(): JSX.Element {
 
 	// Render.
 	return (
-		<div className={classNames(Styles.message, {hidden})}>
+		<div className={classNames('tile', Styles.message, {hidden})}>
 			<span>{state.app.message}</span>
 		</div>
 	);

@@ -7,18 +7,21 @@
 
 :root {
 	--background-color: rgb(22, 22, 22);
-	--overlay-color: rgba(22, 22, 22, 0.9);
-	--section-color: rgba(0, 0, 0, .75);
+	--tile-color: rgba(0, 0, 0, 0.75);
+	--overlay-color: var(--tile-color);
 	--text-color: rgba(255, 255, 255);
-	--accent-color: rgb(0, 168, 255);
+	--accent-color: rgb(217, 255, 0);
 	--hover-color: rgba(255, 255, 255, 0.2);
+	--hover-alternate-color: rgb(64, 64, 64, 0.76);
 	--selection-color: rgba(255, 255, 255, 0.2);
 
+	--very-small-gap: .5rem;
 	--small-gap: 1rem;
 	--medium-gap: 2rem;
+	--small-radius: .4rem;
+	--medium-radius: .8rem;
 	--input-height: 2.3rem;
 	--line-width: .13rem;
-	--double-line-width: calc(var(--line-width) * 2);
 	--navbar-height: 4rem;
 	--page-height: calc(100vh - var(--navbar-height));
 

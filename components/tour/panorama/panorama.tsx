@@ -5,7 +5,7 @@
 */
 
 
-import React, {useContext, useEffect, useRef} from 'react';
+import {useContext, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react-lite';
 import classNames from 'classnames';
 import * as Three from 'three';
@@ -38,12 +38,11 @@ const rotationVelocity = new Three.Vector2();
 let animationFrameHandle: number | undefined = undefined;
 let firstRender = true;
 
-type Props = {
-	demoMode?: boolean;
-};
+type Props = {demoMode?: boolean};
 
 
-export default observer<Props>(function Panorama({demoMode = false}): JSX.Element {
+export default observer<React.PropsWithChildren<Props>>(function Panorama(
+	{children, demoMode = false}): JSX.Element {
 
 	const state = useContext(StateContext);
 
@@ -72,7 +71,7 @@ export default observer<Props>(function Panorama({demoMode = false}): JSX.Elemen
 
 			// Set the loading message.
 			state.panoramas.setLoading(true);
-			state.app.setMessage('Loading panorama.');
+			state.app.setMessage('Loading panorama...');
 
 			// Get the panorama container.
 			const container = containerRef.current;
@@ -122,6 +121,7 @@ export default observer<Props>(function Panorama({demoMode = false}): JSX.Elemen
 
 			document.removeEventListener('pointerup', onPointerUp);
 			document.addEventListener('pointerup', onPointerUp);
+			document.addEventListener('pointermove', onPointerMove);
 
 			// Set the loading message.
 			state.app.setMessage('Loaded.');
@@ -223,7 +223,7 @@ export default observer<Props>(function Panorama({demoMode = false}): JSX.Elemen
 
 
 	// Pointer move event callback.
-	function onPointerMove(event: React.PointerEvent): void {
+	function onPointerMove(event: PointerEvent): void {
 		if(!event.isPrimary) return;
 		if(!pointerPosition) pointerPosition = new Three.Vector2();
 		pointerPosition.set(event.clientX, event.clientY);
@@ -246,15 +246,15 @@ export default observer<Props>(function Panorama({demoMode = false}): JSX.Elemen
 
 	// Render.
 	return (
-		<div className={classNames(Styles.container,
-			{[Styles.demoMode]: demoMode})} ref={containerRef}>
+		<div className={classNames(Styles.container, {[Styles.demoMode]: demoMode})}
+			onWheel={onWheel} ref={containerRef}>
 
 			{/* Canvas. */}
-			<canvas ref={canvasRef} className={Styles.canvas} onWheel={onWheel}
-				onPointerDown={onPointerDown} onPointerMove={onPointerMove}></canvas>
+			<canvas ref={canvasRef} className={Styles.canvas}
+				onPointerDown={onPointerDown}></canvas>
 
-			{/* Crosshair. */}
-			<div className={Styles.crosshair}></div>
+			{/* Children. */}
+			{children}
 
 		</div>
 	);

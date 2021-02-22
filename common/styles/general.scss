@@ -33,41 +33,62 @@ p {
 	height: fit-content;
 }
 
-input, textarea {
-	padding: .6rem;
-	background-color: var(--section-color);
+input, textarea, button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--small-radius);
+	background-color: transparent;
+	border: var(--line-width) solid var(--text-color);
 }
+
+input, textarea { padding: .6rem; }
 
 input { height: var(--input-height); }
 
 textarea {
 	resize: none;
 	height: calc(var(--input-height) * 3);
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar{ display: none; }
 }
 
 button {
 	cursor: pointer;
 	height: var(--input-height);
 	padding: .5rem .75rem;
-	background-color: var(--section-color);
 	transition: background-color var(--medium-transition-duration);
 
 	&:hover{ background-color: var(--selection-color); }
 }
 
 svg {
-	.svg-filled-glyph{ fill: var(--text-color); }
+
+	.svg-stroke-glyph {
+		fill: transparent;
+		stroke: var(--text-color);
+	}
+
+	.svg-filled-glyph { fill: var(--text-color); }
 }
 
 
-/* Layout. */
+/* Element classes. */
 .button {
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: background-color var(--medium-transition-duration);
 
 	&:hover{ background-color: var(--hover-color); }
+}
+
+.tile {
+	padding: var(--small-gap);
+	border-radius: var(--medium-radius);
+	background-color: var(--tile-color);
 }
 
 

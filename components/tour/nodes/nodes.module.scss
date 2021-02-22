@@ -1,0 +1,47 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* General. */
+.informationNode, .navigationNode {
+	cursor: pointer;
+	position: fixed;
+
+	&:hover {
+		z-index: 1;
+		background-color: var(--hover-alternate-color);
+	}
+}
+
+.informationNode, .navigationNode span {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+/* Information node. */
+.informationNode {
+	padding: 0.75rem var(--small-gap);
+	transition: color var(--medium-transition-duration);
+	opacity: 0;
+
+	:global { animation: fadeIn var(--medium-transition-duration) 32ms forwards; }
+}
+
+
+/* Navigation node. */
+.navigationNode {
+	display: grid;
+	grid-gap: var(--small-gap);
+	justify-items: center;
+	width: fit-content;
+
+	div {
+		border: var(--line-width) solid var(--text-color);
+		border-radius: var(--small-radius);
+	}
+}

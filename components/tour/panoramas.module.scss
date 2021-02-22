@@ -9,17 +9,15 @@
 
 
 .nodeModal {
-	z-index: 1;
+	z-index: 2;
 	position: fixed;
-	top: var(--small-gap);
+	top: calc(var(--navbar-height) + var(--small-gap));
 	right: var(--small-gap);
 	display: grid;
 	gap: var(--small-gap);
 	grid-template-rows: min-content auto min-content;
 	width: 24rem;
-	height: calc(100% - var(--small-gap) * 2);
-	padding: var(--small-gap);
-	background-color: var(--section-color);
+	height: calc(100vh - var(--navbar-height) - var(--small-gap) * 2);
 	opacity: 0;
 
 	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
@@ -37,9 +35,12 @@
 /* Inputs. */
 .inputs, .input {
 	display: grid;
-	gap: var(--small-gap);
 	height: min-content;
 }
+
+.inputs{ gap: var(--small-gap); }
+
+.input{ gap: var(--very-small-gap); }
 
 
 /* Buttons. */
