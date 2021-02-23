@@ -59,6 +59,7 @@ button {
 	height: var(--input-height);
 	padding: .5rem .75rem;
 	transition: background-color var(--medium-transition-duration);
+	min-width: 5.5rem;
 
 	&:hover{ background-color: var(--selection-color); }
 }
@@ -75,6 +76,22 @@ svg {
 
 
 /* Element classes. */
+.centerer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: var(--page-height);
+}
+
+.vertical {
+	display: grid;
+	align-items: center;
+	justify-items: center;
+	gap: var(--small-gap);
+}
+
 .button {
 	cursor: pointer;
 	display: flex;
@@ -89,6 +106,27 @@ svg {
 	padding: var(--small-gap);
 	border-radius: var(--medium-radius);
 	background-color: var(--tile-color);
+}
+
+.input {
+	display: grid;
+	gap: var(--very-small-gap);
+}
+
+.buttonContainer {
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: var(--small-gap);
+	gap: var(--small-gap);
+	justify-self: right;
+}
+
+.content {
+	display: grid;
+	gap: var(--small-gap);
+	width: 100%;
+	max-width: 30rem;
+	padding: var(--medium-gap);
 }
 
 

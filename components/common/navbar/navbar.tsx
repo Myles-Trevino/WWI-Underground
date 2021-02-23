@@ -12,10 +12,7 @@ import classNames from 'classnames';
 import Styles from './navbar.module.scss';
 
 
-type Props = {color?: string};
-
-
-export default function Navbar({color = 'transparent'}: Props): JSX.Element {
+export default function Navbar(): JSX.Element {
 
 	const [menu, setMenu] = useState(false);
 
@@ -32,7 +29,7 @@ export default function Navbar({color = 'transparent'}: Props): JSX.Element {
 	</svg>;
 
 	// Render.
-	return (<div className={Styles.navbar} style={{backgroundColor: color}}>
+	return (<div className={Styles.navbar}>
 
 		{/* Logo. */}
 		<Link href="/">
@@ -43,10 +40,10 @@ export default function Navbar({color = 'transparent'}: Props): JSX.Element {
 		</Link>
 
 		{/* Empty space. */}
-		<div></div>
+		<div/>
 
 		{/* Links. */}
-		<Link href="/log-in"><span className="button">Log In</span></Link>
+		<Link href="/login"><span className="button">Log In</span></Link>
 		<Link href="/tour"><span className="button">Tour</span></Link>
 		<Link href="/help"><span className="button">Help</span></Link>
 		<Link href="/about"><span className="button">About</span></Link>
@@ -56,7 +53,7 @@ export default function Navbar({color = 'transparent'}: Props): JSX.Element {
 
 		{/* Menu overlay. */}
 		{menu && <div className={Styles.menuOverlay}>
-			<Link href="/log-in"><h2>Log In</h2></Link>
+			<Link href="/login"><h2>Log In</h2></Link>
 			<Link href="/tour"><h2>Tour</h2></Link>
 			<Link href="/help"><h2>Help</h2></Link>
 			<Link href="/about"><h2>About</h2></Link>

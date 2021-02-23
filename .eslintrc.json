@@ -72,11 +72,9 @@
 		"no-new-wrappers": "error",
 		"no-nonoctal-decimal-escape": "error",
 		"no-octal-escape": "error",
-		"no-param-reassign": "error",
 		"no-proto": "error",
 		"no-redeclare": "off",
 		"no-return-assign": "error",
-		"no-return-await": "off",
 		"no-script-url": "error",
 		"no-self-compare": "error",
 		"no-sequences": "error",
@@ -97,7 +95,6 @@
 		"block-spacing": "error",
 		"brace-style": "off",
 		"camelcase": "error",
-		"capitalized-comments": ["error", "always", {"ignoreConsecutiveComments": true}],
 		"comma-dangle": "off",
 		"comma-spacing": "off",
 		"comma-style": "error",
@@ -129,7 +126,6 @@
 		"no-nested-ternary": "error",
 		"no-new-object": "error",
 		"no-trailing-spaces": "error",
-		"no-underscore-dangle": "error",
 		"no-unneeded-ternary": "error",
 		"no-whitespace-before-property": "error",
 		"object-curly-newline": ["error", {"multiline": true, "consistent": true}],
@@ -245,7 +241,8 @@
 				"if": {"after": false},
 				"for": {"after": false},
 				"while": {"after": false},
-				"catch": {"after": false}
+				"catch": {"after": false},
+				"switch": {"after": false}
 			}
 		}],
 		"@typescript-eslint/lines-between-class-members": [
@@ -270,7 +267,6 @@
 				"allowTemplateLiterals": true
 			}
 		],
-		"@typescript-eslint/return-await": "error",
 		"@typescript-eslint/semi": "error",
 		"@typescript-eslint/space-before-function-paren": ["error", "never"],
 

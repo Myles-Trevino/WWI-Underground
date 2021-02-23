@@ -35,7 +35,8 @@ export default observer(function Message(): JSX.Element {
 
 	// Render.
 	return (
-		<div className={classNames('tile', Styles.message, {hidden})}>
+		<div className={classNames('tile', Styles.message,
+			{hidden, [Styles.error]: (state.app.messageType === 'Error')})}>
 			<span>{state.app.message}</span>
 		</div>
 	);
