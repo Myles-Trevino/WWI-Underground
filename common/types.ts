@@ -41,3 +41,16 @@ export type Panorama = {
 	defaultRotation: Rotation;
 	nodes: Record<string, Node>;
 };
+
+
+export type MessageType = 'Default' | 'Error';
+
+
+export type LoginCredentials = {email: string; password: string};
+
+export type AccessCredentials = {email: string; accessKey: string};
+
+
+export type UserData = {name: string};
+
+export const defaultUserData: UserData = {name: ''};

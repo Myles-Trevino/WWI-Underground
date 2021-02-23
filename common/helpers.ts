@@ -22,7 +22,7 @@ export async function loadDefaultWwiu(state: Types.State): Promise<void> {
 		loadWwiu(state, response.data);
 	}
 
-	catch(error: unknown){ state.app.setErrorMessage(error as Error); }
+	catch(error: unknown){ state.app.setErrorMessage(error); }
 }
 
 

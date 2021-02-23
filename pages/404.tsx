@@ -5,12 +5,11 @@
 */
 
 
-import {useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
 import Head from 'next/head';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
 
 import Constants from '../common/constants';
-import Styles from './404.module.scss';
 import Navbar from '../components/common/navbar/navbar';
 
 
@@ -18,6 +17,7 @@ export default function NotFound(): JSX.Element {
 
 	const router = useRouter();
 	const [countdown, setCountdown] = useState(5);
+
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -28,7 +28,8 @@ export default function NotFound(): JSX.Element {
 		return (): void => { clearInterval(interval); };
 	});
 
-	// One-time initialization.
+
+	// Render.
 	return (<>
 
 		{/* Head. */}
@@ -37,12 +38,14 @@ export default function NotFound(): JSX.Element {
 		</Head>
 
 		{/* Navbar. */}
-		<Navbar></Navbar>
+		<Navbar/>
 
 		{/* Introduction. */}
-		<div className={Styles.container}>
-			<h2>Not Found</h2>
-			<span>Redirecting in {countdown} seconds...</span>
+		<div className="centerer">
+			<div className="vertical">
+				<h2>Not Found</h2>
+				<span>Redirecting in {countdown} seconds</span>
+			</div>
 		</div>
 
 	</>);

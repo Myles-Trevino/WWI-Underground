@@ -71,7 +71,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 
 			// Set the loading message.
 			state.panoramas.setLoading(true);
-			state.app.setMessage('Loading panorama...');
+			if(!demoMode) state.app.setMessage('Loading panorama...');
 
 			// Get the panorama container.
 			const container = containerRef.current;
@@ -87,7 +87,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 				if(!state.panoramas.panoramaName) throw new Error('No panorama.');
 
 				new Three.CubeTextureLoader()
-					.setPath(`/images/${state.panoramas.panoramaName}/`)
+					.setPath(`/panoramas/${state.panoramas.panoramaName}/`)
 					.load(['r.webp', 'l.webp', 'u.webp',
 						'd.webp', 'f.webp', 'b.webp'], resolve);
 			});
@@ -124,7 +124,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 			document.addEventListener('pointermove', onPointerMove);
 
 			// Set the loading message.
-			state.app.setMessage('Loaded.');
+			if(!demoMode) state.app.setMessage('Loaded.');
 
 			// Start updating.
 			firstRender = true;
@@ -133,7 +133,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 			update();
 		}
 
-		catch(error: unknown){ state.app.setErrorMessage(error as Error); }
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
@@ -251,7 +251,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 
 			{/* Canvas. */}
 			<canvas ref={canvasRef} className={Styles.canvas}
-				onPointerDown={onPointerDown}></canvas>
+				onPointerDown={onPointerDown}/>
 
 			{/* Children. */}
 			{children}

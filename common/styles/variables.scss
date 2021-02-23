@@ -6,7 +6,7 @@
 
 
 :root {
-	--background-color: rgb(22, 22, 22);
+	--background-color: rgb(30, 30, 30);
 	--tile-color: rgba(0, 0, 0, 0.75);
 	--overlay-color: var(--tile-color);
 	--text-color: rgba(255, 255, 255);
@@ -14,10 +14,12 @@
 	--hover-color: rgba(255, 255, 255, 0.2);
 	--hover-alternate-color: rgb(64, 64, 64, 0.76);
 	--selection-color: rgba(255, 255, 255, 0.2);
+	--error-color: rgb(255, 0, 0);
 
 	--very-small-gap: .5rem;
 	--small-gap: 1rem;
-	--medium-gap: 2rem;
+	--medium-gap: 1.5rem;
+	--large-gap: 2rem;
 	--small-radius: .4rem;
 	--medium-radius: .8rem;
 	--input-height: 2.3rem;

@@ -5,7 +5,10 @@
 */
 
 
+import Head from 'next/head';
 import type {AppProps} from 'next/app';
+
+import Message from '../components/common/message/message';
 
 import '../common/styles/variables.scss';
 import '../common/styles/text.scss';
@@ -13,5 +16,16 @@ import '../common/styles/general.scss';
 
 
 export default function App({Component, pageProps}: AppProps): JSX.Element {
-	return <Component {...pageProps} />;
+	return <>
+
+		<Head>
+			<link rel="icon" type="image/x-icon" href="favicon.png"/>
+		</Head>
+
+		{/* Page. */}
+		<Component {...pageProps}/>
+
+		{/* Message. */}
+		<Message/>
+	</>;
 }

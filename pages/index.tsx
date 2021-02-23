@@ -21,10 +21,11 @@ export default function Index(): JSX.Element {
 	const state = useContext(StateContext);
 
 
-	// One-time initialization.
+	// Initializer.
 	useEffect(() => { Helpers.loadDefaultWwiu(state); }, []);
 
 
+	// Render.
 	return (<>
 
 		{/* Head. */}
@@ -33,10 +34,10 @@ export default function Index(): JSX.Element {
 		</Head>
 
 		{/* Navbar. */}
-		<Navbar></Navbar>
+		<Navbar/>
 
 		{/* Panorama. */}
-		<Panorama demoMode={true}></Panorama>
+		<Panorama demoMode={true}/>
 
 		{/* Introduction. */}
 		<div className={Styles.content}>
