@@ -1,5 +1,5 @@
 /*
-	Copyright Myles Trevino, Jackson Reed
+	Copyright Myles Trevino and Jackson Reed
 	Licensed under the Apache License, Version 2.0
 	http://www.apache.org/licenses/LICENSE-2.0
 */
@@ -8,7 +8,6 @@
 import Head from 'next/head';
 
 import Constants from '../common/constants';
-import Styles from './about.module.scss';
 
 
 export default function Index(): JSX.Element {
@@ -21,10 +20,10 @@ export default function Index(): JSX.Element {
 		</Head>
 
 		{/* Content. */}
-		<div className={Styles.content}>
+		<div className="articleContainer">
 
 			{/* The Project. */}
-			<div className={Styles.section}>
+			<div className="articleSection">
 
 				<h2>The Project</h2>
 
@@ -37,7 +36,7 @@ export default function Index(): JSX.Element {
 
 
 			{/* The Team. */}
-			<div className={Styles.section}>
+			<div className="articleSection">
 
 				<h2>The Team</h2>
 
@@ -62,6 +61,7 @@ export default function Index(): JSX.Element {
 				</p>
 
 				<h3>Website Development</h3>
+
 				<p>
 					<a href="https://laventh.com/" target="_blank">Myles Trevino</a><br/><br/>
 					Chris Dunphy<br/><br/>
@@ -71,7 +71,7 @@ export default function Index(): JSX.Element {
 
 
 			{/* In the Caves. */}
-			<div className={Styles.section}>
+			<div className="articleSection">
 
 				<h2>In the Caves</h2>
 
@@ -86,7 +86,7 @@ export default function Index(): JSX.Element {
 
 
 			{/* The 26th Yankee Division. */}
-			<div className={Styles.section}>
+			<div className="articleSection">
 
 				<h2>The 26th Yankee Division</h2>
 
@@ -103,7 +103,7 @@ export default function Index(): JSX.Element {
 
 
 			{/* Press. */}
-			<div className={Styles.section}>
+			<div className="articleSection">
 
 				<h2>Press</h2>
 
