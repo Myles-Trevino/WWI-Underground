@@ -18,17 +18,22 @@
 
 ::selection { background-color: var(--selection-color); }
 
-html, body, #__next { height: 100%; }
+html, body { height: 100%; }
 
 html { background-color: var(--background-color); }
 
+p, a { user-select: text; }
+
 a {
 	width: fit-content;
-	&:hover{ opacity: .5; }
+	text-decoration: underline;
+	text-decoration-color: var(--link-underline-color);
+	transition: text-decoration-color var(--medium-transition-duration);
+
+	&:hover{ text-decoration-color: var(--foreground-color); }
 }
 
 p {
-	user-select: text;
 	text-align: justify;
 	height: fit-content;
 }
