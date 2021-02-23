@@ -28,7 +28,7 @@ export default function Help(): JSX.Element {
 				</p>
 				<br/>
 				<p>Alternatively, you can open a map of the cave and jump to any panorama you want. Click the <span className = {Style.svgContainer}>
-					<svg className="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="2rem">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="2rem">
 						<polygon className="svg-stroke-glyph" points="6 9 6 25 11 23 16 25 21 23 26 25 26 9 21 7 16 9 11 7 6 9"/>
 						<line className="svg-stroke-glyph" x1="11" y1="7" x2="11" y2="23"/>
 						<line className="svg-stroke-glyph" x1="16" y1="9" x2="16" y2="25"/>
