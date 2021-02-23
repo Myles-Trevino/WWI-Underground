@@ -21,7 +21,7 @@ export default function Help(): JSX.Element {
 			<br/>
 			<div className = {Style.helpDocText}>
 				<p>To create an account, first visit the Log In page. Then, click Sign Up to change the log in window to a sign up window.</p>
-				<p>After filling in the required information, you'll receive an email from support@wwi-underground.com with a verification code. Enter the code into the window on this website
+				<p>After filling in the required information, you&apos;ll receive an email from support@wwi-underground.com with a verification code. Enter the code into the window on this website
 					and your account is confirmed! Enjoy your stay.
 				</p>
 			</div>
