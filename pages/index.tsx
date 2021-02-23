@@ -12,7 +12,6 @@ import StateContext from '../common/state/state-context';
 import Constants from '../common/constants';
 import * as Helpers from '../common/helpers';
 import Styles from './index.module.scss';
-import Navbar from '../components/common/navbar/navbar';
 import Panorama from '../components/tour/panorama/panorama';
 
 
@@ -21,10 +20,11 @@ export default function Index(): JSX.Element {
 	const state = useContext(StateContext);
 
 
-	// One-time initialization.
+	// Initializer.
 	useEffect(() => { Helpers.loadDefaultWwiu(state); }, []);
 
 
+	// Render.
 	return (<>
 
 		{/* Head. */}
@@ -32,11 +32,8 @@ export default function Index(): JSX.Element {
 			<title>{Constants.websiteName}</title>
 		</Head>
 
-		{/* Navbar. */}
-		<Navbar></Navbar>
-
 		{/* Panorama. */}
-		<Panorama demoMode={true}></Panorama>
+		<Panorama demoMode={true}/>
 
 		{/* Introduction. */}
 		<div className={Styles.content}>

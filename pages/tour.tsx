@@ -7,7 +7,7 @@
 
 import {useContext, useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
-import {toJS} from 'mobx';
+import * as MobX from 'mobx';
 import {observer} from 'mobx-react-lite';
 import * as Three from 'three';
 import * as _ from 'lodash';
@@ -17,8 +17,6 @@ import type * as Types from '../common/types';
 import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
-import Navbar from '../components/common/navbar/navbar';
-import Message from '../components/common/message/message';
 import Panorama from '../components/tour/panorama/panorama';
 import Nodes from '../components/tour/nodes/nodes';
 import NodeViewer from '../components/tour/node-viewer';
@@ -34,7 +32,7 @@ export default observer(function Viewer(): JSX.Element {
 	const [mapVisible, setMapVisible] = useState(false);
 
 
-	// One-time initialization.
+	// Initializer.
 	useEffect(() => { Helpers.loadDefaultWwiu(state); }, []);
 
 
@@ -57,7 +55,7 @@ export default observer(function Viewer(): JSX.Element {
 
 	// Saves a WWIU file.
 	function saveWwiu(): void {
-		const data = JSON.stringify(toJS(state.panoramas.panoramas));
+		const data = JSON.stringify(MobX.toJS(state.panoramas.panoramas));
 		const blob = new Blob([data], {type: 'text/plain'});
 		const link = document.createElement('a');
 		link.href = URL.createObjectURL(blob);
@@ -115,20 +113,17 @@ export default observer(function Viewer(): JSX.Element {
 			<title>Tour - {Constants.websiteName}</title>
 		</Head>
 
-		{/* Navbar. */}
-		<Navbar color="var(--overlay-color)"></Navbar>
-
 		{/* Panorama and nodes. */}
 		<Panorama>
-			<Nodes></Nodes>
+			<Nodes/>
 		</Panorama>
 
 		{/* Crosshair. */}
-		<div className={Styles.crosshair}></div>
+		<div className={Styles.crosshair}/>
 
 		{/* Node viewer and editor. */}
-		<NodeViewer></NodeViewer>
-		<NodeEditor></NodeEditor>
+		<NodeViewer/>
+		<NodeEditor/>
 
 		{/* Buttons. */}
 		<div className={classNames('tile', Styles.buttonContainer)}>
@@ -177,7 +172,7 @@ export default observer(function Viewer(): JSX.Element {
 		</div>
 
 		{/* Map. */}
-		{mapVisible && !state.panoramas.editMode && <Map></Map>}
+		{mapVisible && !state.panoramas.editMode && <Map/>}
 
 		{/* Edit mode popup. */}
 		{state.panoramas.editMode &&
@@ -197,12 +192,9 @@ export default observer(function Viewer(): JSX.Element {
 			</button>
 		</div>}
 
-		{/* Message. */}
-		<Message></Message>
-
 		{/* File input. */}
 		<input ref={fileInputRef} type="file" style={{display: 'none'}}
-			onChange={fileSelectionCallback}></input>
+			onChange={fileSelectionCallback}/>
 
 	</>);
 });

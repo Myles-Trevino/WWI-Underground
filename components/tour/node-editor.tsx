@@ -11,8 +11,8 @@ import {Formik, Field, Form} from 'formik';
 import classNames from 'classnames';
 
 import type * as Types from '../../common/types';
-import PanoramasStyles from './panoramas.module.scss';
 import StateContext from '../../common/state/state-context';
+import PanoramasStyles from './panoramas.module.scss';
 
 
 type FormValues = Types.Node & {name?: string};
@@ -70,7 +70,7 @@ export default observer(function NodeEditor(){
 		}
 
 		// Handle errors.
-		catch(error: unknown){ state.app.setErrorMessage(error as Error); }
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
@@ -122,7 +122,7 @@ export default observer(function NodeEditor(){
 					{/* Name */}
 					<div className={PanoramasStyles.input}>
 						<span>Name</span>
-						<Field name="name" type="text"></Field>
+						<Field name="name" type="text"/>
 					</div>
 
 					{/* Type-specific inputs. */}

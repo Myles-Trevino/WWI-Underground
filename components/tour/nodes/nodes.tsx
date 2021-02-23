@@ -43,7 +43,7 @@ export default observer(function Nodes(){
 		}
 
 		// Handle errors.
-		catch(error: unknown){ state.app.setErrorMessage(error as Error); }
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
@@ -63,14 +63,15 @@ export default observer(function Nodes(){
 		if(position.z < 1) continue; // Skip mirrored nodes.
 
 		// Generate the node style.
+		const isInformationNode = (value.type === 'Information');
 		const style = {
 			left: (position.x+1)/2*window.innerWidth,
 			top: (-position.y+1)/2*window.innerHeight,
-			transform: `translate(-50%, -50%)`
+			transform: isInformationNode ? `` : `translate(-50%, -50%)`
 		};
 
 		// Information node.
-		if(value.type === 'Information') nodes.push(
+		if(isInformationNode) nodes.push(
 			<span key={name} className={classNames('tile', Styles.informationNode)} style={style} onClick={(): void => { nodeClickCallback(name); }}>{name}</span>
 		);
 
@@ -87,7 +88,7 @@ export default observer(function Nodes(){
 			nodes.push(
 				<div key={name} className={classNames('tile', Styles.navigationNode)} style={style}
 					onClick={(): void => { nodeClickCallback(name); }}>
-					<div style={markerStyle}></div>
+					<div style={markerStyle}/>
 					<span>{name}</span>
 				</div>
 			);

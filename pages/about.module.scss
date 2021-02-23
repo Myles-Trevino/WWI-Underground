@@ -1,0 +1,37 @@
+/*
+	Copyright Myles Trevino, Jackson Reed
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.content {
+	display: grid;
+	gap: var(--small-gap);
+	padding: var(--small-gap);
+	align-content: center;
+	justify-content: center;
+	min-height: var(--page-height);
+}
+
+.section {
+	display: grid;
+	max-width: 50rem;
+	background-color: var(--tile-color);
+	border-radius: var(--medium-radius);
+
+	h2, h3, p, img { padding: var(--small-gap); }
+
+	h2 { border-bottom: 1px solid var(--background-color); }
+
+	h3 {
+		padding-bottom: 0;
+		&:not(:first-of-type){ border-top: 1px dashed var(--background-color); }
+	}
+
+	img{
+		justify-self: center;
+
+		&:not(:last-child){ padding-bottom: 0; }
+	}
+}
