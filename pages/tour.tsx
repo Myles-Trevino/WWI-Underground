@@ -17,7 +17,6 @@ import type * as Types from '../common/types';
 import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
-import Navbar from '../components/common/navbar/navbar';
 import Panorama from '../components/tour/panorama/panorama';
 import Nodes from '../components/tour/nodes/nodes';
 import NodeViewer from '../components/tour/node-viewer';
@@ -113,9 +112,6 @@ export default observer(function Viewer(): JSX.Element {
 		<Head>
 			<title>Tour - {Constants.websiteName}</title>
 		</Head>
-
-		{/* Navbar. */}
-		<Navbar color="var(--overlay-color)"/>
 
 		{/* Panorama and nodes. */}
 		<Panorama>

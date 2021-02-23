@@ -12,10 +12,7 @@ import classNames from 'classnames';
 import Styles from './navbar.module.scss';
 
 
-type Props = {color?: string};
-
-
-export default function Navbar({color = 'transparent'}: Props): JSX.Element {
+export default function Navbar(): JSX.Element {
 
 	const [menu, setMenu] = useState(false);
 
@@ -32,7 +29,7 @@ export default function Navbar({color = 'transparent'}: Props): JSX.Element {
 	</svg>;
 
 	// Render.
-	return (<div className={Styles.navbar} style={{backgroundColor: color}}>
+	return (<div className={Styles.navbar}>
 
 		{/* Logo. */}
 		<Link href="/">

@@ -13,7 +13,6 @@ import {Formik, Field, Form} from 'formik';
 
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
-import Navbar from '../components/common/navbar/navbar';
 
 
 type FormValues = {
@@ -67,9 +66,6 @@ export default function Signup(): JSX.Element {
 		<Head>
 			<title>Sign Up - {Constants.websiteName}</title>
 		</Head>
-
-		{/* Navbar. */}
-		<Navbar color="var(--tile-color)"/>
 
 		{/* Introduction. */}
 		<div className="centerer">

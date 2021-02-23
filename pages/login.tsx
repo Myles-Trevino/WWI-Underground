@@ -17,7 +17,6 @@ import {Formik, Form, Field} from 'formik';
 import type * as Types from '../common/types';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
-import Navbar from '../components/common/navbar/navbar';
 
 
 type FormValues = {email: string; password: string};
@@ -71,9 +70,6 @@ export default function Login(): JSX.Element {
 		<Head>
 			<title>Login - {Constants.websiteName}</title>
 		</Head>
-
-		{/* Navbar. */}
-		<Navbar color="var(--tile-color)"/>
 
 		{/* Introduction. */}
 		<div className="centerer">

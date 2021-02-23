@@ -14,7 +14,6 @@ import {Formik, Field, Form} from 'formik';
 
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
-import Navbar from '../components/common/navbar/navbar';
 
 
 type FormValues = {validationKey: string};
@@ -108,9 +107,6 @@ export default function Validate(): JSX.Element {
 		<Head>
 			<title>Validate - {Constants.websiteName}</title>
 		</Head>
-
-		{/* Navbar. */}
-		<Navbar color="var(--tile-color)"/>
 
 		{/* Introduction. */}
 		{state.app.accessCredentials && <div className="centerer">

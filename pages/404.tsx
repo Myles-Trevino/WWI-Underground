@@ -10,7 +10,6 @@ import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
 
 import Constants from '../common/constants';
-import Navbar from '../components/common/navbar/navbar';
 
 
 export default function NotFound(): JSX.Element {
@@ -36,9 +35,6 @@ export default function NotFound(): JSX.Element {
 		<Head>
 			<title>404 - {Constants.websiteName}</title>
 		</Head>
-
-		{/* Navbar. */}
-		<Navbar/>
 
 		{/* Introduction. */}
 		<div className="centerer">

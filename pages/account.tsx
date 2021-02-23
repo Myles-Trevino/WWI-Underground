@@ -11,7 +11,6 @@ import Head from 'next/head';
 
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
-import Navbar from '../components/common/navbar/navbar';
 
 export default function Account(): JSX.Element {
 
@@ -30,9 +29,6 @@ export default function Account(): JSX.Element {
 		<Head>
 			<title>Account - {Constants.websiteName}</title>
 		</Head>
-
-		{/* Navbar. */}
-		<Navbar/>
 
 		{/* Account information. */}
 		{state.app.userData && <div className="centerer">

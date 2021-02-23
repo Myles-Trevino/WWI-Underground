@@ -14,8 +14,8 @@
 	top: 0;
 	display: grid;
 	grid-template-columns: min-content auto repeat(4, min-content);
-	width: 100vw;
 	height: var(--navbar-height);
+	background-color: var(--overlay-color);
 
 	span { width: 6rem; }
 
@@ -26,7 +26,7 @@
 	height: var(--navbar-height);
 }
 
-.menuSvg {
+.navbar .menuSvg {
 	display: none;
 	@include mobile{ display: block; }
 }
