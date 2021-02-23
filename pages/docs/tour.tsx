@@ -12,7 +12,7 @@ import Style from './docs.module.scss';
 export default function Help(): JSX.Element {
 	return (<>
 		<Head>
-			<title>Tour Help</title>
+			<title>Cave Tour - Help</title>
 		</Head>
 		<Navbar></Navbar>
 		<br/><br/>
