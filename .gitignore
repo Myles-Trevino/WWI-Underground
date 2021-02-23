@@ -1,5 +1,5 @@
 /.next
 /node_modules
 /public
-environment.ts
+.env.local
 .DS_Store

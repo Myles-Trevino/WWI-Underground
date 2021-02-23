@@ -11,7 +11,6 @@ import Nodemailer from 'nodemailer';
 import Handlebars from 'handlebars';
 
 import type * as ApiTypes from './types';
-import * as Environment from '../environment';
 import Constants from '../common/constants';
 
 
@@ -33,13 +32,17 @@ export function sendEmail(templateName: string, subject: string,
 		`api/email-templates/${templateName}`, 'utf-8'))(context);
 
 	// Configure Nodemailer.
+	if(!process.env.EMAIL_HOST || !process.env.EMAIL_PORT ||
+		!process.env.EMAIL_USERNAME || !process.env.EMAIL_PASSWORD)
+		throw new Error('Missing email environment variables.');
+
 	const transporter = Nodemailer.createTransport({
-		host: Environment.emailHost,
-		port: Environment.emailPort,
+		host: process.env.EMAIL_HOST,
+		port: Number.parseInt(process.env.EMAIL_PORT),
 		secure: true,
 		auth: {
-			user: Environment.emailUsername,
-			pass: Environment.emailPassword
+			user: process.env.EMAIL_USERNAME,
+			pass: process.env.EMAIL_PASSWORD
 		}
 	});
 

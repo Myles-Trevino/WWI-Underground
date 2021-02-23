@@ -7,7 +7,6 @@
 
 import MongoDB from 'mongodb';
 
-import * as Environment from '../environment';
 import * as ApiTypes from './types';
 
 
@@ -17,8 +16,12 @@ let database: MongoDB.Db | undefined = undefined;
 // Retrieves the database.
 export async function getDatabase(): Promise<MongoDB.Db> {
 
-	if(!database) database = (await MongoDB.MongoClient.connect(
-		Environment.mongoDbUri, {useUnifiedTopology: true})).db();
+	if(!database){
+		if(!process.env.MONGODB_URI) throw new Error('No MongoDB URI.');
+
+		database = (await MongoDB.MongoClient.connect(
+			process.env.MONGODB_URI, {useUnifiedTopology: true})).db();
+	}
 
 	return database;
 }
