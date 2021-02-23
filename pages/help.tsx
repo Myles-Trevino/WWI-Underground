@@ -25,7 +25,7 @@ export default function Help(): JSX.Element {
 				<p><Link href = "/docs/tour">Tour, Map, and Further Exploration</Link></p>
 			</div>
 			<div className = {Styles.helpLink}>
-				<p>Creating an Account</p>
+				<p><Link href = "docs/account">Creating an Account</Link></p>
 			</div>
 		</div>
 		<div className = {Styles.helpHeadings}>
