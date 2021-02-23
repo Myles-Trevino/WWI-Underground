@@ -18,9 +18,8 @@
 
 
 /* Text elements. */
-p, span, h1, h2, .title, button, input, textarea { color: var(--text-color); }
+p, span, h1, h2, .title, button, input, textarea, .credit { color: var(--text-color); }
 a { color: var(--accent-color); }
-.caption { color: var(--caption-color); }
 
 h1, h2, .title {
 	font-family: "DM Sans Regular";
@@ -39,4 +38,12 @@ p, span, button, input, textarea {
 .caption {
 	font-family: "Roboto Medium";
 	font-size: 0.8rem;
+	color: var(--caption-color); 
+}
+
+.credit {
+	font-family: "Roboto Medium";
+	font-size: 0.9rem;
+	text-indent: 3%;
+	font-style: italic;
 }
