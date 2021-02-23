@@ -33,6 +33,9 @@ export default function Help(): JSX.Element {
 			<div className = {Styles.helpLink}>
 				<p><Link href = "docs/editing">Editing the Cave Tour</Link></p>
 			</div>
+			<div className = {Styles.helpLink}>
+				<p><Link href = "docs/saving">Saving and Loading a Custom Cave Tour</Link></p>
+			</div>
 		</div>
 
 	</>);
