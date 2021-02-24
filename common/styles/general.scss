@@ -5,6 +5,9 @@
 */
 
 
+@import "./mixins.scss";
+
+
 /* General. */
 * {
 	-webkit-tap-highlight-color: transparent;
@@ -139,14 +142,16 @@ svg {
 	gap: var(--small-gap);
 	padding: var(--small-gap);
 	align-content: center;
-	justify-content: center;
 	min-height: var(--page-height);
+
+	@include mobile { padding: var(--small-gap) 0; }
 }
 
 .articleSection {
 	display: grid;
-	width: 100vw;
-	max-width: 50rem;
+	justify-self: center;
+	width: 100%;
+	max-width: 60rem;
 	background-color: var(--tile-color);
 	border-radius: var(--medium-radius);
 

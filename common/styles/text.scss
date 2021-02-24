@@ -7,13 +7,13 @@
 
 /* Fonts. */
 @font-face {
-	font-family: "DM Sans Regular";
-	src: url("/fonts/dm-sans-regular.ttf");
+	font-family: "DM Sans Medium";
+	src: url("/fonts/dm-sans-medium.ttf");
 }
 
 @font-face {
-	font-family: "Roboto Medium";
-	src: url("/fonts/roboto-medium.ttf");
+	font-family: "Roboto Regular";
+	src: url("/fonts/roboto-regular.ttf");
 }
 
 
@@ -21,8 +21,9 @@
 p, span, a, h1, h2, h3, button, input, textarea { color: var(--text-color); }
 
 h1, h2, h3 {
-	font-family: "DM Sans Regular";
-	letter-spacing: -.05rem;
+	font-family: "DM Sans Medium";
+	font-weight: 500;
+	letter-spacing: -.025rem;
 }
 
 h1 { font-size: 3rem; }
@@ -32,6 +33,7 @@ h2 { font-size: 1.9rem; }
 h3 { font-size: 1.5rem; }
 
 p, span, a, button, input, textarea {
-	font-family: "Roboto Medium";
+	font-family: "Roboto Regular";
 	font-size: 1rem;
+	letter-spacing: -.01rem;
 }
