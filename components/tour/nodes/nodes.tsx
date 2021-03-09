@@ -38,7 +38,11 @@ export default observer(function Nodes(){
 				}
 
 				// If this is an information node, open the information node viewer.
-				else state.panoramas.setViewNode(name);
+				else {
+					// (unless this viewer is already open, in which case it is closed)
+					if(state.panoramas.viewNodeName === name) state.panoramas.setViewNode(undefined);
+					else state.panoramas.setViewNode(name);
+				}
 			}
 		}
 
