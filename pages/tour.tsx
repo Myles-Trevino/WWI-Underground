@@ -30,6 +30,7 @@ export default observer(function Viewer(): JSX.Element {
 	const state = useContext(StateContext);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [mapVisible, setMapVisible] = useState(false);
+	const [nodesVisible, setNodesVisible] = useState(true);
 
 
 	// Initializer.
@@ -115,7 +116,7 @@ export default observer(function Viewer(): JSX.Element {
 
 		{/* Panorama and nodes. */}
 		<Panorama>
-			<Nodes/>
+			{nodesVisible && <Nodes/>}
 		</Panorama>
 
 		{/* Crosshair. */}
@@ -168,6 +169,19 @@ export default observer(function Viewer(): JSX.Element {
 				<path className="svg-stroke-glyph" d="M11,14.59l4.3-4.3a1,1,0,0,1,1.4,0l4.3,4.3"/>
 				<path className="svg-stroke-glyph" d="M12,18H6.44S4,16.88,4,14.68A3.88,3.88,0,0,1,7,11,4.37,4.37,0,0,1,8,8a4,4,0,0,1,4-1s1-3,5-3c6,0,6,5,6,5s5,0,5,5c0,4-5,4-5,4H20"/>
 			</svg>
+
+			{/* Show nodes. */}
+			{!nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(true); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
+				<path className="svg-stroke-glyph" d="M16,20.25A4.25,4.25,0,1,1,20.25,16,4.25,4.25,0,0,1,16,20.25Z"/>
+			</svg>}
+
+			{/* Hide nodes. */}
+			{nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(false); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
+				<line className="svg-stroke-glyph" x1="12" y1="12" x2="20" y2="20"/>
+				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
+			</svg>}
 
 		</div>
 
