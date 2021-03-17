@@ -13,7 +13,7 @@
 	position: sticky;
 	top: 0;
 	display: grid;
-	grid-template-columns: min-content auto repeat(4, min-content);
+	grid-template-columns: min-content auto repeat(5, min-content);
 	height: var(--navbar-height);
 	background-color: var(--overlay-color);
 

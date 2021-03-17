@@ -47,7 +47,7 @@ export default function Navbar(): JSX.Element {
 		<Link href="/tour"><span className="button">Tour</span></Link>
 		<Link href="/help"><span className="button">Help</span></Link>
 		<Link href="/about"><span className="button">About</span></Link>
-
+		<Link href="/theme"><span className="button">Theme</span></Link>
 		{/* Menu SVG. */}
 		{menu ? closeMenuSvg : openMenuSvg}
 
@@ -57,6 +57,7 @@ export default function Navbar(): JSX.Element {
 			<Link href="/tour"><h2>Tour</h2></Link>
 			<Link href="/help"><h2>Help</h2></Link>
 			<Link href="/about"><h2>About</h2></Link>
+			<Link href="/theme"><h2>Theme</h2></Link>
 		</div>}
 
 	</div>);

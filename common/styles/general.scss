@@ -170,7 +170,11 @@ svg {
 	}
 }
 
-
+.colorPicker {
+	display: grid;
+	justify-self: center;
+	align-items: center;
+}
 
 /* Effects. */
 .hidden {
