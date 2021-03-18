@@ -5,16 +5,18 @@
 */
 
 
-import {HexColorPicker} from 'react-colorful';
+import {RgbStringColorPicker} from 'react-colorful';
 import Head from 'next/head';
 import Constants from '../common/constants';
 import {useState} from 'react';
-
+import Cookies from 'js-cookie';
+function setCrosshairColorCookie(color: string): void{
+	Cookies.set('cursorColor', color, {path: '/', expires: 999, sameSite: 'strict'});
+}
 
 export default function Theme(): JSX.Element {
-	// Render.
 	const [color, setColor] = useState('#ffffff');
-	document.documentElement.style.setProperty('--accent-color', color);
+	setCrosshairColorCookie(color);
 
 	// Note: this does not save between refreshes. Will do that next, perhaps with a cookie.
 
@@ -27,7 +29,7 @@ export default function Theme(): JSX.Element {
 		{/* Content. */}
 		<h1>Cursor theme:</h1>
 		<div className = "colorPicker">
-			<HexColorPicker color={color} onChange={setColor}/>;
+			<RgbStringColorPicker color={color} onChange={setColor}/>;
 		</div>
 	</>);
 }

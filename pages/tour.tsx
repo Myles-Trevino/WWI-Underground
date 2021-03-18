@@ -5,7 +5,7 @@
 */
 
 
-import {useContext, useEffect, useRef, useState} from 'react';
+import {Component, useContext, useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import * as MobX from 'mobx';
 import {observer} from 'mobx-react-lite';
@@ -23,6 +23,17 @@ import NodeViewer from '../components/tour/node-viewer';
 import NodeEditor from '../components/tour/node-editor';
 import Map from '../components/tour/map/map';
 import Styles from './tour.module.scss';
+import Cookies from 'js-cookie';
+
+type crosshairProps = {
+	cursorColor: string;
+};
+
+function Crosshair(crosshairProps: crosshairProps): JSX.Element {
+	return (
+		<div className={Styles.crosshair} style={{backgroundColor: crosshairProps.cursorColor}}/>
+	);
+}
 
 
 export default observer(function Viewer(): JSX.Element {
@@ -104,7 +115,6 @@ export default observer(function Viewer(): JSX.Element {
 		});
 	}
 
-
 	// Render.
 	return (<>
 
@@ -113,13 +123,16 @@ export default observer(function Viewer(): JSX.Element {
 			<title>Tour - {Constants.websiteName}</title>
 		</Head>
 
+
 		{/* Panorama and nodes. */}
 		<Panorama>
 			<Nodes/>
 		</Panorama>
 
 		{/* Crosshair. */}
-		<div className={Styles.crosshair}/>
+
+		{/* <div className={Styles.crosshair} style={{backgroundColor: Cookies.get('cursorColor')}}/> */}
+		<Crosshair cursorColor={Cookies.get('cursorColor') ?? 'rgb(217, 255, 0)'}/>
 
 		{/* Node viewer and editor. */}
 		<NodeViewer/>
