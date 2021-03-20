@@ -22,6 +22,7 @@ export default function App({Component, pageProps}: AppProps): JSX.Element {
 		{/* Head. */}
 		<Head>
 			<link rel="icon" type="image/x-icon" href="favicon.png"/>
+			<meta name="color-scheme" content="dark"/>
 		</Head>
 
 		{/* Navbar. */}

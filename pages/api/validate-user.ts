@@ -6,18 +6,15 @@
 
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
+import Joi from 'joi';
 
-import type * as Types from '../../common/types';
 import * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
 
 
-type ValidateUserBody = {
-	accessCredentials?: Partial<Types.AccessCredentials>;
-	validationKey?: string;
-};
+type ValidateUserBody = ApiTypes.SecuredRequest & {validationKey: string};
 
 
 export default async function validateUser(request: NextApiRequest,
@@ -25,16 +22,17 @@ export default async function validateUser(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const body = request.body as ValidateUserBody;
-		const {email, accessKey} = Validation.accessCredentials(body.accessCredentials);
-		const validationKey = Validation.key(body.validationKey);
+		const schema = Validation.securedRequestSchema.concat(
+			Joi.object({validationKey: Validation.keySchema}));
+
+		const body = Validation.validate(request.body, schema) as ValidateUserBody;
 
 		// Make sure the user has not already been validated.
-		const user = await Database.getUser(email, accessKey, false);
+		const user = await Database.getUser(body.accessCredentials, false);
 		if(!user.validationKey) throw new ApiTypes.ApiError('Already validated.', 409);
 
 		// Check that the validation key matches.
-		if(validationKey !== user.validationKey)
+		if(body.validationKey !== user.validationKey)
 			throw new ApiTypes.ApiError('Incorrect validation key.');
 
 		// Validate the account.

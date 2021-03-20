@@ -111,13 +111,14 @@ export default observer(function NodeEditor(){
 	// Render.
 	return (
 		<Formik initialValues={initialValues} onSubmit={save}>
-			<Form className={classNames('tile', PanoramasStyles.nodeModal)}>
+			<Form className={classNames('gridTile', PanoramasStyles.nodeModal)}>
 
 				{/* Title. */}
-				<h2>Node Editor</h2>
+				<h2 className="tileSection">Node Editor</h2>
+				<div className="solidDivider"></div>
 
 				{/* Inputs. */}
-				<div className={PanoramasStyles.inputs}>
+				<div className="gridTileSection">
 
 					{/* Name */}
 					<div className={PanoramasStyles.input}>
@@ -131,7 +132,7 @@ export default observer(function NodeEditor(){
 				</div>
 
 				{/* Buttons. */}
-				<div className={PanoramasStyles.buttonContainer}>
+				<div className={classNames('tileSection', PanoramasStyles.buttonContainer)}>
 					<button type="button" onClick={exit}>Cancel</button>
 					<div className={PanoramasStyles.buttonGroup}>
 						<button type="button" onClick={remove}>Delete</button>

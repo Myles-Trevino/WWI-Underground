@@ -69,20 +69,25 @@ export default function Signup(): JSX.Element {
 
 		{/* Introduction. */}
 		<div className="centerer">
+
 			<Formik initialValues={initialFormValues} onSubmit={signUp}>
-				<Form className="content tile">
-					<h2>Sign Up</h2>
+				<Form className="mediumWidth gridTile">
+					<h2 className="tileSection">Sign Up</h2>
+					<div className="solidDivider"></div>
 
-					<Field name="email" type="text" placeholder="Email"/>
-					<Field name="name" type="text" placeholder="Name"/>
-					<Field name="password" type="password" placeholder="Password"/>
-					<Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
+					<div className="gridTileSection">
+						<Field name="email" type="text" placeholder="Email"/>
+						<Field name="name" type="text" placeholder="Name"/>
+						<Field name="password" type="password" placeholder="Password"/>
+						<Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
 
-					<div className="buttonContainer">
-						<button type="submit">Continue</button>
+						<div className="buttonContainer">
+							<button type="submit">Continue</button>
+						</div>
 					</div>
 				</Form>
 			</Formik>
+
 		</div>
 	</>);
 }

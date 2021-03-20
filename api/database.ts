@@ -7,6 +7,7 @@
 
 import MongoDB from 'mongodb';
 
+import type * as Types from '../common/types';
 import * as ApiTypes from './types';
 
 
@@ -58,9 +59,13 @@ export async function getUserUnsecured(email: string,
 
 // Returns the user that matches the given email, checking that the access key matches
 // and optionally checking if the user is validated.
-export async function getUser(email: string, accessKey: string,
+export async function getUser(accessCredentials: Types.AccessCredentials,
 	checkValidation = true): Promise<ApiTypes.User> {
-	const user = await getUserUnsecured(email, checkValidation);
-	if(accessKey !== user.accessKey) throw new ApiTypes.ApiError('Invalid access key.');
+
+	const user = await getUserUnsecured(accessCredentials.email, checkValidation);
+
+	if(accessCredentials.accessKey !== user.accessKey)
+		throw new ApiTypes.ApiError('Invalid access key.');
+
 	return user;
 }

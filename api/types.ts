@@ -39,3 +39,6 @@ export type Hash = {
 	hash: Buffer;
 	salt: Buffer;
 };
+
+
+export type SecuredRequest = {accessCredentials: Types.AccessCredentials};

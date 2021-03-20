@@ -30,16 +30,17 @@ export default observer(function NodeViewer(){
 
 	// Render the information node.
 	return (
-		<div className={classNames('tile', PanoramasStyles.nodeModal)}>
+		<div className={classNames('gridTile', PanoramasStyles.nodeModal)}>
 
 			{/* Name. */}
-			<h2>{name}</h2>
+			<h2 className="tileSection">{name}</h2>
+			<div className="solidDivider"></div>
 
 			{/* Description */}
-			<p>{node.description ? node.description : 'No description.'}</p>
+			<p className="tileSection">{node.description ? node.description : 'No description.'}</p>
 
 			{/* Buttons. */}
-			<button onClick={exit}>Close</button>
+			<button onClick={exit} className="tileSection">Close</button>
 
 		</div>
 	);
