@@ -29,8 +29,6 @@ export type Node = {
 	position: Position;
 	description?: string;
 	panorama?: string;
-	img1?: string;
-	img2?: string;
 };
 
 

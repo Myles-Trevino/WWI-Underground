@@ -35,20 +35,8 @@ export default observer(function NodeViewer(){
 			{/* Name. */}
 			<h2>{name}</h2>
 
-			{/* First image */}
-			{node.img1 ?
-				<img src={'images/nodes/'.concat(node.img1).concat('.png')} width="100%"/> :
-				<p>{'No photo available.'}</p>
-			}
-
 			{/* Description */}
 			<p>{node.description ? node.description : 'No description.'}</p>
-
-			{/* Second image */}
-			{node.img2 ?
-				<img src={'images/nodes/'.concat(node.img2).concat('.png')} width="100%"/> :
-				<p>{'No photo available.'}</p>
-			}
 
 			{/* Buttons. */}
 			<button onClick={exit}>Close</button>
