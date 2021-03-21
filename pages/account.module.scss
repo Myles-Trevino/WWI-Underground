@@ -1,0 +1,19 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.list {
+	display: grid;
+	grid-auto-flow: row;
+}
+
+
+.overlay {
+	display: grid;
+	height: 7rem;
+	justify-content: center;
+	align-items: center;
+}

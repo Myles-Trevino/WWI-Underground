@@ -20,13 +20,13 @@ export default async function logIn(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const body = request.body as Partial<Types.LoginCredentials>;
-		const {email, password} = Validation.loginCredentials(body);
+		const body = Validation.validate(request.body,
+			Validation.loginCredentialsSchema) as Types.LoginCredentials;
 
 		// Check that the password hash matches.
-		const user = await Database.getUserUnsecured(email, false);
+		const user = await Database.getUserUnsecured(body.email, false);
 		const passwordHash = Cryptography.hashPassword(
-			password, user.passwordHash.salt.buffer);
+			body.password, user.passwordHash.salt.buffer);
 
 		if(!passwordHash.hash.equals(user.passwordHash.hash.buffer))
 			throw new ApiTypes.ApiError('Invalid password.');

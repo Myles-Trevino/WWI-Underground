@@ -15,14 +15,20 @@
 	right: var(--small-gap);
 	display: grid;
 	gap: var(--small-gap);
-	grid-template-rows: min-content auto min-content;
+	grid-template-rows: repeat(2, min-content) auto min-content;
 	width: 24rem;
 	height: calc(var(--page-height) - var(--small-gap) * 2);
 	opacity: 0;
 	overflow-x: hidden;
 	overflow-y: auto;
 
-	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+	:global {
+		animation: fadeIn var(--medium-transition-duration) forwards;
+
+		.solidDivider, .dashedDivider {
+			border-bottom: var(--line-width) solid var(--hover-color);
+		}
+	}
 
 	@include mobile {
 		width: calc(100% - 2 * var(--small-gap));
@@ -38,11 +44,8 @@
 .inputs, .input {
 	display: grid;
 	height: min-content;
+	gap: var(--very-small-gap);
 }
-
-.inputs{ gap: var(--small-gap); }
-
-.input{ gap: var(--very-small-gap); }
 
 
 /* Buttons. */

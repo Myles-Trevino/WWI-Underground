@@ -5,68 +5,45 @@
 */
 
 
-import Validator from 'validator';
+import Joi from 'joi';
 
-import type * as Types from '../common/types';
 import * as ApiTypes from './types';
 import Constants from '../common/constants';
 
 
-// Validates the format of the given email.
-export function email(value?: string): string {
-	if(!value) throw new ApiTypes.ApiError('No email provided.');
-	if(!Validator.isEmail(value)) throw new ApiTypes.ApiError('Invalid email.');
-	return value;
-}
+const nameRegex = /^[\w\s]+$/;
 
 
-// Validates the format of the given password.
-export function password(value?: string): string {
-	if(!value) throw new ApiTypes.ApiError('No password provided.');
-	if(value.length < Constants.minimumPasswordLength) throw new ApiTypes.ApiError(
-		`The password must be at least ${Constants.minimumPasswordLength} characters.`);
-	return value;
-}
+// Helper schemas.
+export const keySchema = Joi.string().base64();
+
+export const nameSchema = Joi.string().pattern(nameRegex);
+
+export const emailSchema = Joi.string().email();
+
+export const passwordSchema = Joi.string().min(Constants.minimumPasswordLength);
+
+export const loginCredentialsSchema = Joi.object({
+	email: emailSchema.required(),
+	password: passwordSchema.required()
+});
+
+export const accessCredentialsSchema = Joi.object({
+	email: emailSchema.required(),
+	accessKey: keySchema.required()
+});
+
+export const securedRequestSchema =
+	Joi.object({accessCredentials: accessCredentialsSchema.required()});
 
 
-// Validates the format of the given base-64 key.
-export function key(value?: string): string {
-	if(!value) throw new ApiTypes.ApiError('No key provided.');
-	if(!Validator.isBase64(value)) throw new ApiTypes.ApiError('Invalid key.');
-	return value;
-}
+// Validates the given value with the given schema.
+export function validate(value: unknown, schema: Joi.Schema): unknown {
 
+	const result = schema.validate(value);
 
-// Validates the format of the given login credentials.
-export function loginCredentials(
-	value?: Partial<Types.LoginCredentials>): Types.LoginCredentials {
-	if(!value) throw new ApiTypes.ApiError('No login credentials provided.');
-	return {email: email(value.email), password: password(value.password)};
-}
+	if(result.error)
+		throw new ApiTypes.ApiError(`Invalid request: ${result.error.message}.`);
 
-
-// Validates the format of the given access credentials.
-export function accessCredentials(
-	value?: Partial<Types.AccessCredentials>): Types.AccessCredentials {
-	if(!value) throw new ApiTypes.ApiError('No access credentials provided.');
-	return {email: email(value.email), accessKey: key(value.accessKey)};
-}
-
-
-// Validates the format of the given user data.
-export function userData(value?: Partial<Types.UserData>): Types.UserData {
-	if(!value) throw new ApiTypes.ApiError('No user data provided.');
-	if(!value.name) throw new ApiTypes.ApiError('No access name provided.');
-	if(!Validator.isAlphanumeric(value.name))
-		throw new ApiTypes.ApiError('Invalid name.');
-	return {name: value.name};
-}
-
-
-// Validates the format of the given name.
-export function name(value?: string): string {
-	if(!value) throw new ApiTypes.ApiError('No name provided.');
-	if(value.length < Constants.minimumNameLength) throw new ApiTypes.ApiError(
-		`Your name must be at least ${Constants.minimumNameLength} characters.`);
-	return value;
+	return result.value;
 }

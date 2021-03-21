@@ -30,7 +30,6 @@ export default function Validate(): JSX.Element {
 
 	// Initializer.
 	useEffect(() => {
-
 		// If the access credentials have not been cached, redirect to the login page.
 		if(!state.app.accessCredentials) router.push('/login');
 
@@ -43,7 +42,9 @@ export default function Validate(): JSX.Element {
 	async function sendValidationEmail(): Promise<void> {
 
 		try {
-			await Axios.post(`api/send-validation-email`, state.app.accessCredentials);
+			await Axios.post(`api/send-validation-email`,
+				{accessCredentials: state.app.accessCredentials});
+
 			state.app.setMessage('Email sent.');
 		}
 
@@ -70,34 +71,44 @@ export default function Validate(): JSX.Element {
 	// Render.
 	const validateTile =
 		<Formik initialValues={initialFormValues} onSubmit={validate}>
-			<Form className="content tile">
-				<h2>Validate</h2>
+			<Form className="mediumWidth gridTile">
 
-				<p>
-					One more step before you can use your account! To confirm that you own this email address, we&apos;ve sent you an email containing a validation key. Please enter the key below.
-				</p>
+				<h2 className="tileSection">Validate</h2>
+				<div className="solidDivider"></div>
 
-				<Field name="validationKey" type="text" placeholder="Validation Key"/>
+				<div className="gridTileSection">
+					<p>
+						One more step before you can use your account! To confirm that you own this email address, we&apos;ve sent you an email containing a validation key. Please enter the key below.
+					</p>
 
-				<div className="buttonContainer">
-					<button type="button" onClick={sendValidationEmail}>Resend</button>
-					<button type="submit">Validate</button>
+					<Field name="validationKey" type="text" placeholder="Validation Key"/>
+
+					<div className="buttonContainer">
+						<button type="button" onClick={sendValidationEmail}>Resend</button>
+						<button type="submit">Validate</button>
+					</div>
 				</div>
+
 			</Form>
 		</Formik>;
 
 
 	const successTile =
-		<div className="content tile">
-			<h2>Success</h2>
+		<div className="mediumWidth gridTile">
 
-			<p>
-				Congratulations! Your account is ready to use. You can now log in to WWI Underground. If you need help, click the &apos;Help&apos; button in the top right menu.
-			</p>
+			<h2 className="tileSection">Success</h2>
+			<div className="solidDivider"></div>
 
-			<div className="buttonContainer">
-				<Link href="/login"><button>Log In</button></Link>
+			<div className="gridTileSection">
+				<p>
+					Congratulations! Your account is ready to use. You can now log in to WWI Underground. If you need help, click the &apos;Help&apos; button in the top right menu.
+				</p>
+
+				<div className="buttonContainer">
+					<Link href="/login"><button>Log In</button></Link>
+				</div>
 			</div>
+
 		</div>;
 
 

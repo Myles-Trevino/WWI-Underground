@@ -7,7 +7,7 @@
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
-import type * as Types from '../../common/types';
+import type * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
@@ -18,11 +18,11 @@ export default async function getUserData(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const body = request.body as Partial<Types.AccessCredentials>;
-		const {email, accessKey} = Validation.accessCredentials(body);
+		const body = Validation.validate(request.body,
+			Validation.securedRequestSchema) as ApiTypes.SecuredRequest;
 
 		// Get the user.
-		const user = await Database.getUser(email, accessKey);
+		const user = await Database.getUser(body.accessCredentials);
 		response.status(200).json(user.data);
 	}
 

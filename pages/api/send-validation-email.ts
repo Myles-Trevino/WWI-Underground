@@ -7,7 +7,6 @@
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
-import type * as Types from '../../common/types';
 import * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
@@ -19,11 +18,11 @@ export default async function sendValidationEmail(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const body = request.body as Partial<Types.AccessCredentials>;
-		const {email, accessKey} = Validation.accessCredentials(body);
+		const body = Validation.validate(request.body,
+			Validation.securedRequestSchema) as ApiTypes.SecuredRequest;
 
 		// Make sure the user has not already been validated.
-		const user = await Database.getUser(email, accessKey, false);
+		const user = await Database.getUser(body.accessCredentials, false);
 		if(!user.validationKey) throw new ApiTypes.ApiError('Already validated.', 409);
 
 		// Send the email.

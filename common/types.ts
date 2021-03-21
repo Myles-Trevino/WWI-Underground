@@ -51,6 +51,31 @@ export type LoginCredentials = {email: string; password: string};
 export type AccessCredentials = {email: string; accessKey: string};
 
 
-export type UserData = {name: string};
+// API.
+export type ConnectionStatus = 'Sent' | 'Received' | 'Accepted';
 
-export const defaultUserData: UserData = {name: ''};
+export type Connection = {
+	name: string;
+	status: ConnectionStatus;
+};
+
+
+export type Tour = {
+	name: string;
+	id: string;
+};
+
+
+export type UserData = {
+	name: string;
+	connections: Connection[];
+	tours: Tour[];
+};
+
+export const defaultUserData: UserData = {name: '', connections: [], tours: []};
+
+
+export type TourInfo = {
+	name: string;
+	author: string;
+};
