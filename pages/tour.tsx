@@ -108,6 +108,10 @@ export default observer(function Viewer(): JSX.Element {
 
 	// Navigate to a node selected from the featured nodes menu.
 	function goToFeaturedNode(panoramaName: string, nodeName: string): void {
+
+		const panorama = state.panoramas.getDefinedPanorama(panoramaName);
+		const node = panorama.nodes[nodeName];
+
 		// Navigate to panorama.
 		state.panoramas.setPanorama(panoramaName);
 
@@ -115,9 +119,14 @@ export default observer(function Viewer(): JSX.Element {
 		state.panoramas.setViewNode(nodeName);
 
 		// Set rotation to face node.
-		state.panoramas.setRotation(new Three.Vector2(
-			panorama.defaultRotation.x, panorama.defaultRotation.y));
-		camera.setRotationFromEuler(getEuler());
+		// This method doesn't seem to work:
+		// 		state.panoramas.camera.lookAt(node.position.x, node.position.y, node.position.z);
+		// This is how the rotation is usually set:
+		// 		state.panoramas.setRotation(new Three.Vector2(
+		//			panorama.defaultRotation.x, panorama.defaultRotation.y));
+		//		camera.setRotationFromEuler(getEuler());
+		// Something else is getting in the way of rotating the camera here maybe...
+		// I think maybe the panorama sets default rotation on load, after this code has already executed.
 	}
 
 	// Render.
