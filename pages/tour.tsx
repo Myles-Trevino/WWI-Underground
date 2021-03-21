@@ -126,7 +126,7 @@ export default observer(function Viewer(): JSX.Element {
 		//			panorama.defaultRotation.x, panorama.defaultRotation.y));
 		//		camera.setRotationFromEuler(getEuler());
 		// Something else is getting in the way of rotating the camera here maybe...
-		// I think maybe the panorama sets default rotation on load, after this code has already executed.
+		// I think maybe the panorama sets default rotation at the end of the initializer, after this code has already executed.
 	}
 
 	// Render.
@@ -247,12 +247,15 @@ export default observer(function Viewer(): JSX.Element {
 		{featuredNodesVisble &&
 		<div className={classNames('tile', Styles.featuredNodesPopup)}>
 			<h3>Featured Nodes</h3>
-			<button onClick={(): void => { goToFeaturedNode('7', 'Nimmo'); }}>Test Node</button>
+			<p>Content pending...</p>
+			{/* sample content
+			<button onClick={(): void => { goToFeaturedNode('7', 'Nimmo'); }}>Nimmo</button>
 			<p>Blurb about this node. Check it out! Cool!!</p>
-			<button onClick={(): void => { goToFeaturedNode('9', '"C. BOWEN"'); }}>Test Node 2</button>
+			<button onClick={(): void => { goToFeaturedNode('9', '"C. BOWEN"'); }}>&quot;C. BOWEN&quot;</button>
 			<p>This is an interesting node.</p>
-			<button onClick={(): void => { goToFeaturedNode('11', '"LEO STANKARD"'); }}>Test Node 3</button>
+			<button onClick={(): void => { goToFeaturedNode('11', '"LEO STANKARD"'); }}>&quot;LEO STANKARD&quot;</button>
 			<p>This node warrants an especially long description. There are a whole lot of things to discuss when it comes to this node.</p>
+			*/}
 		</div>}
 
 		{/* File input. */}
