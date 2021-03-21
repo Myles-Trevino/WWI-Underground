@@ -247,15 +247,10 @@ export default observer(function Viewer(): JSX.Element {
 		{featuredNodesVisble &&
 		<div className={classNames('tile', Styles.featuredNodesPopup)}>
 			<h3>Featured Nodes</h3>
-			<p>Content pending...</p>
-			{/* sample content
-			<button onClick={(): void => { goToFeaturedNode('7', 'Nimmo'); }}>Nimmo</button>
-			<p>Blurb about this node. Check it out! Cool!!</p>
-			<button onClick={(): void => { goToFeaturedNode('9', '"C. BOWEN"'); }}>&quot;C. BOWEN&quot;</button>
-			<p>This is an interesting node.</p>
-			<button onClick={(): void => { goToFeaturedNode('11', '"LEO STANKARD"'); }}>&quot;LEO STANKARD&quot;</button>
-			<p>This node warrants an especially long description. There are a whole lot of things to discuss when it comes to this node.</p>
-			*/}
+			<button onClick={(): void => { goToFeaturedNode('5', '"L. E. WILLIAMS"'); }}>&quot;L. E. WILLIAMS&quot;</button>
+			<p>Sgt. Lewis Earl Williams was born in New York. He enlisted in June 1917 and was discharged in June 1919.</p>
+			<button onClick={(): void => { goToFeaturedNode('10', '"W.D. BERTINI"'); }}>&quot;W.D. BERTINI&quot;</button>
+			<p>Cpl. William Deforest Bertini was born in Connecticut and served for 2 years. Bertini became the first mayor of Wallingford, Connecticut after his return from the war.</p>
 		</div>}
 
 		{/* File input. */}
