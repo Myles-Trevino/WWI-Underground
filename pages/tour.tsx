@@ -35,6 +35,25 @@ function Crosshair(crosshairProps: crosshairProps): JSX.Element {
 	);
 }
 
+class Crosshair2 extends Component{
+	public cursorColor = window.localStorage.getItem('cursorColor');
+	public componentDidMount(): void{
+		this.setState({
+			cursorColor: window.localStorage.getItem('cursorColor')
+		});
+
+		// this.cursorColor = window.localStorage.getItem('cursorColor') ?? 'rgb(217, 255, 0)';
+		console.log(`slkdfj ${this.cursorColor}`);
+	}
+
+	public render(): JSX.Element{
+		console.log(`Setting cursor to: ${this.cursorColor}`);
+		return (
+			<div className={Styles.crosshair} style={{backgroundColor: this.cursorColor}}/>
+		);
+	}
+}
+
 
 export default observer(function Viewer(): JSX.Element {
 
@@ -132,7 +151,8 @@ export default observer(function Viewer(): JSX.Element {
 		{/* Crosshair. */}
 
 		{/* <div className={Styles.crosshair} style={{backgroundColor: Cookies.get('cursorColor')}}/> */}
-		<Crosshair cursorColor={Cookies.get('cursorColor') ?? 'rgb(217, 255, 0)'}/>
+		{/* <Crosshair cursorColor={Cookies.get('cursorColor') ?? 'rgb(217, 255, 0)'}/>*/}
+		<Crosshair2></Crosshair2>
 
 		{/* Node viewer and editor. */}
 		<NodeViewer/>

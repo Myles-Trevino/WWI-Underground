@@ -10,28 +10,45 @@ import Head from 'next/head';
 import Constants from '../common/constants';
 import Cookies from 'js-cookie';
 import React, {useState} from 'react';
+import Router from 'next/router';
 
+let externalWindow: typeof window;
+let cursorColor: string;
+
+class Window extends React.Component{
+	public componentDidMount(): void{
+		externalWindow = window;
+		cursorColor = externalWindow.localStorage.getItem('cursorColor') ?? '';
+	}
+
+	public render(): JSX.Element{
+		return (<></>);
+	}
+}
 
 function setCrosshairColorCookie(color: string): void{
-	Cookies.set('cursorColor', color, {path: '/', expires: 999, sameSite: 'strict'});
+	// Cookies.set('cursorColor', color, {path: '/', expires: 999, sameSite: 'strict'});
+	externalWindow.localStorage.setItem('cursorColor', color);
 }
 
 function setDarkTheme(): void{
-	Cookies.set('theme', 'dark', {path: '/', expires: 999, sameSite: 'strict'});
+	// Cookies.set('theme', 'dark', {path: '/', expires: 999, sameSite: 'strict'});
+	externalWindow.localStorage.setItem('theme', 'dark');
 	console.log('set dark');
+	Router.reload();
 }
 
 function setLightTheme(): void{
-	Cookies.set('theme', 'light', {path: '/', expires: 999, sameSite: 'strict'});
+	// Cookies.set('theme', 'light', {path: '/', expires: 999, sameSite: 'strict'});
+	externalWindow.localStorage.setItem('theme', 'light');
 	console.log('set light');
+	Router.reload();
 }
 
 export default function Theme(): JSX.Element {
-	const [color, setColor] = useState(Cookies.get('cursorColor') ?? '#FFFFFF');
-	setCrosshairColorCookie(color);
+	const [color, setColor] = useState('rgb(217, 255, 0)');
 
-
-	// Note: this does not save between refreshes. Will do that next, perhaps with a cookie.
+	// Note: each time the user goes to this page, the default crosshair/cursor color is set. Will fix.
 	return (<>
 
 		{/* Head. */}
@@ -39,9 +56,10 @@ export default function Theme(): JSX.Element {
 			<title>Theme - {Constants.websiteName}</title>
 		</Head>
 		{/* Content. */}
+		<Window></Window>
 		<h1>Cursor theme:</h1>
 		<div className = "colorPicker">
-			<RgbStringColorPicker color={color} onChange={setColor}/>
+			<RgbStringColorPicker color={color} onChange={setCrosshairColorCookie}/>
 		</div><br/><br/>
 		<h1>Site theme:</h1>
 		<button onClick={setDarkTheme}>Dark</button>
