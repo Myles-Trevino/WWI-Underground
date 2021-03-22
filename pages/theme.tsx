@@ -8,7 +8,6 @@
 import {RgbStringColorPicker} from 'react-colorful';
 import Head from 'next/head';
 import Constants from '../common/constants';
-import Cookies from 'js-cookie';
 import React, {useState} from 'react';
 import Router from 'next/router';
 
