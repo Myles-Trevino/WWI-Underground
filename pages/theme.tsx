@@ -26,19 +26,16 @@ class Window extends React.Component{
 }
 
 function setCrosshairColorCookie(color: string): void{
-	// Cookies.set('cursorColor', color, {path: '/', expires: 999, sameSite: 'strict'});
 	externalWindow.localStorage.setItem('cursorColor', color);
 }
 
 function setDarkTheme(): void{
-	// Cookies.set('theme', 'dark', {path: '/', expires: 999, sameSite: 'strict'});
 	externalWindow.localStorage.setItem('theme', 'dark');
 	console.log('set dark');
 	Router.reload();
 }
 
 function setLightTheme(): void{
-	// Cookies.set('theme', 'light', {path: '/', expires: 999, sameSite: 'strict'});
 	externalWindow.localStorage.setItem('theme', 'light');
 	console.log('set light');
 	Router.reload();
