@@ -53,12 +53,21 @@ export default function Theme(): JSX.Element {
 		</Head>
 		{/* Content. */}
 		<Window></Window>
-		<h1>Cursor theme:</h1>
-		<div className = "colorPicker">
-			<RgbStringColorPicker color={color} onChange={setCrosshairColorCookie}/>
-		</div><br/><br/>
-		<h1>Site theme:</h1>
-		<button onClick={setDarkTheme}>Dark</button>
-		<button onClick={setLightTheme}>Light</button>
+		<div className="themePageContainer">
+			<div className="themePageSection">
+				<h2>Cursor theme:</h2>
+				<div className="colorPicker">
+					<RgbStringColorPicker color={color} onChange={setCrosshairColorCookie}/>
+				</div>
+			</div>
+			<br/><br/>
+			<div className="themePageSection">
+				<h2>Site theme:</h2>
+				<button onClick={setDarkTheme}>Dark</button>
+				<button onClick={setLightTheme}>Light</button>
+			</div>
+		</div>
+
+
 	</>);
 }
