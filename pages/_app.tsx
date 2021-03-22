@@ -16,7 +16,6 @@ import '../common/styles/variables.scss';
 import '../common/styles/text.scss';
 import '../common/styles/general.scss';
 import Themes from '../common/styles/themes.module.scss';
-import Cookies from 'js-cookie';
 import React from 'react';
 
 export class MyApp extends App{
@@ -79,47 +78,3 @@ export class MyApp extends App{
 	}
 }
 export default MyApp;
-
-function App2({Component, pageProps}: AppProps): JSX.Element {
-	console.log(Cookies.get('theme'));
-	if(Cookies.get('theme') === 'light'){
-		return <div className={Themes.light}>
-
-			{/* Head. */}
-			<Head>
-				<link rel="icon" type="image/x-icon" href="favicon.png"/>
-			</Head>
-			{/* Navbar. */}
-			<Navbar/>
-
-			{/* Page. */}
-
-			<Component {...pageProps}/>
-
-			{/* Message. */}
-			<Message/>
-
-
-		</div>;
-	}
-	return <div className={Themes.dark}>
-
-		{/* Head. */}
-		<Head>
-			<link rel="icon" type="image/x-icon" href="favicon.png"/>
-		</Head>
-
-		{/* Navbar. */}
-		<Navbar/>
-
-		{/* Page. */}
-
-		<Component {...pageProps}/>
-
-		{/* Message. */}
-		<Message/>
-
-
-	</div>;
-
-}
