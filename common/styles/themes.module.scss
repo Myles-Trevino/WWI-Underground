@@ -1,0 +1,27 @@
+.dark {
+	background-color: var(--background-color);
+    --background-color: rgb(30, 30, 30);
+	--tile-color: rgba(0, 0, 0, 0.75);
+	--overlay-color: var(--tile-color);
+	--text-color: rgba(255, 255, 255);
+	--accent-color: rgb(217, 255, 0);
+	--hover-color: rgba(255, 255, 255, 0.2);
+	--hover-alternate-color: rgb(64, 64, 64, 0.76);
+	--selection-color: rgba(255, 255, 255, 0.2);
+	--link-underline-color: rgba(255, 255, 255, 0.5);
+	--error-color: rgb(255, 0, 0);
+}
+
+.light {
+	background-color: var(--background-color);
+    --background-color: rgba(184, 184, 184, 0.37);
+	--tile-color: rgba(214, 214, 214, 0.829);
+	--overlay-color: var(--tile-color);
+	--text-color: rgba(0, 0, 0);
+	--accent-color: rgb(217, 255, 0);
+	--hover-color: rgba(255, 255, 255, 0.2);
+	--hover-alternate-color: rgb(64, 64, 64, 0.76);
+	--selection-color: rgba(255, 255, 255, 0.2);
+	--link-underline-color: rgba(255, 255, 255, 0.5);
+	--error-color: rgb(255, 0, 0);
+}
