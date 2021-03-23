@@ -21,11 +21,12 @@ export default function Help(): JSX.Element {
 
 		{/* Content. */}
 		<div className="articleContainer">
-			<div className="articleSection">
+			<div className="gridTile">
 
-				<h2>Exploring the Tour</h2>
+				<h2 className="tileSection">Exploring the Tour</h2>
+				<div className="solidDivider"></div>
 
-				<p>
+				<p className="tileSection">
 					Load the Tour by clicking the &quot;Tour&quot; button on the navbar above. Use your mouse or finger to move the panorama. You can also zoom into the panorama with your scroll wheel. The tour of the cave consists of multiple panorama images, each of a different location. To go to other parts of the cave, click on the &quot;Panorama&quot; tiles as you explore. You will then be brought to the corresponding location in the cave.<br/><br/>
 
 					Alternatively, you can open a map of the cave and jump to any panorama you want. To open the map, click the map icon in the top left menu. The map will pop up in the lower left corner of your page. The yellow cone on the map is your current viewpoint. As you pan around the cave, you will see your viewpoint change on the map. Each dot on the map represents a location you can visit in the cave. Simply click on the dot to travel to the panorama.<br/><br/>

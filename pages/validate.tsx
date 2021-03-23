@@ -9,9 +9,9 @@ import Link from 'next/link';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useContext, useEffect, useState} from 'react';
-import Axios from 'axios';
 import {Formik, Field, Form} from 'formik';
 
+import * as Api from '../common/api';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
 
@@ -30,9 +30,8 @@ export default function Validate(): JSX.Element {
 
 	// Initializer.
 	useEffect(() => {
-
-		// If the access credentials have not been cached, redirect to the login page.
-		if(!state.app.accessCredentials) router.push('/login');
+		// If there is no access key, redirect to the login page.
+		if(!state.app.accessKey) router.push('/login');
 
 		// Otherwise send the validation email.
 		else sendValidationEmail();
@@ -43,7 +42,7 @@ export default function Validate(): JSX.Element {
 	async function sendValidationEmail(): Promise<void> {
 
 		try {
-			await Axios.post(`api/send-validation-email`, state.app.accessCredentials);
+			await Api.sendValidationEmail(state);
 			state.app.setMessage('Email sent.');
 		}
 
@@ -55,11 +54,7 @@ export default function Validate(): JSX.Element {
 	async function validate(values: FormValues): Promise<void> {
 
 		try {
-			await Axios.patch(`api/validate-user`, {
-				accessCredentials: state.app.accessCredentials,
-				validationKey: values.validationKey
-			});
-
+			await Api.validateUser(state, values.validationKey);
 			setValidated(true);
 		}
 
@@ -70,34 +65,44 @@ export default function Validate(): JSX.Element {
 	// Render.
 	const validateTile =
 		<Formik initialValues={initialFormValues} onSubmit={validate}>
-			<Form className="content tile">
-				<h2>Validate</h2>
+			<Form className="mediumWidth gridTile">
 
-				<p>
-					One more step before you can use your account! To confirm that you own this email address, we&apos;ve sent you an email containing a validation key. Please enter the key below.
-				</p>
+				<h2 className="tileSection">Validate</h2>
+				<div className="solidDivider"></div>
 
-				<Field name="validationKey" type="text" placeholder="Validation Key"/>
+				<div className="gridTileSection">
+					<p>
+						One more step before you can use your account! To confirm that you own this email address, we&apos;ve sent you an email containing a validation key. Please enter the key below.
+					</p>
 
-				<div className="buttonContainer">
-					<button type="button" onClick={sendValidationEmail}>Resend</button>
-					<button type="submit">Validate</button>
+					<Field name="validationKey" type="text" placeholder="Validation Key"/>
+
+					<div className="buttonContainer">
+						<button type="button" onClick={sendValidationEmail}>Resend</button>
+						<button type="submit">Validate</button>
+					</div>
 				</div>
+
 			</Form>
 		</Formik>;
 
 
 	const successTile =
-		<div className="content tile">
-			<h2>Success</h2>
+		<div className="mediumWidth gridTile">
 
-			<p>
-				Congratulations! Your account is ready to use. You can now log in to WWI Underground. If you need help, click the &apos;Help&apos; button in the top right menu.
-			</p>
+			<h2 className="tileSection">Success</h2>
+			<div className="solidDivider"></div>
 
-			<div className="buttonContainer">
-				<Link href="/login"><button>Log In</button></Link>
+			<div className="gridTileSection">
+				<p>
+					Congratulations! Your account is ready to use. You can now log in to WWI Underground. If you need help, click the &apos;Help&apos; button in the top right menu.
+				</p>
+
+				<div className="buttonContainer">
+					<Link href="/account"><button>Account</button></Link>
+				</div>
 			</div>
+
 		</div>;
 
 
@@ -109,7 +114,7 @@ export default function Validate(): JSX.Element {
 		</Head>
 
 		{/* Introduction. */}
-		{state.app.accessCredentials && <div className="centerer">
+		{state.app.accessKey && <div className="centerer">
 			{validated ? successTile : validateTile}
 		</div>}
 	</>);

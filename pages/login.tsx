@@ -8,13 +8,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {useContext} from 'react';
-import * as MobX from 'mobx';
-import Axios from 'axios';
-import type {AxiosError} from 'axios';
+import {useContext, useEffect, useState} from 'react';
 import {Formik, Form, Field} from 'formik';
 
-import type * as Types from '../common/types';
+import * as Api from '../common/api';
+import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
 
@@ -27,44 +25,45 @@ export default function Login(): JSX.Element {
 
 	const state = useContext(StateContext);
 	const router = useRouter();
+	const [initialized, setInitialized] = useState(false);
+
+
+	// Initializer.
+	useEffect(() => {
+		const cachedEmailAddress = localStorage.getItem(Constants.emailKey);
+		if(cachedEmailAddress) initialFormValues.email = cachedEmailAddress;
+		setInitialized(true);
+	}, []);
 
 
 	// Attempts to log the user in.
 	async function logIn(values: FormValues): Promise<void> {
 
 		try {
-
 			// Log in.
-			const accessKey = (await Axios.patch<string>(
-				`api/log-in`, {email: values.email, password: values.password})).data;
+			const accessKey = await Api.logIn(
+				{email: values.email, password: values.password});
 
-			state.app.setAccessCredentials({email: values.email, accessKey});
+			state.app.setEmail(values.email);
+			state.app.setAccessKey(accessKey);
 
-			// Get the user data.
-			const userData = (await Axios.post<Types.UserData>(
-				`api/get-user-data`, MobX.toJS(state.app.accessCredentials))).data;
-
-			state.app.setUserData(userData);
+			// Load the user data.
+			await Helpers.loadUserData(state, router);
+			state.app.setLoggedIn(true);
 
 			// Redirect to the account page.
 			router.push('/account');
 		}
 
 		// Handle errors.
-		catch(error: unknown){
-
-			// If a '403 - Forbidden' error was recieved, redirect to the validation page.
-			const axiosError = error as AxiosError;
-			if(axiosError.response?.status === 403) router.push('/validate');
-
-			// Otherwise, display an error message.
-			else state.app.setErrorMessage(error);
-		}
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
 	// Render.
-	return (<>
+	if(!initialized) return <></>;
+
+	return <>
 
 		{/* Head. */}
 		<Head>
@@ -74,20 +73,23 @@ export default function Login(): JSX.Element {
 		{/* Introduction. */}
 		<div className="centerer">
 			<Formik initialValues={initialFormValues} onSubmit={logIn}>
-				<Form className="content tile">
+				<Form className="mediumWidth gridTile">
 
-					<h2>Log In</h2>
+					<h2 className="tileSection">Log In</h2>
+					<div className="solidDivider"></div>
 
-					<Field name="email" type="text" placeholder="Email"/>
-					<Field name="password" type="password" placeholder="Password"/>
+					<div className="gridTileSection">
+						<Field name="email" type="text" placeholder="Email"/>
+						<Field name="password" type="password" placeholder="Password"/>
 
-					<div className="buttonContainer">
-						<Link href="/signup"><button type="button">Sign Up</button></Link>
-						<button type="submit">Log In</button>
+						<div className="buttonContainer">
+							<Link href="/signup"><button type="button">Sign Up</button></Link>
+							<button type="submit">Log In</button>
+						</div>
 					</div>
 
 				</Form>
 			</Formik>
 		</div>
-	</>);
+	</>;
 }

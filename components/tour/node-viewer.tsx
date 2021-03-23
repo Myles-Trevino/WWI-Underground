@@ -19,27 +19,33 @@ export default observer(function NodeViewer(){
 
 
 	// Exits the viewer.
-	function exit(): void { state.panoramas.setViewNode(undefined); }
+	function exit(): void { state.tour.setViewNode(undefined); }
 
 
 	// If there is no valid information node selected for viewing, render nothing.
-	const panorama = state.panoramas.getPanorama();
-	const name = state.panoramas.viewNodeName;
+	const panorama = state.tour.getPanorama();
+	const name = state.tour.viewNodeName;
 	const node = (name && panorama) ? panorama.nodes[name] : undefined;
 	if(!node) return (<></>);
 
 	// Render the information node.
 	return (
-		<div className={classNames('tile', PanoramasStyles.nodeModal)}>
+		<div className={classNames('gridTile', PanoramasStyles.nodeModal)}>
 
 			{/* Name. */}
-			<h2>{name}</h2>
+			<h2 className="tileSection">{name}</h2>
+			{!node.imageUrl && <div className="solidDivider"></div>}
 
-			{/* Description */}
-			<p>{node.description ? node.description : 'No description.'}</p>
+			{/* Image. */}
+			{node.imageUrl && <div className={PanoramasStyles.imageContainer}>
+				<img src={node.imageUrl}></img>
+			</div>}
+
+			{/* Article. */}
+			<p className="tileSection">{node.article ? node.article : 'No article.'}</p>
 
 			{/* Buttons. */}
-			<button onClick={exit}>Close</button>
+			<button onClick={exit} className="tileSection">Close</button>
 
 		</div>
 	);
