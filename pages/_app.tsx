@@ -18,11 +18,17 @@ import '../common/styles/general.scss';
 import Themes from '../common/styles/themes.module.scss';
 import React from 'react';
 
-export class MyApp extends App{
+type Theme = {
+	theme: string | null;
+	cursorColor: string | null;
+};
+
+export class MyApp extends React.Component<AppProps, Theme>{
 	public constructor(props: AppProps){
 		super(props);
 		this.state = {
-			theme: null
+			theme: 'dark', // this is the default theme. it gets updated anyway in componentDidMount.
+			cursorColor: null
 		};
 	}
 
