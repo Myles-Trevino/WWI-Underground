@@ -22,7 +22,7 @@ export async function sleep(milliseconds?: number): Promise<void> {
 
 // Attempts automatic login
 export async function automaticLogin(
-	state: Types.State, router: NextRouter): Promise<void> {
+	state: Types.State, router: NextRouter, redirect: boolean): Promise<void> {
 
 	try {
 		// Load cached credentials.
@@ -38,7 +38,7 @@ export async function automaticLogin(
 	}
 
 	// Handle errors.
-	catch(error: unknown){ router.push('/login'); }
+	catch(error: unknown){ if(redirect) router.push('/login'); }
 }
 
 

@@ -32,7 +32,7 @@ export default observer(function Account(){
 
 
 	// Initializer.
-	useEffect(() => { Helpers.automaticLogin(state, router); }, []);
+	useEffect(() => { Helpers.automaticLogin(state, router, true); }, []);
 
 
 	// Creates a tour of the given name.

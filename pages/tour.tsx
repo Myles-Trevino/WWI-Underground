@@ -39,7 +39,7 @@ export default observer(function Viewer(): JSX.Element {
 	async function initialize(): Promise<void> {
 
 		if(!router.isReady) return;
-		await Helpers.automaticLogin(state, router);
+		await Helpers.automaticLogin(state, router, false);
 
 		let {id} = router.query;
 		id = (id !== undefined && !Array.isArray(id)) ? id : Constants.defaultTourId;
