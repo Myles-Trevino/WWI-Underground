@@ -45,9 +45,7 @@ export default function Help(): JSX.Element {
 
 					<u>Add Navigation</u>: This button allows you to create a link to another panorama file, like the buttons you click to view different cave panoramas on the Tour.
 				</p>
-				<video width="720" height="480" controls>
-					<source src="../videos/editing-the-tour.webm" type="video/webm"/>
-				</video>
+				<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/McL-FIM-Xm4" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 			</div>
 		</div>
 	</>);
