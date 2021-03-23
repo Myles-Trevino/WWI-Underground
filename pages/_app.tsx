@@ -35,7 +35,7 @@ export class MyApp extends App{
 	}
 
 	public render(): JSX.Element{
-		const {Component, pageProps} = this.props;
+		const {Component, ...pageProps} = this.props;
 		if(this.state.theme === 'light'){
 			return <div className={Themes.light}>
 

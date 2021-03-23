@@ -11,8 +11,8 @@ import Constants from '../common/constants';
 import React, {useState} from 'react';
 import Router from 'next/router';
 
-let externalWindow: typeof window;
-let cursorColor: string;
+let externalWindow: (globalThis.Window & typeof globalThis) | undefined = undefined;
+let cursorColor = '';
 
 class Window extends React.Component{
 	public componentDidMount(): void{
@@ -26,17 +26,23 @@ class Window extends React.Component{
 }
 
 function setCrosshairColorCookie(color: string): void{
-	externalWindow.localStorage.setItem('cursorColor', color);
+	if(externalWindow !== undefined){
+		externalWindow.localStorage.setItem('cursorColor', color);
+	}
 }
 
 function setDarkTheme(): void{
-	externalWindow.localStorage.setItem('theme', 'dark');
+	if(externalWindow !== undefined){
+		externalWindow.localStorage.setItem('theme', 'dark');
+	}
 	console.log('set dark');
 	Router.reload();
 }
 
 function setLightTheme(): void{
-	externalWindow.localStorage.setItem('theme', 'light');
+	if(externalWindow !== undefined){
+		externalWindow.localStorage.setItem('theme', 'light');
+	}
 	console.log('set light');
 	Router.reload();
 }
