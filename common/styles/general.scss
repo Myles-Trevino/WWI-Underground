@@ -81,7 +81,11 @@ svg {
 	.svg-filled-glyph { fill: var(--text-color); }
 }
 
-
+video {
+	display: block;
+	align-items: center;
+	margin: 0 auto;
+}
 /* Element classes. */
 .centerer {
 	display: flex;

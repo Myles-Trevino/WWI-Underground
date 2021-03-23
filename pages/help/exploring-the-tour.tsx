@@ -9,7 +9,6 @@ import Head from 'next/head';
 
 import Constants from '../../common/constants';
 
-
 export default function Help(): JSX.Element {
 
 	// Render.
@@ -33,6 +32,9 @@ export default function Help(): JSX.Element {
 
 					During your virtual visit, you will encounter labels overlaid on the panoramas. You can click these labels to see their associated article. These notes give greater context to the historical artifacts within the cave.
 				</p>
+				<video width="720" height="480" controls>
+					<source src="../videos/exploring-the-tour.webm" type="video/webm"/>
+				</video>
 
 			</div>
 		</div>

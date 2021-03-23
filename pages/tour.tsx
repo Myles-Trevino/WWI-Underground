@@ -23,27 +23,14 @@ import NodeViewer from '../components/tour/node-viewer';
 import NodeEditor from '../components/tour/node-editor';
 import Map from '../components/tour/map/map';
 import Styles from './tour.module.scss';
-import Cookies from 'js-cookie';
-
-type crosshairProps = {
-	cursorColor: string;
-};
-
-function Crosshair(crosshairProps: crosshairProps): JSX.Element {
-	return (
-		<div className={Styles.crosshair} style={{backgroundColor: crosshairProps.cursorColor}}/>
-	);
-}
 
 class Crosshair2 extends Component{
-	public cursorColor = window.localStorage.getItem('cursorColor');
+	public cursorColor: string | null | undefined;
 	public componentDidMount(): void{
+		this.cursorColor = window.localStorage.getItem('cursorColor');
 		this.setState({
 			cursorColor: window.localStorage.getItem('cursorColor')
 		});
-
-		// this.cursorColor = window.localStorage.getItem('cursorColor') ?? 'rgb(217, 255, 0)';
-		console.log(`slkdfj ${this.cursorColor}`);
 	}
 
 	public render(): JSX.Element{
@@ -150,8 +137,6 @@ export default observer(function Viewer(): JSX.Element {
 
 		{/* Crosshair. */}
 
-		{/* <div className={Styles.crosshair} style={{backgroundColor: Cookies.get('cursorColor')}}/> */}
-		{/* <Crosshair cursorColor={Cookies.get('cursorColor') ?? 'rgb(217, 255, 0)'}/>*/}
 		<Crosshair2></Crosshair2>
 
 		{/* Node viewer and editor. */}

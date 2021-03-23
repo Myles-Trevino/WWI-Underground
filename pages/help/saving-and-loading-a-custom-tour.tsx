@@ -35,7 +35,9 @@ export default function Help(): JSX.Element {
 
 				<p>To load a custom cave tour, press the load button. Select the .wwiu file from your computer. Then, all your settings and custom annotations will be loaded into the cave viewer.
 				</p>
-
+				<video width="720" height="480" controls>
+					<source src="../videos/saving-and-loading.webm" type="video/webm"/>
+				</video>
 			</div>
 		</div>
 	</>);
