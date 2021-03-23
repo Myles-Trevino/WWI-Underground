@@ -43,8 +43,8 @@ export default function Navbar(): JSX.Element {
 		<div/>
 
 		{/* Links. */}
-		<Link href="/login"><span className="button">Log In</span></Link>
 		<Link href="/tour"><span className="button">Tour</span></Link>
+		<Link href="/account"><span className="button">Account</span></Link>
 		<Link href="/help"><span className="button">Help</span></Link>
 		<Link href="/about"><span className="button">About</span></Link>
 		<Link href="/theme"><span className="button">Theme</span></Link>
@@ -53,8 +53,8 @@ export default function Navbar(): JSX.Element {
 
 		{/* Menu overlay. */}
 		{menu && <div className={Styles.menuOverlay}>
-			<Link href="/login"><h2>Log In</h2></Link>
 			<Link href="/tour"><h2>Tour</h2></Link>
+			<Link href="/account"><h2>Account</h2></Link>
 			<Link href="/help"><h2>Help</h2></Link>
 			<Link href="/about"><h2>About</h2></Link>
 			<Link href="/theme"><h2>Theme</h2></Link>

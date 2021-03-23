@@ -1,0 +1,56 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@mixin vertical { @media only screen and (max-width: 70rem){ @content; } }
+
+
+.content {
+	display: grid;
+	grid-auto-flow: column;
+
+	@include vertical { grid-auto-flow: row; }
+}
+
+
+.connections, .tours {
+	:global .dashedDivider { margin-top: var(--small-gap); }
+}
+
+
+.listContainer { overflow: auto; }
+
+.tours .listContainer {
+	height: 16rem;
+	@include vertical { height: 7rem; }
+}
+
+.connections .listContainer {
+	height: 28rem;
+	@include vertical { height: 7rem; }
+}
+
+
+.list {
+	display: grid;
+	grid-auto-flow: row;
+
+	span { padding: var(--medium-gap); }
+}
+
+
+.overlay {
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+
+.leftSide {
+	display: grid;
+	grid-gap: var(--small-gap);
+}

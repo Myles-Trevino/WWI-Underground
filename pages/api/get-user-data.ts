@@ -18,12 +18,19 @@ export default async function getUserData(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const body = request.body as Partial<Types.AccessCredentials>;
-		const {email, accessKey} = Validation.accessCredentials(body);
+		const body = Validation.validate(request.body,
+			Validation.securedRequestSchema) as Types.SecuredRequest;
 
-		// Get the user.
-		const user = await Database.getUser(email, accessKey);
-		response.status(200).json(user.data);
+		// Get the user data.
+		const user = await Database.getUser(body.accessCredentials);
+
+		const data: Types.UserData = {
+			name: user.name,
+			connections: user.connections,
+			tours: user.tours
+		};
+
+		response.status(200).json(data);
 	}
 
 	// Handle errors.

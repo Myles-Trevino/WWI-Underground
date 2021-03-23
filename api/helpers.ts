@@ -10,16 +10,22 @@ import FS from 'fs';
 import Nodemailer from 'nodemailer';
 import Handlebars from 'handlebars';
 
-import type * as ApiTypes from './types';
+import type * as Types from '../common/types';
 import Constants from '../common/constants';
 
 
 // Sends an error response.
 export function errorStatus(response: NextApiResponse, error: unknown): void {
-	const apiError = error as ApiTypes.ApiError;
+
+	const apiError = error as Types.ApiError;
 	const status = apiError.statusCode ? apiError.statusCode : 500;
-	response.status(status).send(apiError.message);
-	if(status === 500) console.error(error);
+
+	if(status === 500){
+		console.error(error);
+		response.status(status).end();
+	}
+
+	else response.status(status).send(apiError.message);
 }
 
 

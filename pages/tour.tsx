@@ -5,17 +5,17 @@
 */
 
 
-import {Component, useContext, useEffect, useRef, useState} from 'react';
+import {useContext, useState, useEffect, Component} from 'react';
+import {useRouter} from 'next/router';
 import Head from 'next/head';
-import * as MobX from 'mobx';
 import {observer} from 'mobx-react-lite';
-import * as Three from 'three';
-import * as _ from 'lodash';
 import classNames from 'classnames';
+import * as Three from 'three';
 
-import type * as Types from '../common/types';
-import * as Helpers from '../common/helpers';
+import * as Types from '../common/types';
+import * as Api from '../common/api';
 import Constants from '../common/constants';
+import * as Helpers from '../common/helpers';
 import StateContext from '../common/state/state-context';
 import Panorama from '../components/tour/panorama/panorama';
 import Nodes from '../components/tour/nodes/nodes';
@@ -45,80 +45,69 @@ class Crosshair2 extends Component{
 export default observer(function Viewer(): JSX.Element {
 
 	const state = useContext(StateContext);
-	const fileInputRef = useRef<HTMLInputElement>(null);
+	const router = useRouter();
 	const [mapVisible, setMapVisible] = useState(false);
+	const [nodesVisible, setNodesVisible] = useState(true);
 
 
 	// Initializer.
-	useEffect(() => { Helpers.loadDefaultWwiu(state); }, []);
+	useEffect(() => { initialize(); }, [router.isReady, router.query]);
 
+	async function initialize(): Promise<void> {
 
-	// Opens a file selector for WWIU loading.
-	function selectWwiu(): void {
-		const fileInput = fileInputRef.current;
-		if(!fileInput) throw new Error('Failed to open the file selection menu.');
-		fileInput.click();
+		if(!router.isReady) return;
+		await Helpers.automaticLogin(state, router);
+
+		let {id} = router.query;
+		id = (id !== undefined && !Array.isArray(id)) ? id : Constants.defaultTourId;
+
+		const tour = (id === Constants.defaultTourId) ?
+			await state.app.getDefaultTour(state) : await Api.getTour(state, id);
+
+		state.tour.setTour(tour, id);
 	}
 
 
-	// Loads the selected WWIU file.
-	async function fileSelectionCallback(
-		event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-		const files = event.target.files;
-		if(!files) return;
-		Helpers.loadWwiu(state, JSON.parse(await files[0].text()));
-	}
+	// Saves the tour.
+	async function saveTour(): Promise<void> {
 
+		try {
+			if(!state.tour.tour || !state.tour.id) return;
+			await Api.saveTour(state, state.tour.id, state.tour.tour);
+			state.app.setMessage('Tour saved.');
+		}
 
-	// Saves a WWIU file.
-	function saveWwiu(): void {
-		const data = JSON.stringify(MobX.toJS(state.panoramas.panoramas));
-		const blob = new Blob([data], {type: 'text/plain'});
-		const link = document.createElement('a');
-		link.href = URL.createObjectURL(blob);
-		link.download = 'Tour.wwiu';
-		link.click();
-		link.remove();
+		// Handle errors.
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
 	// Toggles edit mode.
 	function toggleEditMode(): void {
-		state.panoramas.setEditNode(undefined);
-		state.panoramas.setViewNode(undefined);
-		state.panoramas.toggleEditMode();
+		state.tour.setEditNode(undefined);
+		state.tour.setViewNode(undefined);
+		state.tour.toggleEditMode();
 	}
 
 
 	// Sets the panorama's default rotation.
 	function setDefaultRotation(): void {
-		state.panoramas.getDefinedPanorama().defaultRotation =
-			state.panoramas.rotation.clone();
-
+		state.tour.getDefinedPanorama().defaultRotation = state.tour.rotation.clone();
 		state.app.setMessage('Default rotation set.');
 	}
 
 
 	// Adds a node to the current panorama.
 	function addNode(type: Types.NodeType): void {
+		const panorama = state.tour.getDefinedPanorama();
+		const uniqueName = Helpers.generateUniqueName('New Node', panorama.nodes);
 
-		const panorama = state.panoramas.getDefinedPanorama();
+		const node = (type === 'Information') ?
+			Types.defaultInformationNode : Types.defaultNavigationNode;
 
-		// Generate a unique name for the node.
-		let uniqueName = 'New Node';
-		let enumerator = 2;
+		node.position = new Three.Vector3(0, 0, 1).applyEuler(state.tour.camera.rotation);
 
-		while(_.has(panorama.nodes, uniqueName)){
-			uniqueName = `New Node ${enumerator}`;
-			++enumerator;
-		}
-
-		// Add the node.
-		state.panoramas.addNode(uniqueName, {
-			type,
-			position: new Three.Vector3(0, 0, 1)
-				.applyEuler(state.panoramas.camera.rotation)
-		});
+		state.tour.addNode(uniqueName, node);
 	}
 
 	// Render.
@@ -132,7 +121,7 @@ export default observer(function Viewer(): JSX.Element {
 
 		{/* Panorama and nodes. */}
 		<Panorama>
-			<Nodes/>
+			{nodesVisible && <Nodes/>}
 		</Panorama>
 
 		{/* Crosshair. */}
@@ -147,13 +136,13 @@ export default observer(function Viewer(): JSX.Element {
 		<div className={classNames('tile', Styles.buttonContainer)}>
 
 			{/* Edit. */}
-			{!state.panoramas.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+			{!state.tour.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<path className="svg-stroke-glyph" d="M24,5l3,3L10,25l-2.79.7a.75.75,0,0,1-.91-.91L7,22Z"/>
 				<line className="svg-stroke-glyph" x1="21.5" y1="7.5" x2="24.5" y2="10.5"/>
 			</svg>}
 
 			{/* View. */}
-			{state.panoramas.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+			{state.tour.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<path className="svg-stroke-glyph" d="M4,16s5-6,12-6,12,6,12,6-5,6-12,6S4,16,4,16Z"/>
 				<circle className="svg-stroke-glyph" cx="16" cy="16" r="2.5"/>
 			</svg>}
@@ -173,32 +162,38 @@ export default observer(function Viewer(): JSX.Element {
 				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
 			</svg>}
 
-			{/* Download. */}
-			<svg className="button" onClick={(): void => { saveWwiu(); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+			{/* Save. */}
+			{state.app.loggedIn && <svg className="button" onClick={saveTour} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<polygon className="svg-stroke-glyph" points="6 6 6 26 26 26 26 11 21 6 6 6"/>
 				<polyline className="svg-stroke-glyph" points="21 6 21 12 12 12 12 6"/>
 				<circle className="svg-stroke-glyph" cx="16" cy="19" r="3"/>
-			</svg>
+			</svg>}
 
-			{/* Upload. */}
-			<svg className="button" onClick={(): void => { selectWwiu(); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-				<line className="svg-stroke-glyph" x1="16" y1="28" x2="16" y2="10.59"/>
-				<path className="svg-stroke-glyph" d="M11,14.59l4.3-4.3a1,1,0,0,1,1.4,0l4.3,4.3"/>
-				<path className="svg-stroke-glyph" d="M12,18H6.44S4,16.88,4,14.68A3.88,3.88,0,0,1,7,11,4.37,4.37,0,0,1,8,8a4,4,0,0,1,4-1s1-3,5-3c6,0,6,5,6,5s5,0,5,5c0,4-5,4-5,4H20"/>
-			</svg>
+			{/* Show nodes. */}
+			{!nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(true); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
+				<path className="svg-stroke-glyph" d="M16,20.25A4.25,4.25,0,1,1,20.25,16,4.25,4.25,0,0,1,16,20.25Z"/>
+			</svg>}
+
+			{/* Hide nodes. */}
+			{nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(false); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
+				<line className="svg-stroke-glyph" x1="12" y1="12" x2="20" y2="20"/>
+				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
+			</svg>}
 
 		</div>
 
 		{/* Map. */}
-		{mapVisible && !state.panoramas.editMode && <Map/>}
+		{mapVisible && !state.tour.editMode && <Map/>}
 
 		{/* Edit mode popup. */}
-		{state.panoramas.editMode &&
+		{state.tour.editMode &&
 		<div className={classNames('tile', Styles.editModeTile)}>
 
 			<div className={Styles.editModeTileTop}>
 				<h2>Edit Mode</h2>
-				<span>Panorama {state.panoramas.panoramaName}</span>
+				<span>{state.tour.panorama}</span>
 			</div>
 
 			<button onClick={setDefaultRotation}>Set Default Rotation</button>
@@ -209,10 +204,6 @@ export default observer(function Viewer(): JSX.Element {
 				Add Navigation
 			</button>
 		</div>}
-
-		{/* File input. */}
-		<input ref={fileInputRef} type="file" style={{display: 'none'}}
-			onChange={fileSelectionCallback}/>
 
 	</>);
 });

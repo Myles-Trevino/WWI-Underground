@@ -10,7 +10,6 @@ import Head from 'next/head';
 
 import StateContext from '../common/state/state-context';
 import Constants from '../common/constants';
-import * as Helpers from '../common/helpers';
 import Styles from './index.module.scss';
 import Panorama from '../components/tour/panorama/panorama';
 
@@ -21,7 +20,11 @@ export default function Index(): JSX.Element {
 
 
 	// Initializer.
-	useEffect(() => { Helpers.loadDefaultWwiu(state); }, []);
+	useEffect(() => { initialize(); }, []);
+
+	async function initialize(): Promise<void> {
+		state.tour.setTour(await state.app.getDefaultTour(state), Constants.defaultTourId);
+	}
 
 
 	// Render.
@@ -33,7 +36,7 @@ export default function Index(): JSX.Element {
 		</Head>
 
 		{/* Panorama. */}
-		<Panorama demoMode={true}/>
+		{state.app.defaultTour && <Panorama demoMode={true}/>}
 
 		{/* Introduction. */}
 		<div className={Styles.content}>
