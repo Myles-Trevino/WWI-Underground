@@ -9,9 +9,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useContext, useEffect, useState} from 'react';
-import Axios from 'axios';
 import {Formik, Form, Field} from 'formik';
 
+import * as Api from '../common/api';
 import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
@@ -41,17 +41,15 @@ export default function Login(): JSX.Element {
 
 		try {
 			// Log in.
-			const accessKey = (await Axios.patch<string>(
-				`api/log-in`, {email: values.email, password: values.password})).data;
+			const accessKey = await Api.logIn(
+				{email: values.email, password: values.password});
 
-			state.app.setAccessCredentials({email: values.email, accessKey});
+			state.app.setEmail(values.email);
+			state.app.setAccessKey(accessKey);
 
 			// Load the user data.
 			await Helpers.loadUserData(state, router);
-
-			// Cache the access credentials.
-			localStorage.setItem(Constants.emailKey, values.email);
-			localStorage.setItem(Constants.accessKeyKey, accessKey);
+			state.app.setLoggedIn(true);
 
 			// Redirect to the account page.
 			router.push('/account');

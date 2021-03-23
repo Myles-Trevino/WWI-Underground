@@ -7,8 +7,7 @@
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
-import type * as Types from '../../common/types';
-import * as ApiTypes from '../../api/types';
+import * as Types from '../../common/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
@@ -29,7 +28,7 @@ export default async function logIn(request: NextApiRequest,
 			body.password, user.passwordHash.salt.buffer);
 
 		if(!passwordHash.hash.equals(user.passwordHash.hash.buffer))
-			throw new ApiTypes.ApiError('Invalid password.');
+			throw new Types.ApiError('Invalid password.');
 
 		// Update the access key.
 		const accessKey = Cryptography.generateRandomString();

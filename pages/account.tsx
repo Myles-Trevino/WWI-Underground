@@ -5,11 +5,16 @@
 */
 
 
+import Link from 'next/link';
 import {useContext, useEffect} from 'react';
+import {observer} from 'mobx-react-lite';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
 import {Formik, Form, Field} from 'formik';
+import classNames from 'classnames';
+import * as _ from 'lodash';
 
+import * as Api from '../common/api';
 import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
@@ -20,136 +25,153 @@ type FormValues = {input: string};
 const initialFormValues: FormValues = {input: ''};
 
 
-export default function Account(): JSX.Element {
+export default observer(function Account(){
 
 	const state = useContext(StateContext);
 	const router = useRouter();
 
 
 	// Initializer.
-	useEffect(() => { initialize(); }, []);
+	useEffect(() => { Helpers.automaticLogin(state, router, true); }, []);
 
-	async function initialize(): Promise<void> {
+
+	// Creates a tour of the given name.
+	async function createTour(values: FormValues): Promise<void> {
 
 		try {
-			// Load cached credentials.
-			const cachedEmailAddress = localStorage.getItem(Constants.emailKey);
-			const cachedAccessKey = localStorage.getItem(Constants.accessKeyKey);
-			if(!cachedEmailAddress || !cachedAccessKey) throw new Error();
+			const tour = _.cloneDeep(await state.app.getDefaultTour(state));
+			tour.name = values.input;
+			if(state.app.name) tour.authors.unshift(state.app.name);
+			tour.authors = _.uniq(tour.authors);
 
-			state.app.setAccessCredentials({
-				email: cachedEmailAddress,
-				accessKey: cachedAccessKey
-			});
-
-			// Load the user data.
-			await Helpers.loadUserData(state, router);
-
-			// Redirect to the account page.
-			router.push('/account');
+			state.app.setTours(await Api.addTour(state, tour));
 		}
 
 		// Handle errors.
-		catch(error: unknown){ router.push('/login'); }
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
 	// Adds the given connection.
-	function addConnection(values: FormValues): void {
-		console.log(values);
+	async function addConnection(values: FormValues): Promise<void> {
+		try { state.app.setConnections(await Api.addConnection(state, values.input)); }
+		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
 
 	// Logs out.
 	function logOut(): void {
 		localStorage.removeItem(Constants.accessKeyKey);
+		state.app.setLoggedIn(false);
 		router.push('/login');
 	}
 
 
 	// Render.
-	if(!state.app.userData) return (<></>);
+	if(!state.app.loggedIn) return <></>;
 
 	const connections: JSX.Element[] = [];
-	for(const connection of state.app.userData.connections){
-		connections.push(<>
-			<span>{connection.status}</span>
-		</>);
-	}
+	for(const connection of state.app.connections) connections.push(
+		<span key={connection.email} className="clickable">{connection.name}</span>);
 
 	const tours: JSX.Element[] = [];
-	for(const tour of state.app.userData.tours){
-		connections.push(<>
-			<span>{tour.name} - {tour.id}</span>
-		</>);
-	}
+	for(const tour of state.app.tours) tours.push(
+		<Link key={tour.id} href={`/tour?id=${tour.id}`}>
+			<span className="clickable">{tour.name}</span>
+		</Link>
+	);
 
-	return (<>
+	return <>
 
 		{/* Head. */}
 		<Head>
 			<title>Account - {Constants.websiteName}</title>
 		</Head>
 
-		<div className="centerer">
+		<div className={classNames('centerer', Styles.content)}>
 
-			{/* Information. */}
-			<div className="mediumWidth gridTile">
+			<div className={Styles.leftSide}>
 
-				<div className="tileSection buttonOption">
-					<h2>Account</h2>
-					<button onClick={logOut}>Log Out</button>
+				{/* Information. */}
+				<div className="mediumWidth gridTile">
+
+					<div className="tileSection buttonOption">
+						<h2>Account</h2>
+						<button onClick={logOut}>Log Out</button>
+					</div>
+
+					<div className="solidDivider"></div>
+
+					<div className="gridTileSection">
+						<span>Name: {state.app.name}</span>
+						<span>Email: {state.app.email}</span>
+					</div>
+
 				</div>
 
-				<div className="solidDivider"></div>
+				{/* Tours. */}
+				<div className={classNames(Styles.tours, 'mediumWidth gridTile')}>
 
-				<div className="gridTileSection">
-					<span>Name: {state.app.userData.name}</span>
-					<span>Email: {state.app.accessCredentials?.email}</span>
+					<h2 className="tileSection">Tours</h2>
+					<div className="solidDivider"></div>
+
+					<div>
+						<Formik initialValues={initialFormValues} onSubmit={createTour}>
+							<Form className="tileSection buttonOption">
+								<Field name="input" type="text" placeholder="Name"/>
+								<button type="submit">Create</button>
+							</Form>
+						</Formik>
+
+						<div className="dashedDivider"></div>
+
+						<div className={Styles.listContainer}>
+							{tours.length > 0 ?
+
+								<div className={Styles.list}>{tours}</div> :
+
+								<div className={Styles.overlay}>
+									<span className="disabled">No Tours</span>
+								</div>
+							}
+						</div>
+					</div>
+
 				</div>
 
 			</div>
 
 			{/* Connections. */}
-			<div className="mediumWidth gridTile">
+			<div className={classNames(Styles.connections, 'mediumWidth gridTile')}>
 
 				<h2 className="tileSection">Connections</h2>
 
 				<div className="solidDivider"></div>
 
-				<Formik initialValues={initialFormValues} onSubmit={addConnection}>
-					<Form className="tileSection buttonOption">
-						<Field name="email" type="text" placeholder="Email"/>
-						<button type="submit">Add</button>
-					</Form>
-				</Formik>
+				<div>
+					<Formik initialValues={initialFormValues} onSubmit={addConnection}>
+						<Form className="tileSection buttonOption">
+							<Field name="input" type="text" placeholder="Email"/>
+							<button type="submit">Add</button>
+						</Form>
+					</Formik>
 
-				<div className="dashedDivider"></div>
+					<div className="dashedDivider"></div>
 
-				{connections.length > 0 ? connections :
-					<div className={Styles.overlay}>
-						<span className="disabled">No Connections</span>
+					<div className={Styles.listContainer}>
+						{connections.length > 0 ?
+
+							<div className={Styles.list}>{connections}</div> :
+
+							<div className={Styles.overlay}>
+								<span className="disabled">No Connections</span>
+							</div>
+						}
 					</div>
-				}
-
-			</div>
-
-			{/* Connections. */}
-			<div className="mediumWidth gridTile">
-
-				<h2 className="tileSection">Tours</h2>
-				<div className="solidDivider"></div>
-
-				<div className={Styles.list}>
-					{tours.length > 0 ? tours :
-						<div className={Styles.overlay}>
-							<span className="disabled">No Tours</span>
-						</div>
-					}
 				</div>
 
 			</div>
 
 		</div>
-	</>);
-}
+	</>;
+});

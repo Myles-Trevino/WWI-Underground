@@ -9,6 +9,7 @@ import {useContext, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react-lite';
 import classNames from 'classnames';
 import * as Three from 'three';
+import * as _ from 'lodash';
 
 import type * as Types from '../../../common/types';
 import * as Helpers from '../../../common/helpers';
@@ -51,13 +52,13 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 
 
 	// Reinitialize when the selected panorama changes.
-	useEffect(() => { initializer(); }, [state.panoramas.panoramaName]);
+	useEffect(() => { initializer(); }, [state.tour.panorama]);
 
 
 	// Returns a euler created from the current rotation.
 	function getEuler(): Three.Euler {
-		return new Three.Euler(-state.panoramas.rotation.y,
-			-state.panoramas.rotation.x, 0, 'YXZ');
+		return new Three.Euler(-state.tour.rotation.y,
+			-state.tour.rotation.x, 0, 'YXZ');
 	}
 
 
@@ -66,11 +67,11 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 
 		try {
 			// Return if there is no panorama loaded.
-			panorama = state.panoramas.getPanorama();
+			panorama = state.tour.getPanorama();
 			if(!panorama) return;
 
 			// Set the loading message.
-			state.panoramas.setLoading(true);
+			state.tour.setLoading(true);
 			if(!demoMode) state.app.setMessage('Loading panorama...');
 
 			// Get the panorama container.
@@ -84,10 +85,10 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 			await Helpers.sleep(80); // Wait for content to update before loading.
 			const texture = await new Promise<Three.CubeTexture>((resolve) => {
 
-				if(!state.panoramas.panoramaName) throw new Error('No panorama.');
+				if(!panorama) throw new Error('No panorama.');
 
 				new Three.CubeTextureLoader()
-					.setPath(`/panoramas/${state.panoramas.panoramaName}/`)
+					.setPath(`${panorama.image}/`)
 					.load(['r.webp', 'l.webp', 'u.webp',
 						'd.webp', 'f.webp', 'b.webp'], resolve);
 			});
@@ -95,13 +96,13 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 			scene.background = texture;
 
 			// Create the camera if necessary.
-			if(!camera) camera = new Three.PerspectiveCamera(state.panoramas.defaultFov,
+			if(!camera) camera = new Three.PerspectiveCamera(state.tour.defaultFov,
 				window.innerWidth/window.innerHeight, nearClip, farClip);
 
 			// Set the default FOV and rotation.
-			camera.fov = state.panoramas.defaultFov;
-			state.panoramas.setFov(state.panoramas.defaultFov);
-			state.panoramas.setRotation(new Three.Vector2(
+			camera.fov = state.tour.defaultFov;
+			state.tour.setFov(state.tour.defaultFov);
+			state.tour.setRotation(new Three.Vector2(
 				panorama.defaultRotation.x, panorama.defaultRotation.y));
 			camera.setRotationFromEuler(getEuler());
 			camera.updateProjectionMatrix();
@@ -155,20 +156,20 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 		}
 
 		// Update the rotation.
-		const fovRotationSpeedModifier = state.panoramas.fov*0.015;
+		const fovRotationSpeedModifier = state.tour.fov*0.015;
 		rotationVelocity.add(pointerDelta.multiplyScalar(
 			rotationSpeed*fovRotationSpeedModifier));
 
 		if(rotationVelocity.length() > minimumVelocity || demoMode){
 
 			rotationVelocity.divideScalar(rotationDamping);
-			const rotation = state.panoramas.rotation.clone();
+			const rotation = state.tour.rotation.clone();
 
 			rotation.add(rotationVelocity);
 			if(demoMode) rotation.add(new Three.Vector2(0.001, 0));
 
 			rotation.y = Three.MathUtils.clamp(rotation.y, -pitchLimit, pitchLimit);
-			state.panoramas.setRotation(rotation);
+			state.tour.setRotation(rotation);
 			camera.setRotationFromEuler(getEuler());
 		}
 
@@ -177,9 +178,9 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 		// Update the FOV.
 		if(Math.abs(fovVelocity) > minimumVelocity){
 			fovVelocity /= fovDamping;
-			state.panoramas.setFov(Three.MathUtils.clamp(state.panoramas.fov+fovVelocity,
-				state.panoramas.minimumFov, state.panoramas.maximumFov));
-			camera.fov = state.panoramas.fov;
+			state.tour.setFov(Three.MathUtils.clamp(state.tour.fov+fovVelocity,
+				state.tour.minimumFov, state.tour.maximumFov));
+			camera.fov = state.tour.fov;
 		}
 
 		else fovVelocity = 0;
@@ -187,7 +188,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 		// Update the camera if necessary.
 		if(rotationVelocity.length() !== 0 || fovVelocity !== 0){
 			camera.updateProjectionMatrix();
-			state.panoramas.setCamera(camera.clone());
+			state.tour.setCamera(_.cloneDeep(camera));
 		}
 
 		// Render.
@@ -196,8 +197,8 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 
 		if(firstRender){
 			firstRender = false;
-			state.panoramas.setCamera(camera.clone());
-			state.panoramas.setLoading(false);
+			state.tour.setCamera(_.cloneDeep(camera));
+			state.tour.setLoading(false);
 		}
 	}
 
@@ -207,7 +208,7 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 		if(!camera || !renderer) return;
 		camera.aspect = window.innerWidth/window.innerHeight;
 		camera.updateProjectionMatrix();
-		state.panoramas.setCamera(camera.clone());
+		state.tour.setCamera(_.cloneDeep(camera));
 		renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 

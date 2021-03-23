@@ -10,17 +10,10 @@ import MongoDB from 'mongodb';
 import Joi from 'joi';
 
 import * as Types from '../../common/types';
-import * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
 import * as Cryptography from '../../api/cryptography';
-
-
-type SignUpBody = {
-	loginCredentials: Types.LoginCredentials;
-	name: string;
-};
 
 
 export default async function signUp(request: NextApiRequest,
@@ -33,13 +26,13 @@ export default async function signUp(request: NextApiRequest,
 			name: Validation.nameSchema
 		});
 
-		const body = Validation.validate(request.body, schema) as SignUpBody;
+		const body = Validation.validate(request.body, schema) as Types.SignUpRequest;
 
 		// Make sure the user does not already exist.
-		const users = await Database.getCollection<ApiTypes.User>('users');
+		const users = await Database.getCollection<Types.User>('users');
 
 		if(await users.findOne({email: body.loginCredentials.email}))
-			throw new ApiTypes.ApiError('An account with '+
+			throw new Types.ApiError('An account with '+
 				'this email address already exists.', 409);
 
 		// Add the user.
@@ -47,12 +40,10 @@ export default async function signUp(request: NextApiRequest,
 		const accessKey = Cryptography.generateRandomString();
 		const rawPasswordHash = Cryptography.hashPassword(body.loginCredentials.password);
 
-		const userData = Types.defaultUserData;
-		userData.name = body.name;
-
 		await users.insertOne({
 			_id: new MongoDB.ObjectID(),
 			email: body.loginCredentials.email,
+			name: body.name,
 			passwordHash: {
 				hash: new MongoDB.Binary(rawPasswordHash.hash),
 				salt: new MongoDB.Binary(rawPasswordHash.salt)
@@ -60,7 +51,8 @@ export default async function signUp(request: NextApiRequest,
 			creationDate: new Date(),
 			validationKey,
 			accessKey,
-			data: userData
+			tours: [],
+			connections: []
 		});
 
 		response.status(200).send(accessKey);

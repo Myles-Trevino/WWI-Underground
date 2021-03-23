@@ -6,34 +6,12 @@
 
 
 import type {NextRouter} from 'next/router';
-import Axios from 'axios';
 import type {AxiosError} from 'axios';
+import * as _ from 'lodash';
 
 import type * as Types from './types';
-import Constants from './constants';
-
-
-const defaultPanorama = '1';
-
-
-// Loads the default WWIU file.
-export async function loadDefaultWwiu(state: Types.State): Promise<void> {
-
-	try {
-		const response = await Axios.get(Constants.defaultWwiuUrl);
-		loadWwiu(state, response.data);
-	}
-
-	catch(error: unknown){ state.app.setErrorMessage(error); }
-}
-
-
-// Loads the given WWIU file data.
-export function loadWwiu(state: Types.State,
-	panoramas: Record<string, Types.Panorama>): void {
-	state.panoramas.setPanoramas(panoramas);
-	state.panoramas.setPanorama(defaultPanorama);
-}
+import * as Api from './api';
+import Constants from '../common/constants';
 
 
 // Sleeps for the given duration in milliseconds.
@@ -42,20 +20,39 @@ export async function sleep(milliseconds?: number): Promise<void> {
 }
 
 
-// Loads the user data.
+// Attempts automatic login
+export async function automaticLogin(
+	state: Types.State, router: NextRouter, redirect: boolean): Promise<void> {
+
+	try {
+		// Load cached credentials.
+		const cachedEmailAddress = localStorage.getItem(Constants.emailKey);
+		const cachedAccessKey = localStorage.getItem(Constants.accessKeyKey);
+		if(!cachedEmailAddress || !cachedAccessKey) throw new Error();
+		state.app.setEmail(cachedEmailAddress);
+		state.app.setAccessKey(cachedAccessKey);
+
+		// Load the user data.
+		await loadUserData(state, router);
+		state.app.setLoggedIn(true);
+	}
+
+	// Handle errors.
+	catch(error: unknown){ if(redirect) router.push('/login'); }
+}
+
+
+// Loads the user data and sets login status.
 export async function loadUserData(state: Types.State,
 	router: NextRouter): Promise<void> {
 
 	try {
 		// Load the user data.
-		const userData = (await Axios.post<Types.UserData>(`api/get-user-data`,
-			{accessCredentials: state.app.accessCredentials})).data;
-
+		const userData = await Api.getUserData(state);
 		state.app.setUserData(userData);
 	}
 
 	catch(error: unknown){
-
 		// If a '403 - Forbidden' error was recieved, redirect to the validation page.
 		const axiosError = error as AxiosError;
 		if(axiosError.response?.status === 403) router.push('/validate');
@@ -63,4 +60,20 @@ export async function loadUserData(state: Types.State,
 		// Otherwise, rethrow.
 		else throw error;
 	}
+}
+
+
+// Generates a unique name.
+export function generateUniqueName<T>(base: string,
+	entries: Record<string, T>): string {
+
+	let uniqueName = base;
+	let enumerator = 2;
+
+	while(_.has(entries, uniqueName)){
+		uniqueName = `${base} ${enumerator}`;
+		++enumerator;
+	}
+
+	return uniqueName;
 }

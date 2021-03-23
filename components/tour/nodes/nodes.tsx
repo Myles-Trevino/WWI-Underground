@@ -23,10 +23,10 @@ export default observer(function Nodes(){
 	function nodeClickCallback(name: string): void {
 
 		try {
-			const node = state.panoramas.getDefinedPanorama().nodes[name];
+			const node = state.tour.getDefinedPanorama().nodes[name];
 
 			// If in edit mode, open the editor.
-			if(state.panoramas.editMode) state.panoramas.setEditNode(name);
+			if(state.tour.editMode) state.tour.setEditNode(name);
 
 			// If in view mode...
 			else {
@@ -34,14 +34,14 @@ export default observer(function Nodes(){
 				// If this is a navigation node, navigate to its panorama.
 				if(node.type === 'Navigation'){
 					if(!node.panorama) throw new Error('No panorama set.');
-					state.panoramas.setPanorama(node.panorama);
+					state.tour.setPanorama(node.panorama);
 				}
 
 				// If this is an information node, open the information node viewer.
 				else {
 					// (unless this viewer is already open, in which case it is closed)
-					if(state.panoramas.viewNodeName === name) state.panoramas.setViewNode(undefined);
-					else state.panoramas.setViewNode(name);
+					if(state.tour.viewNodeName === name) state.tour.setViewNode(undefined);
+					else state.tour.setViewNode(name);
 				}
 			}
 		}
@@ -52,8 +52,8 @@ export default observer(function Nodes(){
 
 
 	// If there is no panorama loaded, render nothing.
-	const panorama = state.panoramas.getPanorama();
-	if(!panorama || state.panoramas.loading) return (<></>);
+	const panorama = state.tour.getPanorama();
+	if(!panorama || state.tour.loading) return (<></>);
 
 
 	// For each node in the loaded panorama...
@@ -62,7 +62,7 @@ export default observer(function Nodes(){
 
 		// Calculate the node's screen space position.
 		const position = new Three.Vector3(value.position.x, value.position.y,
-			value.position.z).project(state.panoramas.camera);
+			value.position.z).project(state.tour.camera);
 
 		if(position.z < 1) continue; // Skip mirrored nodes.
 
@@ -81,8 +81,8 @@ export default observer(function Nodes(){
 
 		// Navigation node.
 		else {
-			const fovScale = Three.MathUtils.mapLinear(state.panoramas.fov,
-				state.panoramas.maximumFov, state.panoramas.minimumFov, 0.5, 2);
+			const fovScale = Three.MathUtils.mapLinear(state.tour.fov,
+				state.tour.maximumFov, state.tour.minimumFov, 0.5, 2);
 
 			const markerStyle = {
 				width: `${5*fovScale}rem`,

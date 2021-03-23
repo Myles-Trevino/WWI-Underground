@@ -8,15 +8,13 @@
 export default {
 	websiteUrl: 'https://wwi-underground.org',
 	websiteName: 'WWI Underground',
-	defaultWwiuUrl: '/data/default.wwiu',
 
 	emailAddress: '"WWI Underground" support@wwi-underground.org',
 	emailLogoUrl: 'https://wwi-underground.org/images/email-logo.png',
 
 	toursFolder: 'tours',
-	tourInfoFile: 'tour.json',
-	panoramaInfoFile: 'panorama.json',
-	nodeInfoFile: 'node.json',
+	tourInformationFile: 'information.json',
+	defaultTourId: '9016491b-469e-4292-898e-a93783c6449f',
 
 	emailKey: 'email',
 	accessKeyKey: 'accessKey',
