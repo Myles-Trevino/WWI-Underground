@@ -25,7 +25,7 @@ import Map from '../components/tour/map/map';
 import Styles from './tour.module.scss';
 
 class Crosshair2 extends Component{
-	public cursorColor: string | null | undefined;
+	public cursorColor!: string | null;
 	public componentDidMount(): void{
 		this.cursorColor = window.localStorage.getItem('cursorColor');
 		this.setState({
@@ -33,10 +33,10 @@ class Crosshair2 extends Component{
 		});
 	}
 
+
 	public render(): JSX.Element{
-		console.log(`Setting cursor to: ${this.cursorColor}`);
 		return (
-			<div className={Styles.crosshair} style={{backgroundColor: this.cursorColor}}/>
+			<div className={Styles.crosshair} style={{backgroundColor: this.cursorColor ?? 'rgb(217, 255, 0)'}}/>
 		);
 	}
 }
