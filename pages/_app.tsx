@@ -17,7 +17,9 @@ import '../common/styles/general.scss';
 
 
 export default function App({Component, pageProps}: AppProps): JSX.Element {
-	return <>
+
+	// Render.
+	return <div>
 
 		{/* Head. */}
 		<Head>
@@ -33,5 +35,6 @@ export default function App({Component, pageProps}: AppProps): JSX.Element {
 
 		{/* Message. */}
 		<Message/>
-	</>;
+
+	</div>;
 }

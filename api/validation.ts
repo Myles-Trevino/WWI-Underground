@@ -7,17 +7,25 @@
 
 import Joi from 'joi';
 
-import * as ApiTypes from './types';
+import * as Types from '../common/types';
 import Constants from '../common/constants';
 
 
 const nameRegex = /^[\w\s]+$/;
 
+const pathRegex = /^[\da-z-/]+$/;
 
-// Helper schemas.
+
+// Schemas.
 export const keySchema = Joi.string().base64();
 
+export const idSchema = Joi.string().uuid();
+
 export const nameSchema = Joi.string().pattern(nameRegex);
+
+export const pathSchema = Joi.string().pattern(pathRegex);
+
+export const uriSchema = Joi.string().uri();
 
 export const emailSchema = Joi.string().email();
 
@@ -36,6 +44,67 @@ export const accessCredentialsSchema = Joi.object({
 export const securedRequestSchema =
 	Joi.object({accessCredentials: accessCredentialsSchema.required()});
 
+export const connectionRequestSchema =
+	securedRequestSchema.concat(Joi.object({email: emailSchema}));
+
+
+// User data schema.
+export const connectionSchema = Joi.object({
+	email: emailSchema.required(),
+	name: nameSchema.required()
+});
+
+export const tourEntrySchema = Joi.object({
+	id: idSchema.required(),
+	name: nameSchema.required()
+});
+
+export const userDataSchema = Joi.object({
+	name: nameSchema.required(),
+	tours: Joi.array().items(tourEntrySchema).required(),
+	connections: Joi.array().items(connectionSchema).required()
+});
+
+
+// Tour schema.
+export const positionSchema = Joi.object({
+	x: Joi.number(),
+	y: Joi.number(),
+	z: Joi.number()
+});
+
+export const rotationSchema = Joi.object({
+	x: Joi.number(),
+	y: Joi.number()
+});
+
+export const nodeFileSchema = Joi.object({
+	type: Joi.string().valid(...Types.nodeFileTypes).required(),
+	url: pathSchema,
+	text: Joi.string()
+});
+
+export const nodeSchema = Joi.object({
+	type: Joi.string().valid(...Types.nodeTypes).required(),
+	position: positionSchema.required(),
+	panorama: nameSchema.allow(''),
+	imageUrl: uriSchema,
+	article: Joi.string()
+});
+
+export const panoramaSchema = Joi.object({
+	image: pathSchema.required(),
+	defaultRotation: rotationSchema.required(),
+	nodes: Joi.object().pattern(nameSchema, nodeSchema).required()
+});
+
+export const tourSchema = Joi.object({
+	name: nameSchema.required(),
+	authors: Joi.array().items(nameSchema).required(),
+	panoramas: Joi.object().pattern(nameSchema, panoramaSchema).required(),
+	defaultPanorama: nameSchema.required()
+});
+
 
 // Validates the given value with the given schema.
 export function validate(value: unknown, schema: Joi.Schema): unknown {
@@ -43,7 +112,7 @@ export function validate(value: unknown, schema: Joi.Schema): unknown {
 	const result = schema.validate(value);
 
 	if(result.error)
-		throw new ApiTypes.ApiError(`Invalid request: ${result.error.message}.`);
+		throw new Types.ApiError(`Invalid request: ${result.error.message}.`);
 
 	return result.value;
 }

@@ -8,9 +8,9 @@
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useContext} from 'react';
-import Axios from 'axios';
 import {Formik, Field, Form} from 'formik';
 
+import * as Api from '../common/api';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
 
@@ -44,11 +44,11 @@ export default function Signup(): JSX.Element {
 
 			// Send the add user request.
 			const loginCredentials = {email: values.email, password: values.password};
-			const accessKey = (await Axios.put<string>(`api/sign-up`,
-				{loginCredentials, name: values.name})).data;
+			const accessKey = await Api.signUp({loginCredentials, name: values.name});
 
 			// Update the access credentials.
-			state.app.setAccessCredentials({email: values.email, accessKey});
+			state.app.setEmail(values.email);
+			state.app.setAccessKey(accessKey);
 
 			// Redirect to the validation page.
 			router.push('/validate');

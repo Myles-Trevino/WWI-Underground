@@ -18,26 +18,24 @@ import PanoramasStyles from './panoramas.module.scss';
 type FormValues = Types.Node & {name?: string};
 
 
+let panorama: Types.Panorama | undefined = undefined;
+let name: string | undefined = undefined;
+let node: Types.Node | undefined = undefined;
+
+
 export default observer(function NodeEditor(){
 
 	const state = useContext(StateContext);
 
 
-	// Returns the edit node name or throws an error if it does not exist.
-	function getName(): string {
-		const name = state.panoramas.editNodeName;
-		if(!name) throw new Error('Invalid node name.');
-		return name;
-	}
-
-
 	// Exits the viewer.
-	function exit(): void { state.panoramas.setEditNode(undefined); }
+	function exit(): void { state.tour.setEditNode(undefined); }
 
 
 	// Deletes the node and exits.
 	function remove(): void {
-		state.panoramas.deleteNode(getName());
+		if(!name) throw new Error('No node name.');
+		state.tour.deleteNode(name);
 		state.app.setMessage('Node deleted.');
 		exit();
 	}
@@ -47,22 +45,20 @@ export default observer(function NodeEditor(){
 	function save(values: FormValues): void {
 
 		try {
-
-			const oldName = getName();
-			const name = values.name;
+			if(!name) throw new Error('No node name.');
+			const newName = values.name;
 			delete values.name;
 
-			// Validate.
-			if(!name) throw new Error('Please enter a name.');
+			if(!newName) throw new Error('Please enter a name.');
 
 			// Change the node's name if it was modified.
-			if(name !== oldName){
-				state.panoramas.setNodeName(oldName, name);
-				state.panoramas.setEditNode(name);
+			if(newName !== name){
+				state.tour.setNodeName(name, newName);
+				state.tour.setEditNode(newName);
 			}
 
-			// Change the node's properties.
-			state.panoramas.setNode(name, values);
+			// Save.
+			state.tour.setNode(newName, values);
 
 			// Exit.
 			state.app.setMessage('Changes saved.');
@@ -75,32 +71,30 @@ export default observer(function NodeEditor(){
 
 
 	// If there is no valid information node selected for viewing, render nothing.
-	const panorama = state.panoramas.getPanorama();
-	const name = state.panoramas.editNodeName;
-	const node = (name && panorama) ? panorama.nodes[name] : undefined;
+	panorama = state.tour.getPanorama();
+	name = state.tour.editNodeName;
+	node = (name && panorama) ? panorama.nodes[name] : undefined;
 
-	if(!node) return (<></>);
+	if(!name || !node) return (<></>);
 
 	// Otherwise, store the initial form values.
-	const initialValues: FormValues = {
-		name,
-		type: node.type,
-		position: node.position
-	};
-
-	if(node.type === 'Information')
-		initialValues.description = (node.description) ? node.description : '';
-
-	else initialValues.panorama = (node.panorama) ? node.panorama : '';
+	const initialValues: FormValues = {...node, name};
 
 	// Generate the type-specific inputs.
 	let typeSpecificInputs = <></>;
 
-	if(node.type === 'Information') typeSpecificInputs =
-		<div className={PanoramasStyles.input}>
-			<span>Description</span>
-			<Field name="description" type="text" as="textarea"/>
-		</div>;
+	if(node.type === 'Information')
+		typeSpecificInputs = <>
+			<div className={PanoramasStyles.input}>
+				<span>Image URL</span>
+				<Field name="imageUrl" type="text"/>
+			</div>
+
+			<div className={PanoramasStyles.input}>
+				<span>Article</span>
+				<Field name="article" type="text" as="textarea"/>
+			</div>
+		</>;
 
 	else typeSpecificInputs =
 		<div className={PanoramasStyles.input}>

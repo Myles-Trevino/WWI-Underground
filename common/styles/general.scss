@@ -185,6 +185,13 @@ svg {
 
 .selectableText { user-select: text; }
 
+.clickable {
+	cursor: pointer;
+	transition: background-color var(--medium-transition-duration);
+
+	&:hover { background-color: var(--selection-color); }
+}
+
 
 /* Animations. */
 @keyframes fadeIn {

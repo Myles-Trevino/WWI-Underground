@@ -9,9 +9,9 @@ import Link from 'next/link';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useContext, useEffect, useState} from 'react';
-import Axios from 'axios';
 import {Formik, Field, Form} from 'formik';
 
+import * as Api from '../common/api';
 import Constants from '../common/constants';
 import StateContext from '../common/state/state-context';
 
@@ -30,8 +30,8 @@ export default function Validate(): JSX.Element {
 
 	// Initializer.
 	useEffect(() => {
-		// If the access credentials have not been cached, redirect to the login page.
-		if(!state.app.accessCredentials) router.push('/login');
+		// If there is no access key, redirect to the login page.
+		if(!state.app.accessKey) router.push('/login');
 
 		// Otherwise send the validation email.
 		else sendValidationEmail();
@@ -42,9 +42,7 @@ export default function Validate(): JSX.Element {
 	async function sendValidationEmail(): Promise<void> {
 
 		try {
-			await Axios.post(`api/send-validation-email`,
-				{accessCredentials: state.app.accessCredentials});
-
+			await Api.sendValidationEmail(state);
 			state.app.setMessage('Email sent.');
 		}
 
@@ -56,11 +54,7 @@ export default function Validate(): JSX.Element {
 	async function validate(values: FormValues): Promise<void> {
 
 		try {
-			await Axios.patch(`api/validate-user`, {
-				accessCredentials: state.app.accessCredentials,
-				validationKey: values.validationKey
-			});
-
+			await Api.validateUser(state, values.validationKey);
 			setValidated(true);
 		}
 
@@ -105,7 +99,7 @@ export default function Validate(): JSX.Element {
 				</p>
 
 				<div className="buttonContainer">
-					<Link href="/login"><button>Log In</button></Link>
+					<Link href="/account"><button>Account</button></Link>
 				</div>
 			</div>
 
@@ -120,7 +114,7 @@ export default function Validate(): JSX.Element {
 		</Head>
 
 		{/* Introduction. */}
-		{state.app.accessCredentials && <div className="centerer">
+		{state.app.accessKey && <div className="centerer">
 			{validated ? successTile : validateTile}
 		</div>}
 	</>);
