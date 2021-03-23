@@ -12,15 +12,14 @@ import * as _ from 'lodash';
 import type * as Types from '../types';
 
 
-export default class TourState {
+export default class PanoramasState {
 
 	public readonly minimumFov = 35;
 	public readonly maximumFov = 140;
 	public readonly defaultFov = 110;
 
-	public id?: string;
-	public tour?: Types.Tour;
-	public panorama?: string;
+	public panoramas: Record<string, Types.Panorama> = {};
+	public panoramaName?: string;
 	public editMode = false;
 	public fov = this.defaultFov;
 	public rotation = new Three.Vector2();
@@ -34,31 +33,12 @@ export default class TourState {
 	public constructor(){ makeAutoObservable(this); }
 
 
-	// Setters.
-	public setTour(tour: Types.Tour, id: string): void {
-		this.id = id;
-		this.tour = tour;
-		this.panorama = tour.defaultPanorama;
-	}
-
-	public setPanorama(panorama: string): void { this.panorama = panorama; }
-
-	public toggleEditMode(): void { this.editMode = !this.editMode; }
-
-	public setFov(fov: number): void { this.fov = fov; }
-
-	public setRotation(rotation: Three.Vector2): void { this.rotation = rotation; }
-
-	public setCamera(camera: Three.Camera): void { this.camera = camera; }
-
-	public setLoading(loading: boolean): void { this.loading = loading; }
-
-
 	// Getters.
 	public getPanorama(name?: string): Types.Panorama | undefined {
-		const panoramaName = name ? name : this.panorama;
+		const panoramaName = name ? name : this.panoramaName;
 		if(!panoramaName) return undefined;
-		return this.tour?.panoramas[panoramaName];
+		const panorama = this.panoramas[panoramaName];
+		return panorama;
 	}
 
 	public getDefinedPanorama(name?: string): Types.Panorama {
@@ -74,10 +54,35 @@ export default class TourState {
 	}
 
 
+	// General setters.
+	public setPanoramas(panoramas: Record<string, Types.Panorama>): void {
+		this.panoramas = panoramas;
+	}
+
+	public setPanorama(name: string): void {
+		this.panoramaName = name;
+		if(!_.has(this.panoramas, name))
+			this.panoramas[name] = {defaultRotation: {x: 0, y: 0}, nodes: {}};
+	}
+
+	public setDefaultRotation(rotation: Types.Rotation): void {
+		this.getDefinedPanorama().defaultRotation = rotation;
+	}
+
+	public toggleEditMode(): void { this.editMode = !this.editMode; }
+
+	public setFov(fov: number): void { this.fov = fov; }
+
+	public setRotation(rotation: Three.Vector2): void { this.rotation = rotation; }
+
+	public setCamera(camera: Three.Camera): void { this.camera = camera; }
+
+	public setLoading(loading: boolean): void { this.loading = loading; }
+
+
 	// Node setters.
 	public addNode(name: string, node: Types.Node): void {
-		const panorama = this.getDefinedPanorama();
-		panorama.nodes[name] = node;
+		this.getDefinedPanorama().nodes[name] = node;
 	}
 
 	public setViewNode(name: string | undefined): void { this.viewNodeName = name; }

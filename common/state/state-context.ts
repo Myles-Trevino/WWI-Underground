@@ -10,7 +10,7 @@ import {enableStaticRendering} from 'mobx-react-lite';
 
 import type * as Types from '../types';
 import AppState from './app-state';
-import TourState from './tour-state';
+import PanoramasState from './panoramas-state';
 
 
 // Determine whether this is currently executing on the server (SSR) or in the browser.
@@ -31,7 +31,7 @@ function getState(): Types.State {
 	if(isServer || !state){
 		const newState = {
 			app: new AppState(),
-			tour: new TourState()
+			panoramas: new PanoramasState()
 		};
 
 		// Always create a new state for SSR, ensuring that

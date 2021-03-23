@@ -22,30 +22,23 @@ export default function Help(): JSX.Element {
 
 		{/* Content. */}
 		<div className="articleContainer">
-			<div className="gridTile">
+			<div className="articleSection">
 
-				<h2 className="tileSection">Help</h2>
-				<div className="solidDivider"></div>
+				<h2>Help</h2>
 
 				{/* First Steps. */}
-				<div className="gridTileSection">
-					<h3>First Steps</h3>
-					<p>
-						<Link href="help/exploring-the-tour"><a>Exploring the Tour</a></Link><br/>
-						<Link href="help/creating-an-account"><a>Creating an Account</a></Link>
-					</p>
-				</div>
-
-				<div className="dashedDivider"></div>
+				<h3>First Steps</h3>
+				<p>
+					<Link href="help/exploring-the-tour"><a>Exploring the Tour</a></Link><br/>
+					<Link href="help/creating-an-account"><a>Creating an Account</a></Link>
+				</p>
 
 				{/* Editing and Collaboration. */}
-				<div className="gridTileSection">
-					<h3>Editing and Collaboration</h3>
-					<p>
-						<Link href="help/editing-the-tour"><a>Editing the Tour</a></Link><br/>
-						<Link href = "help/saving-and-loading-a-custom-tour"><a>Saving and Loading a Custom Tour</a></Link>
-					</p>
-				</div>
+				<h3>Editing and Collaboration</h3>
+				<p>
+					<Link href="help/editing-the-tour"><a>Editing the Tour</a></Link><br/>
+					<Link href = "help/saving-and-loading-a-custom-tour"><a>Saving and Loading a Custom Tour</a></Link>
+				</p>
 
 			</div>
 		</div>

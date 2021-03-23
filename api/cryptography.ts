@@ -7,11 +7,11 @@
 
 import Sodium from 'sodium-native';
 
-import type * as Types from '../common/types';
+import type * as ApiTypes from './types';
 
 
 // Hashes the given password with Argon2id.
-export function hashPassword(password: string, salt?: Buffer): Types.Hash {
+export function hashPassword(password: string, salt?: Buffer): ApiTypes.Hash {
 
 	const hashBytes= 16; // crypto_pwhash_argon2id_BYTES_MIN
 	const saltBytes = 16; // crypto_pwhash_argon2id_SALTBYTES

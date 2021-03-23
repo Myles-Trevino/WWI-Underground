@@ -31,7 +31,6 @@
 		// ESLint.
 		"no-loss-of-precision": "off",
 		"no-promise-executor-return": "error",
-		"no-prototype-builtins": "off",
 		"no-template-curly-in-string": "error",
 		"no-unexpected-multiline": "error",
 		"no-unreachable-loop": "error",
@@ -119,6 +118,7 @@
 		"lines-between-class-members": "off",
 		"new-cap": "error",
 		"new-parens": "error",
+		"newline-per-chained-call": "error",
 		"no-bitwise": "error",
 		"no-mixed-operators": "error",
 		"no-multi-assign": "error",
@@ -128,6 +128,7 @@
 		"no-trailing-spaces": "error",
 		"no-unneeded-ternary": "error",
 		"no-whitespace-before-property": "error",
+		"object-curly-newline": ["error", {"multiline": true, "consistent": true}],
 		"object-curly-spacing": "error",
 		"one-var": ["error", "never"],
 		"operator-assignment": "error",

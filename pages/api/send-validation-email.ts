@@ -7,7 +7,8 @@
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
-import * as Types from '../../common/types';
+import type * as Types from '../../common/types';
+import * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
@@ -18,12 +19,12 @@ export default async function sendValidationEmail(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const body = Validation.validate(request.body,
-			Validation.securedRequestSchema) as Types.SecuredRequest;
+		const body = request.body as Partial<Types.AccessCredentials>;
+		const {email, accessKey} = Validation.accessCredentials(body);
 
 		// Make sure the user has not already been validated.
-		const user = await Database.getUser(body.accessCredentials, false);
-		if(!user.validationKey) throw new Types.ApiError('Already validated.', 409);
+		const user = await Database.getUser(email, accessKey, false);
+		if(!user.validationKey) throw new ApiTypes.ApiError('Already validated.', 409);
 
 		// Send the email.
 		ApiHelpers.sendEmail('validation.html', 'Welcome to WWI Underground',

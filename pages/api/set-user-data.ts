@@ -8,38 +8,30 @@
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
 import type * as Types from '../../common/types';
-import * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
 
 
-type ValidateUserBody = {
+type SetUserDataBody = {
 	accessCredentials?: Partial<Types.AccessCredentials>;
-	validationKey?: string;
+	userData?: Partial<Types.UserData>;
 };
 
 
-export default async function validateUser(request: NextApiRequest,
+export default async function setUserData(request: NextApiRequest,
 	response: NextApiResponse): Promise<void> {
 
 	try {
 		// Validate the body.
-		const body = request.body as ValidateUserBody;
+		const body = request.body as SetUserDataBody;
 		const {email, accessKey} = Validation.accessCredentials(body.accessCredentials);
-		const validationKey = Validation.key(body.validationKey);
+		const userData = Validation.userData(body.userData);
 
-		// Make sure the user has not already been validated.
-		const user = await Database.getUser(email, accessKey, false);
-		if(!user.validationKey) throw new ApiTypes.ApiError('Already validated.', 409);
-
-		// Check that the validation key matches.
-		if(validationKey !== user.validationKey)
-			throw new ApiTypes.ApiError('Incorrect validation key.');
-
-		// Validate the account.
+		// Set the user data.
+		const user = await Database.getUser(email, accessKey);
 		const users = await Database.getUsers();
-		users.updateOne({_id: user._id}, {$set: {validationKey: null}});
+		users.updateOne({_id: user._id}, {$set: {userData}});
 		response.status(200).end();
 	}
 

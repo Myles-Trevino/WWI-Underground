@@ -8,17 +8,10 @@
 export default {
 	websiteUrl: 'https://wwi-underground.org',
 	websiteName: 'WWI Underground',
-
+	defaultWwiuUrl: '/data/default.wwiu',
 	emailAddress: '"WWI Underground" support@wwi-underground.org',
 	emailLogoUrl: 'https://wwi-underground.org/images/email-logo.png',
-
-	toursFolder: 'tours',
-	tourInformationFile: 'information.json',
-	defaultTourId: '9016491b-469e-4292-898e-a93783c6449f',
-
-	emailKey: 'email',
-	accessKeyKey: 'accessKey',
-
+	desktopViewerUrl: '/downloads/WWI Underground Desktop Viewer [2019-12-11].zip',
 	minimumPasswordLength: 8,
 	minimumNameLength: 2
 };

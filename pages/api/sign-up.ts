@@ -7,13 +7,19 @@
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 import MongoDB from 'mongodb';
-import Joi from 'joi';
 
-import * as Types from '../../common/types';
+import type * as Types from '../../common/types';
+import * as ApiTypes from '../../api/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
 import * as Database from '../../api/database';
 import * as Cryptography from '../../api/cryptography';
+
+
+type SignUpBody = {
+	loginCredentials?: Partial<Types.LoginCredentials>;
+	name?: string;
+};
 
 
 export default async function signUp(request: NextApiRequest,
@@ -21,29 +27,23 @@ export default async function signUp(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const schema = Joi.object({
-			loginCredentials: Validation.loginCredentialsSchema,
-			name: Validation.nameSchema
-		});
-
-		const body = Validation.validate(request.body, schema) as Types.SignUpRequest;
+		const body = request.body as SignUpBody;
+		const {email, password} = Validation.loginCredentials(body.loginCredentials);
+		const name = Validation.name(body.name);
 
 		// Make sure the user does not already exist.
-		const users = await Database.getCollection<Types.User>('users');
-
-		if(await users.findOne({email: body.loginCredentials.email}))
-			throw new Types.ApiError('An account with '+
-				'this email address already exists.', 409);
+		const users = await Database.getCollection<ApiTypes.User>('users');
+		if(await users.findOne({email})) throw new ApiTypes.ApiError(
+			'An account with this email address already exists.', 409);
 
 		// Add the user.
 		const validationKey = Cryptography.generateRandomString();
 		const accessKey = Cryptography.generateRandomString();
-		const rawPasswordHash = Cryptography.hashPassword(body.loginCredentials.password);
+		const rawPasswordHash = Cryptography.hashPassword(password);
 
 		await users.insertOne({
 			_id: new MongoDB.ObjectID(),
-			email: body.loginCredentials.email,
-			name: body.name,
+			email,
 			passwordHash: {
 				hash: new MongoDB.Binary(rawPasswordHash.hash),
 				salt: new MongoDB.Binary(rawPasswordHash.salt)
@@ -51,8 +51,7 @@ export default async function signUp(request: NextApiRequest,
 			creationDate: new Date(),
 			validationKey,
 			accessKey,
-			tours: [],
-			connections: []
+			data: {name}
 		});
 
 		response.status(200).send(accessKey);
