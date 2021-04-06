@@ -31,16 +31,4 @@
 	@include mobile{ display: block; }
 }
 
-.menuOverlay {
-	position: fixed;
-	top: var(--navbar-height);
-	display: grid;
-	gap: var(--small-gap);
-	justify-items: center;
-	align-content: center;
-	width: 100vw;
-	height: var(--page-height);
-	background-color: var(--overlay-color);
-
-	h2{ cursor: pointer; }
-}
+.menuOverlay { h2{ cursor: pointer; } }

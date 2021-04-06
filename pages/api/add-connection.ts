@@ -7,6 +7,7 @@
 
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 import * as _ from 'lodash';
+import Joi from 'joi';
 
 import * as Types from '../../common/types';
 import * as ApiHelpers from '../../api/helpers';
@@ -19,7 +20,9 @@ export default async function addConnection(request: NextApiRequest,
 
 	try {
 		// Validate the body.
-		const schema = Validation.connectionRequestSchema;
+		const schema = Validation.securedRequestSchema.concat(
+			Joi.object({email: Validation.emailSchema.required()}));
+
 		const body = Validation.validate(request.body, schema) as Types.ConnectionRequest;
 
 		// Add the connection if it has not already been added.

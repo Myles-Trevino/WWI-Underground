@@ -33,6 +33,7 @@
 	@include vertical { height: 7rem; }
 }
 
+.connectionToursPopup .listContainer { height: 16rem; }
 
 .list {
 	display: grid;
@@ -42,7 +43,7 @@
 }
 
 
-.overlay {
+.emptyList {
 	display: grid;
 	justify-content: center;
 	align-items: center;

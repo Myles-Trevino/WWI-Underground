@@ -44,9 +44,6 @@ export const accessCredentialsSchema = Joi.object({
 export const securedRequestSchema =
 	Joi.object({accessCredentials: accessCredentialsSchema.required()});
 
-export const connectionRequestSchema =
-	securedRequestSchema.concat(Joi.object({email: emailSchema}));
-
 
 // User data schema.
 export const connectionSchema = Joi.object({

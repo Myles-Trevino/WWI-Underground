@@ -52,7 +52,7 @@ export default function Navbar(): JSX.Element {
 		{menu ? closeMenuSvg : openMenuSvg}
 
 		{/* Menu overlay. */}
-		{menu && <div className={Styles.menuOverlay}>
+		{menu && <div className={classNames('overlay', Styles.menuOverlay)}>
 			<Link href="/tour"><h2>Tour</h2></Link>
 			<Link href="/account"><h2>Account</h2></Link>
 			<Link href="/help"><h2>Help</h2></Link>

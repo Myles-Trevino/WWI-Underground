@@ -175,6 +175,20 @@ svg {
 	.gridTile { width: 60rem; }
 }
 
+.overlay {
+	position: fixed;
+	top: var(--navbar-height);
+	display: grid;
+	gap: var(--small-gap);
+	justify-items: center;
+	align-content: center;
+	width: 100vw;
+	height: var(--page-height);
+	background-color: var(--overlay-color);
+
+	.gridTile { background-color: var(--opaque-tile-color); }
+}
+
 
 /* Effects. */
 .hidden, .disabled { pointer-events: none; }

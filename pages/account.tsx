@@ -6,14 +6,16 @@
 
 
 import Link from 'next/link';
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
+import type {FormikBag, FormikHelpers} from 'formik';
 import {Formik, Form, Field} from 'formik';
 import classNames from 'classnames';
 import * as _ from 'lodash';
 
+import type * as Types from '../common/types';
 import * as Api from '../common/api';
 import * as Helpers from '../common/helpers';
 import Constants from '../common/constants';
@@ -29,6 +31,8 @@ export default observer(function Account(){
 
 	const state = useContext(StateContext);
 	const router = useRouter();
+	const [connectionTours, setConnectionTours] =
+		useState<Types.TourEntry[] | undefined>();
 
 
 	// Initializer.
@@ -36,7 +40,8 @@ export default observer(function Account(){
 
 
 	// Creates a tour of the given name.
-	async function createTour(values: FormValues): Promise<void> {
+	async function createTour(values: FormValues,
+		actions: FormikHelpers<FormValues>): Promise<void> {
 
 		try {
 			const tour = _.cloneDeep(await state.app.getDefaultTour(state));
@@ -45,6 +50,7 @@ export default observer(function Account(){
 			tour.authors = _.uniq(tour.authors);
 
 			state.app.setTours(await Api.addTour(state, tour));
+			actions.resetForm();
 		}
 
 		// Handle errors.
@@ -53,8 +59,15 @@ export default observer(function Account(){
 
 
 	// Adds the given connection.
-	async function addConnection(values: FormValues): Promise<void> {
-		try { state.app.setConnections(await Api.addConnection(state, values.input)); }
+	async function addConnection(values: FormValues,
+		actions: FormikHelpers<FormValues>): Promise<void> {
+
+		try {
+			state.app.setConnections(await Api.addConnection(state, values.input));
+			actions.resetForm();
+		}
+
+		// Handle errors.
 		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
@@ -67,19 +80,47 @@ export default observer(function Account(){
 	}
 
 
+	// Views the given connection's tours.
+	async function viewConnection(email: string): Promise<void> {
+		try {
+			const userData = await Api.getUserData(state, email);
+			setConnectionTours(userData.tours);
+		}
+
+		// Handle errors.
+		catch(error: unknown){ state.app.setErrorMessage(error); }
+	}
+
+
+	// Close connection popup.
+	function closeConnectionToursPopup(): void { setConnectionTours(undefined); }
+
+
+	// Creates a link element to the given tour.
+	function createTourLink(tour: Types.TourEntry): JSX.Element {
+		return <Link key={tour.id} href={`/tour?id=${tour.id}`}>
+			<span className="clickable">{tour.name}</span>
+		</Link>;
+	}
+
+
 	// Render.
 	if(!state.app.loggedIn) return <></>;
 
 	const connections: JSX.Element[] = [];
 	for(const connection of state.app.connections) connections.push(
-		<span key={connection.email} className="clickable">{connection.name}</span>);
+		<span key={connection.email} className="clickable"
+			onClick={(): void => { viewConnection(connection.email); }}>
+			{connection.name}
+		</span>
+	);
 
 	const tours: JSX.Element[] = [];
-	for(const tour of state.app.tours) tours.push(
-		<Link key={tour.id} href={`/tour?id=${tour.id}`}>
-			<span className="clickable">{tour.name}</span>
-		</Link>
-	);
+	for(const tour of state.app.tours) tours.push(createTourLink(tour));
+
+	const connectionToursList: JSX.Element[] = [];
+	if(connectionTours)
+		for(const tour of connectionTours) connectionToursList.push(createTourLink(tour));
 
 	return <>
 
@@ -126,11 +167,11 @@ export default observer(function Account(){
 						<div className="dashedDivider"></div>
 
 						<div className={Styles.listContainer}>
-							{tours.length > 0 ?
+							{(tours.length > 0) ?
 
 								<div className={Styles.list}>{tours}</div> :
 
-								<div className={Styles.overlay}>
+								<div className={Styles.emptyList}>
 									<span className="disabled">No Tours</span>
 								</div>
 							}
@@ -159,11 +200,11 @@ export default observer(function Account(){
 					<div className="dashedDivider"></div>
 
 					<div className={Styles.listContainer}>
-						{connections.length > 0 ?
+						{(connections.length > 0) ?
 
 							<div className={Styles.list}>{connections}</div> :
 
-							<div className={Styles.overlay}>
+							<div className={Styles.emptyList}>
 								<span className="disabled">No Connections</span>
 							</div>
 						}
@@ -171,7 +212,30 @@ export default observer(function Account(){
 				</div>
 
 			</div>
-
 		</div>
+
+		{/* Connection tours popup. */}
+		{(connectionTours !== undefined) && <div className="overlay" onClick={closeConnectionToursPopup}>
+			<div className={classNames(Styles.connectionToursPopup, 'mediumWidth gridTile')}>
+
+				<h2 className="tileSection">Connection Tours</h2>
+
+				<div>
+					<div className="solidDivider"></div>
+
+					<div className={Styles.listContainer}>
+						{(connectionTours.length > 0) ?
+
+							<div className={Styles.list}>{connectionToursList}</div> :
+
+							<div className={Styles.emptyList}>
+								<span className="disabled">No Tours</span>
+							</div>
+						}
+					</div>
+				</div>
+
+			</div>
+		</div>}
 	</>;
 });

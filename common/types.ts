@@ -5,6 +5,7 @@
 */
 
 
+import { string } from 'joi';
 import type MongoDB from 'mongodb';
 
 import type AppState from './state/app-state';
@@ -89,6 +90,8 @@ export type SignUpRequest = {
 	loginCredentials: LoginCredentials;
 	name: string;
 };
+
+export type GetUserDataRequest = SecuredRequest & {email?: string};
 
 export type ValidateUserRequest = SecuredRequest & {validationKey: string};
 

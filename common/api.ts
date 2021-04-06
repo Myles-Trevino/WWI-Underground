@@ -91,10 +91,11 @@ export async function logIn(data: Types.LoginCredentials): Promise<string> {
 }
 
 
-export async function getUserData(state: Types.State): Promise<Types.UserData> {
+export async function getUserData(state: Types.State,
+	email?: string): Promise<Types.UserData> {
 
-	const data: Types.SecuredRequest =
-		{accessCredentials: state.app.getAccessCredentials()};
+	const data: Types.GetUserDataRequest = {email,
+		accessCredentials: state.app.getAccessCredentials()};
 
 	return (await Axios.post<Types.UserData>(`api/get-user-data`, data)).data;
 }
