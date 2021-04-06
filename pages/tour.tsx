@@ -48,6 +48,7 @@ export default observer(function Viewer(): JSX.Element {
 	const router = useRouter();
 	const [mapVisible, setMapVisible] = useState(false);
 	const [nodesVisible, setNodesVisible] = useState(true);
+	const [featuredNodesVisble, setFeaturedNodesVisible] = useState(false);
 
 
 	// Initializer.
@@ -108,6 +109,29 @@ export default observer(function Viewer(): JSX.Element {
 		node.position = new Three.Vector3(0, 0, 1).applyEuler(state.tour.camera.rotation);
 
 		state.tour.addNode(uniqueName, node);
+	}
+
+	// Navigate to a node selected from the featured nodes menu.
+	function goToFeaturedNode(panoramaName: string, nodeName: string): void {
+
+		const panorama = state.tour.getDefinedPanorama(panoramaName);
+		const node = panorama.nodes[nodeName];
+
+		// Navigate to panorama.
+		state.tour.setPanorama(panoramaName);
+
+		// Open the information node viewer.
+		state.tour.setViewNode(nodeName);
+
+		// Set rotation to face node.
+		// This method doesn't seem to work:
+		// 		state.panoramas.camera.lookAt(node.position.x, node.position.y, node.position.z);
+		// This is how the rotation is usually set:
+		// 		state.panoramas.setRotation(new Three.Vector2(
+		//			panorama.defaultRotation.x, panorama.defaultRotation.y));
+		//		camera.setRotationFromEuler(getEuler());
+		// Something else is getting in the way of rotating the camera here maybe...
+		// I think maybe the panorama sets default rotation at the end of the initializer, after this code has already executed.
 	}
 
 	// Render.
@@ -182,6 +206,20 @@ export default observer(function Viewer(): JSX.Element {
 				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
 			</svg>}
 
+			{/* Show featured nodes. */}
+			{!featuredNodesVisble && <svg className="button" onClick={(): void => { setFeaturedNodesVisible(true); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<line className="svg-stroke-glyph" x1="16" y1="28" x2="16" y2="10.59"/>
+				<path className="svg-stroke-glyph" d="M11,14.59l4.3-4.3a1,1,0,0,1,1.4,0l4.3,4.3"/>
+				<path className="svg-stroke-glyph" d="M12,18H6.44S4,16.88,4,14.68A3.88,3.88,0,0,1,7,11,4.37,4.37,0,0,1,8,8a4,4,0,0,1,4-1s1-3,5-3c6,0,6,5,6,5s5,0,5,5c0,4-5,4-5,4H20"/>
+			</svg>}
+
+			{/* Hide featured nodes. */}
+			{featuredNodesVisble && <svg className="button" onClick={(): void => { setFeaturedNodesVisible(false); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<line className="svg-stroke-glyph" x1="16" y1="28" x2="16" y2="10.59"/>
+				<path className="svg-stroke-glyph" d="M11,14.59l4.3-4.3a1,1,0,0,1,1.4,0l4.3,4.3"/>
+				<path className="svg-stroke-glyph" d="M12,18H6.44S4,16.88,4,14.68A3.88,3.88,0,0,1,7,11,4.37,4.37,0,0,1,8,8a4,4,0,0,1,4-1s1-3,5-3c6,0,6,5,6,5s5,0,5,5c0,4-5,4-5,4H20"/>
+			</svg>}
+
 		</div>
 
 		{/* Map. */}
@@ -203,6 +241,21 @@ export default observer(function Viewer(): JSX.Element {
 			<button onClick={(): void => { addNode('Navigation'); }}>
 				Add Navigation
 			</button>
+		</div>}
+
+		{/* Featured nodes popup. */}
+		{featuredNodesVisble &&
+		<div className={classNames('tile', Styles.featuredNodesPopup)}>
+			<h3>Featured Nodes</h3>
+			<p>Content pending...</p>
+			{/* sample content
+			<button onClick={(): void => { goToFeaturedNode('7', 'Nimmo'); }}>Nimmo</button>
+			<p>Blurb about this node. Check it out! Cool!!</p>
+			<button onClick={(): void => { goToFeaturedNode('9', '"C. BOWEN"'); }}>&quot;C. BOWEN&quot;</button>
+			<p>This is an interesting node.</p>
+			<button onClick={(): void => { goToFeaturedNode('11', '"LEO STANKARD"'); }}>&quot;LEO STANKARD&quot;</button>
+			<p>This node warrants an especially long description. There are a whole lot of things to discuss when it comes to this node.</p>
+			*/}
 		</div>}
 
 	</>);
