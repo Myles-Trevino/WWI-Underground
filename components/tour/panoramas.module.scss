@@ -19,6 +19,8 @@
 	width: 24rem;
 	height: calc(var(--page-height) - var(--small-gap) * 2);
 	opacity: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
 
 	:global {
 		animation: fadeIn var(--medium-transition-duration) forwards;

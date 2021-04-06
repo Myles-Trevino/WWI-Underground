@@ -55,3 +55,16 @@
 
 	h2{ margin-bottom: .5rem; }
 }
+
+.featuredNodesPopup {
+	position: fixed;
+	width: 15rem;
+	height: 20rem;
+	top: calc(var(--navbar-height) + (var(--small-gap)*3) + 2rem);
+	left: calc((var(--small-gap)*7) + 10rem);
+	display: grid;
+	gap: var(--small-gap);
+	overflow-y: auto;
+
+	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+}
