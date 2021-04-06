@@ -1,5 +1,5 @@
 /*
-	Copyright Chris Dunphy
+	Copyright Chris Dunphy, Myles Trevino
 	Licensed under the Apache License, Version 2.0
 	http://www.apache.org/licenses/LICENSE-2.0
 */
@@ -8,72 +8,45 @@
 import {RgbStringColorPicker} from 'react-colorful';
 import Head from 'next/head';
 import Constants from '../common/constants';
-import React, {useState} from 'react';
-import Router from 'next/router';
+import React, {useContext} from 'react';
+import classNames from 'classnames';
 
-let externalWindow: (globalThis.Window & typeof globalThis) | undefined = undefined;
-let cursorColor = '';
+import StateContext from '../common/state/state-context';
+import Styles from './theme.module.scss';
 
-class Window extends React.Component{
-	public componentDidMount(): void{
-		externalWindow = window;
-		cursorColor = externalWindow.localStorage.getItem('cursorColor') ?? '';
-	}
-
-	public render(): JSX.Element{
-		return (<></>);
-	}
-}
-
-function setCrosshairColorCookie(color: string): void{
-	if(externalWindow !== undefined){
-		externalWindow.localStorage.setItem('cursorColor', color);
-	}
-}
-
-function setDarkTheme(): void{
-	if(externalWindow !== undefined){
-		externalWindow.localStorage.setItem('theme', 'dark');
-	}
-	console.log('set dark');
-	Router.reload();
-}
-
-function setLightTheme(): void{
-	if(externalWindow !== undefined){
-		externalWindow.localStorage.setItem('theme', 'light');
-	}
-	console.log('set light');
-	Router.reload();
-}
 
 export default function Theme(): JSX.Element {
-	const [color, setColor] = useState('rgb(217, 255, 0)');
 
-	// Note: each time the user goes to this page, the default crosshair/cursor color is set. Will fix.
+	const state = useContext(StateContext);
+
+
+	// Render.
 	return (<>
 
 		{/* Head. */}
 		<Head>
 			<title>Theme - {Constants.websiteName}</title>
 		</Head>
+
 		{/* Content. */}
-		<Window></Window>
-		<div className="themePageContainer">
-			<div className="themePageSection">
-				<h2>Cursor theme:</h2>
-				<div className="colorPicker">
-					<RgbStringColorPicker color={color} onChange={setCrosshairColorCookie}/>
+		<div className={classNames('centerer', Styles.content)}>
+
+			<div className="gridTile">
+				<h2 className="tileSection">Cursor Color</h2>
+				<div className="solidDivider"></div>
+				<RgbStringColorPicker color={state.app.crosshairColor} onChange={(color): void => { state.app.setCrosshairColor(color); }} className={Styles.colorPicker}/>
+			</div>
+
+			<div className="gridTile">
+				<h2 className="tileSection">Theme</h2>
+				<div className="solidDivider"></div>
+				<div className="gridTileSection">
+					<button onClick={(): void => { state.app.setTheme('Dark'); }}>Dark</button>
+					<button onClick={(): void => { state.app.setTheme('Light'); }}>Light</button>
 				</div>
 			</div>
-			<br/><br/>
-			<div className="themePageSection">
-				<h2>Site theme:</h2>
-				<button onClick={setDarkTheme}>Dark</button>
-				<button onClick={setLightTheme}>Light</button>
-			</div>
-		</div>
 
+		</div>
 
 	</>);
 }

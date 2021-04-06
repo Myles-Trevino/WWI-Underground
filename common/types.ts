@@ -5,7 +5,6 @@
 */
 
 
-import { string } from 'joi';
 import type MongoDB from 'mongodb';
 
 import type AppState from './state/app-state';
@@ -23,6 +22,8 @@ export type MessageType = 'Default' | 'Error';
 export type LoginCredentials = {email: string; password: string};
 
 export type AccessCredentials = {email: string; accessKey: string};
+
+export type Theme = 'Light' | 'Dark';
 
 
 // Tour.

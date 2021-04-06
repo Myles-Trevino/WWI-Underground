@@ -7,80 +7,51 @@
 
 import Head from 'next/head';
 import type {AppProps} from 'next/app';
-import App from 'next/app';
+import React, {useEffect, useContext} from 'react';
+import StateContext from '../common/state/state-context';
+import {observer} from 'mobx-react-lite';
 
+import type * as Types from '../common/types';
 import Navbar from '../components/common/navbar/navbar';
 import Message from '../components/common/message/message';
+import Themes from '../common/styles/themes.module.scss';
 
 import '../common/styles/variables.scss';
 import '../common/styles/text.scss';
 import '../common/styles/general.scss';
-import Themes from '../common/styles/themes.module.scss';
-import React from 'react';
-
-type Theme = {
-	theme: string | null;
-	cursorColor: string | null;
-};
-
-export class MyApp extends React.Component<AppProps, Theme>{
-	public constructor(props: AppProps){
-		super(props);
-		this.state = {
-			theme: 'dark', // this is the default theme. it gets updated anyway in componentDidMount.
-			cursorColor: null
-		};
-	}
-
-	public componentDidMount(): void{
-		this.setState({
-			theme: window.localStorage.getItem('theme'),
-			cursorColor: window.localStorage.getItem('cursorColor')
-		});
-		console.log(this.state.theme);
-	}
-
-	public render(): JSX.Element{
-		const {Component, ...pageProps} = this.props;
-		if(this.state.theme === 'light'){
-			return <div className={Themes.light}>
-
-				{/* Head. */}
-				<Head>
-					<link rel="icon" type="image/x-icon" href="favicon.png"/>
-				</Head>
-				{/* Navbar. */}
-				<Navbar/>
-
-				{/* Page. */}
-
-				<Component {...pageProps}/>
-
-				{/* Message. */}
-				<Message/>
+import classNames from 'classnames';
 
 
-			</div>;
-		}
-		return <div className={Themes.dark}>
+export default observer(function App({Component, pageProps}: AppProps): JSX.Element {
 
-			{/* Head. */}
-			<Head>
-				<link rel="icon" type="image/x-icon" href="favicon.png"/>
-			</Head>
+	const state = useContext(StateContext);
 
-			{/* Navbar. */}
-			<Navbar/>
-
-			{/* Page. */}
-
-			<Component {...pageProps}/>
-
-			{/* Message. */}
-			<Message/>
+	// Initializer.
+	useEffect(() => {
+		const cachedTheme = localStorage.getItem('theme');
+		const cachedCrosshairColor = localStorage.getItem('crosshairColor');
+		if(cachedTheme) state.app.setTheme(cachedTheme as Types.Theme);
+		if(cachedCrosshairColor) state.app.setCrosshairColor(cachedCrosshairColor);
+	}, []);
 
 
-		</div>;
-	}
-}
-export default MyApp;
+	return <div className={classNames('app', (state.app.theme === 'Light') ? Themes.light : Themes.dark)}>
+
+		{/* Head. */}
+		<Head>
+			<link rel="icon" type="image/x-icon" href="favicon.png"/>
+			<meta name="color-scheme" content="dark light"></meta>
+		</Head>
+
+		{/* Navbar. */}
+		<Navbar/>
+
+		{/* Page. */}
+		<Component {...pageProps}/>
+
+		{/* Message. */}
+		<Message/>
+
+
+	</div>;
+});

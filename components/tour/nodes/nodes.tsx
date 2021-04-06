@@ -37,9 +37,8 @@ export default observer(function Nodes(){
 					state.tour.setPanorama(node.panorama);
 				}
 
-				// If this is an information node, open the information node viewer.
+				// If this is an information node, toggle the information node viewer.
 				else {
-					// (unless this viewer is already open, in which case it is closed)
 					if(state.tour.viewNodeName === name) state.tour.setViewNode(undefined);
 					else state.tour.setViewNode(name);
 				}

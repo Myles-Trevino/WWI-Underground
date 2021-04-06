@@ -23,6 +23,8 @@ export default class AppState {
 	public loggedIn = false;
 	public accessKey?: string;
 	public defaultTour?: Types.Tour;
+	public theme: Types.Theme = 'Dark';
+	public crosshairColor = 'rgb(217, 255, 0)';
 
 	public message = '';
 	public messageDuration = 0;
@@ -83,6 +85,16 @@ export default class AppState {
 
 		console.error(message);
 		this.setMessage(message, 5000, 'Error');
+	}
+
+	public setTheme(theme: Types.Theme): void {
+		localStorage.setItem('theme', theme);
+		this.theme = theme;
+	}
+
+	public setCrosshairColor(color: string): void {
+		localStorage.setItem('crosshairColor', color);
+		this.crosshairColor = color;
 	}
 
 

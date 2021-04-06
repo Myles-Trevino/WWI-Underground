@@ -13,7 +13,6 @@
 	width: .25rem;
 	height: .25rem;
 	border-radius: .125rem;
-	background-color: var(--accent-color);
 	transform: translate(-50%, -50%);
 }
 
@@ -58,12 +57,12 @@
 
 .featuredNodesPopup {
 	position: fixed;
-	width: 15rem;
-	height: 20rem;
-	top: calc(var(--navbar-height) + (var(--small-gap)*3) + 2rem);
-	left: calc((var(--small-gap)*7) + 10rem);
+	top: calc(var(--navbar-height) + 6rem);
+	left: calc(var(--small-gap));
 	display: grid;
 	gap: var(--small-gap);
+	width: 20rem;
+	height: 10rem;
 	overflow-y: auto;
 
 	:global { animation: fadeIn var(--medium-transition-duration) forwards; }

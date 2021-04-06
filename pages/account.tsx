@@ -10,7 +10,7 @@ import {useContext, useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
-import type {FormikBag, FormikHelpers} from 'formik';
+import type {FormikHelpers} from 'formik';
 import {Formik, Form, Field} from 'formik';
 import classNames from 'classnames';
 import * as _ from 'lodash';
