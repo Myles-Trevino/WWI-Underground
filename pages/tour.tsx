@@ -5,7 +5,7 @@
 */
 
 
-import {useContext, useState, useEffect} from 'react';
+import {useContext, useState, useEffect, Component} from 'react';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
 import {observer} from 'mobx-react-lite';
@@ -23,6 +23,23 @@ import NodeViewer from '../components/tour/node-viewer';
 import NodeEditor from '../components/tour/node-editor';
 import Map from '../components/tour/map/map';
 import Styles from './tour.module.scss';
+
+class Crosshair2 extends Component{
+	public cursorColor!: string | null;
+	public componentDidMount(): void{
+		this.cursorColor = window.localStorage.getItem('cursorColor');
+		this.setState({
+			cursorColor: window.localStorage.getItem('cursorColor')
+		});
+	}
+
+
+	public render(): JSX.Element{
+		return (
+			<div className={Styles.crosshair} style={{backgroundColor: this.cursorColor ?? 'rgb(217, 255, 0)'}}/>
+		);
+	}
+}
 
 
 export default observer(function Viewer(): JSX.Element {
@@ -125,13 +142,15 @@ export default observer(function Viewer(): JSX.Element {
 			<title>Tour - {Constants.websiteName}</title>
 		</Head>
 
+
 		{/* Panorama and nodes. */}
 		<Panorama>
 			{nodesVisible && <Nodes/>}
 		</Panorama>
 
 		{/* Crosshair. */}
-		<div className={Styles.crosshair}/>
+
+		<Crosshair2></Crosshair2>
 
 		{/* Node viewer and editor. */}
 		<NodeViewer/>
