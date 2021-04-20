@@ -9,15 +9,14 @@ import type {NextApiRequest, NextApiResponse} from 'next/types';
 import FSE from 'fs-extra';
 import Joi from 'joi';
 
-import * as Types from '../../common/types';
+import type * as Types from '../../common/types';
 import * as ApiHelpers from '../../api/helpers';
 import * as Validation from '../../api/validation';
-import * as Database from '../../api/database';
 import Constants from '../../common/constants';
 
 
-export default async function getTour(request: NextApiRequest,
-	response: NextApiResponse): Promise<void> {
+export default function getTour(request: NextApiRequest,
+	response: NextApiResponse): void {
 
 	try {
 		// Validate the body.
@@ -29,16 +28,11 @@ export default async function getTour(request: NextApiRequest,
 		const body = Validation.validate(request.body, schema) as Types.GetTourRequest;
 
 		// If no access credentials or no tour ID was specified, load the default tour.
-		let tourId = '';
+		let tourId: string | undefined = undefined;
 		if(!body.accessCredentials || !body.id) tourId = Constants.defaultTourId;
 
-		// Otherwise, make sure the user is editing one of their own tours.
-		else {
-			tourId = body.id;
-			const user = await Database.getUser(body.accessCredentials);
-			if(!user.tours.some((e) => e.id === tourId))
-				throw new Types.ApiError('Could not get the requested tour.');
-		}
+		// Otherwise, load the requested tour.
+		else tourId = body.id;
 
 		// Generate the tour data structure.
 		const directory = `${Constants.toursFolder}/${tourId}`;

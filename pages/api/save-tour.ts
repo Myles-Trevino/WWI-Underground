@@ -30,7 +30,8 @@ export default async function setTour(request: NextApiRequest,
 		// Disallow saving tours that are not associated with the user.
 		const user = await Database.getUser(body.accessCredentials);
 		if(!user.tours.some((e) => body.id === e.id))
-			throw new Types.ApiError('You do not have permission to edit this tour.');
+			throw new Types.ApiError('You do not have permission to edit this tour. '+
+				'Please create your own tour on the account page to save changes.');
 
 		// Save the tour.
 		Tour.save(body.id, body.tour);

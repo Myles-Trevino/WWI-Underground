@@ -13,6 +13,7 @@
 }
 
 .section {
+	z-index: 1;
 	display: grid;
 	justify-items: center;
 	gap: var(--small-gap);

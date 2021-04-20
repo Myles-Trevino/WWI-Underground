@@ -42,6 +42,10 @@ export default observer(function Viewer(): JSX.Element {
 		if(!router.isReady) return;
 		await Helpers.automaticLogin(state, router, false);
 
+		// Reset the tour state.
+		state.tour.reset();
+
+		// Load the tour from the given ID or load the default tour if no ID was provided.
 		let {id} = router.query;
 		id = (id !== undefined && !Array.isArray(id)) ? id : Constants.defaultTourId;
 

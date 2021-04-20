@@ -34,7 +34,7 @@ export default async function validateUser(request: NextApiRequest,
 
 		// Validate the account.
 		const users = await Database.getUsers();
-		users.updateOne({_id: user._id}, {$set: {validationKey: null}});
+		users.updateOne({_id: user._id}, {$unset: {validationKey: true}});
 		response.status(200).end();
 	}
 

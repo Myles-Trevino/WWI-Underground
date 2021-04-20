@@ -30,7 +30,6 @@ let camera: Three.PerspectiveCamera | undefined = undefined;
 let scene: Three.Scene | undefined = undefined;
 let renderer: Three.WebGLRenderer | undefined = undefined;
 
-let panorama: Types.Panorama | undefined = undefined;
 let previousPointerPosition: Three.Vector2 | undefined = undefined;
 let pointerPosition: Three.Vector2 | undefined = undefined;
 let dragging = false;
@@ -46,13 +45,10 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 	{children, demoMode = false}): JSX.Element {
 
 	const state = useContext(StateContext);
+	let panorama: Types.Panorama | undefined = undefined;
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-
-
-	// Reinitialize when the selected panorama changes.
-	useEffect(() => { initializer(); }, [state.tour.panorama]);
 
 
 	// Returns a euler created from the current rotation.
@@ -62,13 +58,26 @@ export default observer<React.PropsWithChildren<Props>>(function Panorama(
 	}
 
 
-	// Initializer.
-	async function initializer(): Promise<void> {
+	// When the selected panorama changes, load it.
+	useEffect(() => { load(); }, [state.tour.panorama]);
+
+	async function load(): Promise<void> {
 
 		try {
-			// Return if there is no panorama loaded.
-			panorama = state.tour.getPanorama();
-			if(!panorama) return;
+			// Return if already loading.
+			if(state.tour.loading) return;
+
+			// Return if there is no requested panorama.
+			const requestedPanorama = state.tour.getPanorama();
+
+			if(!requestedPanorama){
+				panorama = undefined;
+				return;
+			}
+
+			// Return if the requested panorama is already loaded.
+			if(_.isEqual(panorama, requestedPanorama)) return;
+			panorama = requestedPanorama;
 
 			// Set the loading message.
 			state.tour.setLoading(true);

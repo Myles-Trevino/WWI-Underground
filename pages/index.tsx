@@ -4,9 +4,9 @@
 	http://www.apache.org/licenses/LICENSE-2.0
 */
 
-
 import {useContext, useEffect} from 'react';
 import Head from 'next/head';
+import {observer} from 'mobx-react-lite';
 
 import StateContext from '../common/state/state-context';
 import Constants from '../common/constants';
@@ -14,7 +14,7 @@ import Styles from './index.module.scss';
 import Panorama from '../components/tour/panorama/panorama';
 
 
-export default function Index(): JSX.Element {
+export default observer(function Index(): JSX.Element {
 
 	const state = useContext(StateContext);
 
@@ -23,6 +23,7 @@ export default function Index(): JSX.Element {
 	useEffect(() => { initialize(); }, []);
 
 	async function initialize(): Promise<void> {
+		state.tour.reset();
 		state.tour.setTour(await state.app.getDefaultTour(state), Constants.defaultTourId);
 	}
 
@@ -50,4 +51,4 @@ export default function Index(): JSX.Element {
 		</div>
 
 	</>);
-}
+});

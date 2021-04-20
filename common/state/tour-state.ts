@@ -27,7 +27,7 @@ export default class TourState {
 	public camera = new Three.Camera();
 	public viewNodeName?: string;
 	public editNodeName?: string;
-	public loading = true;
+	public loading = false;
 
 
 	// Constructor.
@@ -35,6 +35,17 @@ export default class TourState {
 
 
 	// Setters.
+	public reset(): void {
+		this.id = undefined;
+		this.tour = undefined;
+		this.panorama = undefined;
+		this.fov = this.defaultFov;
+		this.rotation = new Three.Vector2();
+		this.camera = new Three.Camera();
+		this.viewNodeName = undefined;
+		this.editNodeName = undefined;
+	}
+
 	public setTour(tour: Types.Tour, id: string): void {
 		this.id = id;
 		this.tour = tour;
