@@ -215,9 +215,9 @@ export default observer(function Viewer(): JSX.Element {
 		{featuredNodesVisble &&
 		<div className={classNames('tile', Styles.featuredNodesPopup)}>
 			<h3>Featured Nodes</h3>
-			{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(name, index){
+			{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(oneNode, index){
 				return (
-					<button key={index} onClick={(): void => { goToFeaturedNode('7', name); }}>{name}</button>
+					<button key={index} onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>{oneNode.name}</button>
 				);
 			})}
 		</div>}
