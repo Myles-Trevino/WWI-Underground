@@ -81,6 +81,7 @@ export type Tour = {
 	authors: string[];
 	panoramas: Record<string, Panorama>;
 	defaultPanorama: string;
+	featuredNodes: string[];
 };
 
 
@@ -173,6 +174,7 @@ export type TourInformation = {
 	name: string;
 	authors: string[];
 	defaultPanorama: string;
+	featuredNodes: string[];
 };
 
 export type PanoramaInformation = {

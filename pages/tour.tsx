@@ -104,6 +104,13 @@ export default observer(function Viewer(): JSX.Element {
 		setFeaturedNodesVisible(!featuredNodesVisble);
 	}
 
+	function goToFeaturedNode(panoramaName: string, nodeName: string): void {
+		// Navigate to panorama.
+		state.tour.setPanorama(panoramaName);
+
+		// Open the information node viewer.
+		state.tour.setViewNode(nodeName);
+	}
 
 	// Render.
 	return (<>
@@ -208,6 +215,11 @@ export default observer(function Viewer(): JSX.Element {
 		{featuredNodesVisble &&
 		<div className={classNames('tile', Styles.featuredNodesPopup)}>
 			<h3>Featured Nodes</h3>
+			{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(name, index){
+				return (
+					<button key={index} onClick={(): void => { goToFeaturedNode('7', name); }}>{name}</button>
+				);
+			})}
 		</div>}
 
 	</>);
