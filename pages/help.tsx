@@ -43,7 +43,7 @@ export default function Help(): JSX.Element {
 					<h3>Editing and Collaboration</h3>
 					<p>
 						<Link href="help/editing-the-tour"><a>Editing the Tour</a></Link><br/>
-						<Link href="help/saving-and-loading-a-custom-tour"><a>Saving and Loading a Custom Tour</a></Link><br/>
+						<Link href="help/saving-and-loading-a-custom-tour"><a>Creating, Saving, and Loading a Custom Tour</a></Link><br/>
 						<Link href="help/connecting-with-another-account"><a>Connecting With Another Account</a></Link>
 					</p>
 				</div>
