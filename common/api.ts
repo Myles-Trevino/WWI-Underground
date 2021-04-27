@@ -27,7 +27,7 @@ export async function removeConnection(state: Types.State,
 	const data: Types.ConnectionRequest = {email,
 		accessCredentials: state.app.getAccessCredentials()};
 
-	return (await Axios.post<Types.Connection[]>('api/add-connection', data)).data;
+	return (await Axios.post<Types.Connection[]>('api/remove-connection', data)).data;
 }
 
 
@@ -48,6 +48,27 @@ export async function addTour(state: Types.State,
 		accessCredentials: state.app.getAccessCredentials()};
 
 	return (await Axios.post<Types.TourEntry[]>(`api/add-tour`, data)).data;
+}
+
+
+export async function removeTour(state: Types.State,
+	id: string): Promise<Types.TourEntry[]> {
+
+	const data: Types.RemoveTourRequest = {id,
+		accessCredentials: state.app.getAccessCredentials()};
+
+	return (await Axios.post<Types.TourEntry[]>(`api/remove-tour`, data)).data;
+}
+
+
+export async function isEditable(state: Types.State,
+	id: string): Promise<boolean> {
+
+	const data: Types.IsEditableRequest = {id,
+		accessCredentials: state.app.getAccessCredentials()};
+
+	return (await Axios.post<Types.isEditableResponse>(
+		`api/is-editable`, data)).data.editable;
 }
 
 

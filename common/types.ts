@@ -106,7 +106,13 @@ export type GetTourRequest = {
 	id?: string;
 };
 
+export type IsEditableRequest = SecuredRequest & {id: string};
+
+export type isEditableResponse = {editable: boolean};
+
 export type AddTourRequest = SecuredRequest & {tour: Tour};
+
+export type RemoveTourRequest = SecuredRequest & {id: string};
 
 export type SaveTourRequest = SecuredRequest & {
 	id: string;

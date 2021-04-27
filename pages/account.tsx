@@ -97,9 +97,15 @@ export default observer(function Account(){
 
 
 	// Creates a link element to the given tour.
-	function createTourLink(tour: Types.TourEntry): JSX.Element {
+	function createTourLink(tour: Types.TourEntry, removeButton = false): JSX.Element {
 		return <Link key={tour.id} href={`/tour?id=${tour.id}`}>
-			<span className="clickable">{tour.name}</span>
+			<div className={classNames('clickable', Styles.listEntry)}>
+
+				<span>{tour.name}</span>
+
+				{removeButton && <button onClick={async (event): Promise<void> => { event.stopPropagation(); state.app.setTours(await Api.removeTour(state, tour.id)); }}>Remove</button>}
+
+			</div>
 		</Link>;
 	}
 
@@ -109,14 +115,17 @@ export default observer(function Account(){
 
 	const connections: JSX.Element[] = [];
 	for(const connection of state.app.connections) connections.push(
-		<span key={connection.email} className="clickable"
-			onClick={(): void => { viewConnection(connection.email); }}>
-			{connection.name}
-		</span>
+		<div key={connection.email} className={classNames('clickable', Styles.listEntry)} onClick={(): void => { viewConnection(connection.email); }}>
+
+			<span>{connection.name}</span>
+
+			<button onClick={async (event): Promise<void> => { event.stopPropagation(); state.app.setConnections(await Api.removeConnection(state, connection.email)); }}>Remove</button>
+
+		</div>
 	);
 
 	const tours: JSX.Element[] = [];
-	for(const tour of state.app.tours) tours.push(createTourLink(tour));
+	for(const tour of state.app.tours) tours.push(createTourLink(tour, true));
 
 	const connectionToursList: JSX.Element[] = [];
 	if(connectionTours)

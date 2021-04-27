@@ -32,6 +32,9 @@ export default observer(function Viewer(): JSX.Element {
 	const [mapVisible, setMapVisible] = useState(false);
 	const [nodesVisible, setNodesVisible] = useState(true);
 	const [featuredNodesVisble, setFeaturedNodesVisible] = useState(false);
+	const [nodeListVisble, setNodeListVisible] = useState(false);
+	const [editable, setEditable] = useState(false);
+	const [nodeList, setNodeList] = useState<JSX.Element[] | undefined>();
 
 
 	// Initializer.
@@ -52,7 +55,12 @@ export default observer(function Viewer(): JSX.Element {
 		const tour = (id === Constants.defaultTourId) ?
 			await state.app.getDefaultTour(state) : await Api.getTour(state, id);
 
+		setEditable(state.app.loggedIn ? await Api.isEditable(state, id) : false);
+
 		state.tour.setTour(tour, id);
+
+		// Create the node list.
+		createNodeList();
 	}
 
 
@@ -101,6 +109,7 @@ export default observer(function Viewer(): JSX.Element {
 
 	// Toggles featured node visibility.
 	function toggleFeaturedNodes(): void {
+		setNodeListVisible(false);
 		setFeaturedNodesVisible(!featuredNodesVisble);
 	}
 
@@ -112,14 +121,43 @@ export default observer(function Viewer(): JSX.Element {
 		state.tour.setViewNode(nodeName);
 	}
 
-	// Render.
+	// Toggles the node list.
+	function toggleNodeList(): void {
+		setFeaturedNodesVisible(false);
+		setNodeListVisible(!nodeListVisble);
+	}
+
+
+	// Creates the node list.
+	function createNodeList(filter?: string): void {
+
+		const tour = state.tour.tour;
+		if(!tour) return;
+
+		const result: JSX.Element[] = [];
+		if(filter) filter = filter.toLowerCase();
+
+		for(const [panoramaName, panorama] of Object.entries(tour.panoramas))
+			for(const [nodeName, node] of Object.entries(panorama.nodes)){
+
+				if(node.type !== 'Information') continue;
+				const title = `${panoramaName} - ${nodeName}`;
+
+				if(filter && !title.toLowerCase().includes(filter)) continue;
+
+				result.push(<span key={title} className="clickable">{title}</span>);
+			}
+
+		setNodeList(result);
+	}
+
+
 	return (<>
 
 		{/* Head. */}
 		<Head>
 			<title>Tour - {Constants.websiteName}</title>
 		</Head>
-
 
 		{/* Panorama and nodes. */}
 		<Panorama>
@@ -137,7 +175,7 @@ export default observer(function Viewer(): JSX.Element {
 		<div className={classNames('tile', Styles.buttonContainer)}>
 
 			{/* Edit. */}
-			{!state.tour.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+			{editable && !state.tour.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<path className="svg-stroke-glyph" d="M24,5l3,3L10,25l-2.79.7a.75.75,0,0,1-.91-.91L7,22Z"/>
 				<line className="svg-stroke-glyph" x1="21.5" y1="7.5" x2="24.5" y2="10.5"/>
 			</svg>}
@@ -146,6 +184,26 @@ export default observer(function Viewer(): JSX.Element {
 			{state.tour.editMode && <svg className="button" onClick={toggleEditMode} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<path className="svg-stroke-glyph" d="M4,16s5-6,12-6,12,6,12,6-5,6-12,6S4,16,4,16Z"/>
 				<circle className="svg-stroke-glyph" cx="16" cy="16" r="2.5"/>
+			</svg>}
+
+			{/* Save. */}
+			{editable && state.app.loggedIn && <svg className="button" onClick={saveTour} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<polygon className="svg-stroke-glyph" points="6 6 6 26 26 26 26 11 21 6 6 6"/>
+				<polyline className="svg-stroke-glyph" points="21 6 21 12 12 12 12 6"/>
+				<circle className="svg-stroke-glyph" cx="16" cy="19" r="3"/>
+			</svg>}
+
+			{/* Hide nodes. */}
+			{nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(false); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
+				<line className="svg-stroke-glyph" x1="12" y1="12" x2="20" y2="20"/>
+				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
+			</svg>}
+
+			{/* Show nodes. */}
+			{!nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(true); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
+				<path className="svg-stroke-glyph" d="M16,20.25A4.25,4.25,0,1,1,20.25,16,4.25,4.25,0,0,1,16,20.25Z"/>
 			</svg>}
 
 			{/* Show map. */}
@@ -163,29 +221,19 @@ export default observer(function Viewer(): JSX.Element {
 				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
 			</svg>}
 
-			{/* Save. */}
-			{state.app.loggedIn && <svg className="button" onClick={saveTour} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-				<polygon className="svg-stroke-glyph" points="6 6 6 26 26 26 26 11 21 6 6 6"/>
-				<polyline className="svg-stroke-glyph" points="21 6 21 12 12 12 12 6"/>
-				<circle className="svg-stroke-glyph" cx="16" cy="19" r="3"/>
-			</svg>}
-
-			{/* Show nodes. */}
-			{!nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(true); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
-				<path className="svg-stroke-glyph" d="M16,20.25A4.25,4.25,0,1,1,20.25,16,4.25,4.25,0,0,1,16,20.25Z"/>
-			</svg>}
-
-			{/* Hide nodes. */}
-			{nodesVisible && <svg className="button" onClick={(): void => { setNodesVisible(false); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-				<path className="svg-stroke-glyph" d="M16,27A11,11,0,1,1,27,16,11,11,0,0,1,16,27Z"/>
-				<line className="svg-stroke-glyph" x1="12" y1="12" x2="20" y2="20"/>
-				<line className="svg-stroke-glyph" x1="20" y1="12" x2="12" y2="20"/>
-			</svg>}
-
 			{/* Toggle featured nodes. */}
 			{<svg className="button" onClick={(): void => { toggleFeaturedNodes(); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<polygon className="svg-stroke-glyph" points="16 5 19 13 27 13 20.5 18 23 26 16 21 9 26 11.5 18 5 13 13 13 16 5"/>
+			</svg>}
+
+			{/* Toggle node list. */}
+			{<svg className="button" onClick={(): void => { toggleNodeList(); }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+				<rect className="svg-stroke-glyph" x="13" y="21" width="13" height="4"/>
+				<rect className="svg-stroke-glyph" x="6" y="21" width="4" height="4"/>
+				<rect className="svg-stroke-glyph" x="13" y="14" width="13" height="4"/>
+				<rect className="svg-stroke-glyph" x="6" y="14" width="4" height="4"/>
+				<rect className="svg-stroke-glyph" x="13" y="7.01" width="13" height="4"/>
+				<rect className="svg-stroke-glyph" x="6" y="7.01" width="4" height="4"/>
 			</svg>}
 
 		</div>
@@ -220,6 +268,23 @@ export default observer(function Viewer(): JSX.Element {
 					<button key={index} onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>{oneNode.name}</button>
 				);
 			})}
+		</div>}
+
+		{/* Node list popup. */}
+		{nodeListVisble &&
+		<div className={classNames('gridTile', Styles.nodeList)}>
+
+			<h3 className="gridTileSection">All Nodes</h3>
+			<div className="solidDivider"></div>
+			<input className="gridTileSection" placeholder="Search" onChange={(e): void => { createNodeList(e.target.value); }}></input>
+
+			<div className={Styles.nodeListWrapper}>
+				<div className="dashedDivider"></div>
+				<div style={{overflowY: 'auto'}}>
+					<div className={Styles.nodeListList}>{nodeList}</div>
+				</div>
+			</div>
+
 		</div>}
 
 	</>);
