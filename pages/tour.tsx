@@ -113,6 +113,13 @@ export default observer(function Viewer(): JSX.Element {
 		setFeaturedNodesVisible(!featuredNodesVisble);
 	}
 
+	function goToFeaturedNode(panoramaName: string, nodeName: string): void {
+		// Navigate to panorama.
+		state.tour.setPanorama(panoramaName);
+
+		// Open the information node viewer.
+		state.tour.setViewNode(nodeName);
+	}
 
 	// Toggles the node list.
 	function toggleNodeList(): void {
@@ -255,7 +262,12 @@ export default observer(function Viewer(): JSX.Element {
 		{/* Featured nodes popup. */}
 		{featuredNodesVisble &&
 		<div className={classNames('gridTile', Styles.nodeList)}>
-			<h3 className="gridTileSection">Featured Nodes</h3>
+			<h3>Featured Nodes</h3>
+			{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(oneNode, index){
+				return (
+					<button key={index} onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>{oneNode.name}</button>
+				);
+			})}
 		</div>}
 
 		{/* Node list popup. */}
