@@ -14,7 +14,7 @@ export default {
 
 	toursFolder: 'tours',
 	tourInformationFile: 'information.json',
-	defaultTourId: '9016491b-469e-4292-898e-a93783c6449f',
+	defaultTourId: '1e1b6e5f-9c5c-4c90-81da-e4df114fd656',
 
 	emailKey: 'email',
 	accessKeyKey: 'accessKey',

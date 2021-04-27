@@ -267,7 +267,11 @@
 			}
 		],
 		"@typescript-eslint/semi": "error",
-		"@typescript-eslint/space-before-function-paren": ["error", "never"],
+		"@typescript-eslint/space-before-function-paren": ["error", {
+			"anonymous": "never",
+			"named": "never",
+			"asyncArrow": "always"
+		}],
 
 		// React.
 		"react/react-in-jsx-scope": "off",

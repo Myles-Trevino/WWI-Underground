@@ -39,8 +39,13 @@
 .list {
 	display: grid;
 	grid-auto-flow: row;
+}
 
-	span { padding: var(--medium-gap); }
+.listEntry {
+	display: grid;
+	grid-template-columns: auto min-content;
+	align-items: center;
+	padding: var(--small-gap) var(--medium-gap);
 }
 
 

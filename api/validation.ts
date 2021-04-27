@@ -86,7 +86,7 @@ export const nodeSchema = Joi.object({
 	position: positionSchema.required(),
 	panorama: nameSchema.allow(''),
 	imageUrl: uriSchema.allow(''),
-	article: Joi.string()
+	article: Joi.string().allow('')
 });
 
 export const panoramaSchema = Joi.object({

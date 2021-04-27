@@ -25,9 +25,7 @@
 	:global {
 		animation: fadeIn var(--medium-transition-duration) forwards;
 
-		.solidDivider, .dashedDivider {
-			border-bottom: var(--line-width) solid var(--hover-color);
-		}
+		.solidDivider, .dashedDivider { border-color: var(--hover-color); }
 	}
 
 	@include mobile {

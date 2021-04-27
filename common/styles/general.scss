@@ -82,9 +82,8 @@ svg {
 }
 
 iframe {
-	display: block;
-	align-items: center;
-	margin: 0 auto;
+	width: calc(100% - 2 * var(--medium-gap));
+	height: 20rem;
 }
 
 
@@ -174,12 +173,15 @@ iframe {
 .articleContainer {
 	display: grid;
 	gap: var(--medium-gap);
-	justify-content: center;
 	align-content: center;
 	padding: var(--medium-gap);
 	min-height: var(--page-height);
 
-	.gridTile { width: 60rem; }
+	.gridTile {
+		width: 100%;
+		max-width: 50rem;
+		justify-self: center;
+	}
 }
 
 .overlay {

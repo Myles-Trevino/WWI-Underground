@@ -40,7 +40,8 @@ export default function Help(): JSX.Element {
 
 					<p>To load a custom cave tour, press the load button. Select the .wwiu file from your computer. Then, all your settings and custom annotations will be loaded into the cave viewer.
 					</p>
-					<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/L_6gniUxIt8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>			</div>
+
+					<iframe className="tileSection" src="https://www.youtube-nocookie.com/embed/L_6gniUxIt8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>			</div>
 			</div>
 		</div>
 	</>);
