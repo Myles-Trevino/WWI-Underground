@@ -261,7 +261,7 @@ export default observer(function Viewer(): JSX.Element {
 
 		{/* Featured nodes popup. */}
 		{featuredNodesVisble &&
-		<div className={classNames('tile', Styles.featuredNodesPopup)}>
+		<div className={classNames('gridTile', Styles.nodeList)}>
 			<h3>Featured Nodes</h3>
 			{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(oneNode, index){
 				return (
