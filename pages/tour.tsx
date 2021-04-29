@@ -262,10 +262,11 @@ export default observer(function Viewer(): JSX.Element {
 		{/* Featured nodes popup. */}
 		{featuredNodesVisble &&
 		<div className={classNames('gridTile', Styles.nodeList)}>
-			<h3>Featured Nodes</h3>
+			<h3 className="gridTileSection">Featured Nodes</h3>
+			<div className="solidDivider"></div>
 			{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(oneNode, index){
 				return (
-					<button key={index} onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>{oneNode.name}</button>
+					<button key={index} className="clickable" onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>{oneNode.name}</button>
 				);
 			})}
 		</div>}
