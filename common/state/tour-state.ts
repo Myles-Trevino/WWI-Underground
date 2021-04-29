@@ -91,6 +91,10 @@ export default class TourState {
 		panorama.nodes[name] = node;
 	}
 
+	public addFeaturedNode(featuredNode: Types.FeaturedNode): void {
+		this.tour?.featuredNodes.push(featuredNode);
+	}
+
 	public setViewNode(name: string | undefined): void { this.viewNodeName = name; }
 
 	public setEditNode(name: string | undefined): void { this.editNodeName = name; }

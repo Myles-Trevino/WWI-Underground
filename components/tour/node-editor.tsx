@@ -69,6 +69,13 @@ export default observer(function NodeEditor(){
 		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
+	function addFeatured(): void {
+		if(state.tour.editNodeName && state.tour.panorama) {
+			const featuredNode = {name: state.tour.editNodeName, panorama: state.tour.panorama};
+			state.tour.addFeaturedNode(featuredNode);
+		}
+	}
+
 
 	// If there is no valid information node selected for viewing, render nothing.
 	panorama = state.tour.getPanorama();
@@ -93,6 +100,10 @@ export default observer(function NodeEditor(){
 			<div className={PanoramasStyles.input}>
 				<span>Article</span>
 				<Field name="article" type="text" as="textarea"/>
+			</div>
+
+			<div>
+				<button type="button" onClick={addFeatured}>Feature</button>
 			</div>
 		</>;
 
