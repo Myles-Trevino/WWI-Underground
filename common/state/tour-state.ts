@@ -95,6 +95,13 @@ export default class TourState {
 		this.tour?.featuredNodes.push(featuredNode);
 	}
 
+	public removeFeaturedNode(featuredNode: Types.FeaturedNode): void {
+		const index = this.tour?.featuredNodes.indexOf(featuredNode);
+		if((index !== undefined) && index > -1) {
+			this.tour?.featuredNodes.splice(index, 1);
+		}
+	}
+
 	public setViewNode(name: string | undefined): void { this.viewNodeName = name; }
 
 	public setEditNode(name: string | undefined): void { this.editNodeName = name; }
