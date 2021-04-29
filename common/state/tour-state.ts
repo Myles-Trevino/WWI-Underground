@@ -100,6 +100,7 @@ export default class TourState {
 		if((index !== undefined) && index > -1) {
 			this.tour?.featuredNodes.splice(index, 1);
 		}
+		else throw new Error('Node not found.');
 	}
 
 	public setViewNode(name: string | undefined): void { this.viewNodeName = name; }

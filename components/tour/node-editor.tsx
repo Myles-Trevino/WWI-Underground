@@ -79,7 +79,10 @@ export default observer(function NodeEditor(){
 	function removeFeatured(): void {
 		if(state.tour.editNodeName && state.tour.panorama) {
 			const featuredNode = {name: state.tour.editNodeName, panorama: state.tour.panorama};
-			state.tour.removeFeaturedNode(featuredNode);
+			try {
+				state.tour.removeFeaturedNode(featuredNode);
+			}
+			catch(error: unknown){ state.app.setErrorMessage(error); }
 		}
 	}
 
