@@ -268,7 +268,10 @@ export default observer(function Viewer(): JSX.Element {
 			<div className={Styles.nodeListWrapper}>
 				{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(oneNode, index){
 					return (
-						<span key={index} className="clickable" onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>{oneNode.name}</span>
+						<span key={index} className="clickable" onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>
+							{oneNode.name}
+							<p>{state.tour.getDefinedPanorama(oneNode.panorama).nodes[oneNode.name].article?.slice(0, 90)}...</p>
+						</span>
 					);
 				})}
 			</div>
