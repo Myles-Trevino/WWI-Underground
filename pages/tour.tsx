@@ -35,6 +35,7 @@ export default observer(function Viewer(): JSX.Element {
 	const [nodeListVisble, setNodeListVisible] = useState(false);
 	const [editable, setEditable] = useState(false);
 	const [nodeList, setNodeList] = useState<JSX.Element[] | undefined>();
+	let featuredNodes: JSX.Element[] | undefined = undefined;
 
 
 	// Initializer.
@@ -113,7 +114,8 @@ export default observer(function Viewer(): JSX.Element {
 		setFeaturedNodesVisible(!featuredNodesVisble);
 	}
 
-	function goToFeaturedNode(panoramaName: string, nodeName: string): void {
+	function goToNode(panoramaName: string, nodeName: string): void {
+
 		// Navigate to panorama.
 		state.tour.setPanorama(panoramaName);
 
@@ -145,13 +147,23 @@ export default observer(function Viewer(): JSX.Element {
 
 				if(filter && !title.toLowerCase().includes(filter)) continue;
 
-				result.push(<span key={title} className="clickable">{title}</span>);
+				result.push(<span key={title} className="clickable" onClick={(): void => { goToNode(panoramaName, nodeName); }}>{title}</span>);
 			}
 
 		setNodeList(result);
 	}
 
 
+	// Create the featured nodes list.
+	featuredNodes = state.tour.tour?.featuredNodes.map((oneNode, index) =>
+		<span key={index} className="clickable" onClick={(): void => { goToNode(oneNode.panorama, oneNode.name); }}>
+			{oneNode.name}
+			<p>{state.tour.getDefinedPanorama(oneNode.panorama).nodes[oneNode.name].article?.slice(0, 90)}...</p>
+		</span>
+	);
+
+
+	// Render.
 	return (<>
 
 		{/* Head. */}
@@ -261,25 +273,22 @@ export default observer(function Viewer(): JSX.Element {
 
 		{/* Featured nodes popup. */}
 		{featuredNodesVisble &&
-		<div className={classNames('gridTile', Styles.nodeList)}>
+		<div className={classNames('gridTile', Styles.nodeList)} style={{gridTemplateRows: 'min-content auto'}}>
 
 			<h3 className="gridTileSection">Featured Nodes</h3>
-			<div className="solidDivider"></div>
+
 			<div className={Styles.nodeListWrapper}>
-				{state.tour.tour?.featuredNodes.map(function renderFeaturedNodes(oneNode, index){
-					return (
-						<span key={index} className="clickable" onClick={(): void => { goToFeaturedNode(oneNode.panorama, oneNode.name); }}>
-							{oneNode.name}
-							<p>{state.tour.getDefinedPanorama(oneNode.panorama).nodes[oneNode.name].article?.slice(0, 90)}...</p>
-						</span>
-					);
-				})}
+				<div className="solidDivider"></div>
+				<div style={{overflowY: 'auto'}}>
+					<div className={Styles.nodeListList}>{featuredNodes}</div>
+				</div>
 			</div>
+
 		</div>}
 
 		{/* Node list popup. */}
 		{nodeListVisble &&
-		<div className={classNames('gridTile', Styles.nodeList)}>
+		<div className={classNames('gridTile', Styles.nodeList)} style={{gridTemplateRows: 'grid-template-rows: repeat(3, min-content) auto'}}>
 
 			<h3 className="gridTileSection">All Nodes</h3>
 			<div className="solidDivider"></div>

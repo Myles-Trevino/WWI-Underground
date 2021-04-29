@@ -50,21 +50,18 @@
 
 .editModeTileTop {
 	display: grid;
-	justify-items: center;;
+	justify-items: center;
 
 	h2{ margin-bottom: .5rem; }
 }
 
 .nodeList {
 	position: fixed;
-	grid-template-rows: repeat(3, min-content) auto;
 	top: calc(var(--navbar-height) + 6rem);
 	left: calc(var(--small-gap));
 	width: 20rem;
 	height: 25rem;
 	padding-bottom: 0;
-	overflow-y: scroll;
-	overflow-x: hidden;
 
 	:global {
 		animation: fadeIn var(--medium-transition-duration) forwards;
