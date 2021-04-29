@@ -91,6 +91,18 @@ export default class TourState {
 		panorama.nodes[name] = node;
 	}
 
+	public addFeaturedNode(featuredNode: Types.FeaturedNode): void {
+		this.tour?.featuredNodes.push(featuredNode);
+	}
+
+	public removeFeaturedNode(featuredNode: Types.FeaturedNode): void {
+		const index = this.tour?.featuredNodes.indexOf(featuredNode);
+		if((index !== undefined) && index > -1) {
+			this.tour?.featuredNodes.splice(index, 1);
+		}
+		else throw new Error('Node not found.');
+	}
+
 	public setViewNode(name: string | undefined): void { this.viewNodeName = name; }
 
 	public setEditNode(name: string | undefined): void { this.editNodeName = name; }

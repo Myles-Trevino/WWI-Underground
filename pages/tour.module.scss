@@ -63,6 +63,8 @@
 	width: 20rem;
 	height: 25rem;
 	padding-bottom: 0;
+	overflow-y: scroll;
+	overflow-x: hidden;
 
 	:global {
 		animation: fadeIn var(--medium-transition-duration) forwards;
@@ -79,10 +81,15 @@
 	.nodeListList {
 		display: grid;
 		height: min-content;
+		overflow-x: hidden;
 	}
 
 	span {
 		width: 20rem;
 		padding: var(--medium-gap);
+	}
+
+	p {
+		font-size: 0.8rem;
 	}
 }

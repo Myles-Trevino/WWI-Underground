@@ -69,6 +69,23 @@ export default observer(function NodeEditor(){
 		catch(error: unknown){ state.app.setErrorMessage(error); }
 	}
 
+	function addFeatured(): void {
+		if(state.tour.editNodeName && state.tour.panorama) {
+			const featuredNode = {name: state.tour.editNodeName, panorama: state.tour.panorama};
+			state.tour.addFeaturedNode(featuredNode);
+		}
+	}
+
+	function removeFeatured(): void {
+		if(state.tour.editNodeName && state.tour.panorama) {
+			const featuredNode = {name: state.tour.editNodeName, panorama: state.tour.panorama};
+			try {
+				state.tour.removeFeaturedNode(featuredNode);
+			}
+			catch(error: unknown){ state.app.setErrorMessage(error); }
+		}
+	}
+
 
 	// If there is no valid information node selected for viewing, render nothing.
 	panorama = state.tour.getPanorama();
@@ -83,6 +100,9 @@ export default observer(function NodeEditor(){
 	// Generate the type-specific inputs.
 	let typeSpecificInputs = <></>;
 
+	const isFeatured = (state.tour.editNodeName !== undefined && state.tour.panorama !== undefined &&
+		(state.tour.tour?.featuredNodes.includes({name: state.tour.editNodeName, panorama: state.tour.panorama})));
+
 	if(node.type === 'Information')
 		typeSpecificInputs = <>
 			<div className={PanoramasStyles.input}>
@@ -93,6 +113,13 @@ export default observer(function NodeEditor(){
 			<div className={PanoramasStyles.input}>
 				<span>Article</span>
 				<Field name="article" type="text" as="textarea"/>
+			</div>
+
+			<div>
+				{!(isFeatured ?? false) ?
+					<button type="button" onClick={addFeatured}>Feature</button> :
+					<button type="button" onClick={removeFeatured}>Un-feature</button>
+				}
 			</div>
 		</>;
 
