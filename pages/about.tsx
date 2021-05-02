@@ -29,7 +29,7 @@ export default function Index(): JSX.Element {
 				<div className="solidDivider"></div>
 
 				<p className="tileSection">
-					This website is part of a multi-year project to develop a digital resource repository to encourage and support the continued preservation, documentation, and exhibition of imperiled cultural heritage sites located in stone quarries in France, including wall-etchings left behind by World War I American Expeditionary Force soldiers. Our particular focus is on the 26th "Yankee" Division.<br/><br/>
+					This website is part of a multi-year project to develop a digital resource repository to encourage and support the continued preservation, documentation, and exhibition of imperiled cultural heritage sites located in stone quarries in France, including wall-etchings left behind by World War I American Expeditionary Force soldiers. Our particular focus is on the 26th &quot;Yankee&quot; Division.<br/><br/>
 
 					By capturing a &apos;digital footprint&apos; of the 100-year-old quarries, this work addresses the pressing need to preserve these imperiled artifacts. Additionally, we strive to create a rich repository of contextual information, such as articles on each of the men who left their name behind. The goal of this project is to remember the men who served and to support innovation, research, and teaching on these subjects.
 				</p>
@@ -48,12 +48,13 @@ export default function Index(): JSX.Element {
 					Professor of Computer Science, Wheaton College, Norton, MA<br/><br/>
 
 					<a href="https://www.antioch.edu/faculty/heather-warfield/" target="_blank">Heather Warfield</a><br/>
-Associate Professor, Department of Applied Psychology, Antioch University New England, Keene, NH<br/><br/>
-					<a href="https://vimeo.com/keithheyward" target="_blank">Keith Heyward</a><br/>
-					Cinematographer/Media Specialist, Providence, RI <br/><br/>
+					Associate Professor, Department of Applied Psychology, Antioch University New England, Keene, NH<br/><br/>
 
-<a href="https://wheatoncollege.edu/academics/library/about-the-library/library-staff/kate-boylan/" target="_blank">Kate Boylan</a><br/>
-Director of Archives and Digital Initiatives, Wheaton College, Norton, MA
+					<a href="https://vimeo.com/keithheyward" target="_blank">Keith Heyward</a><br/>
+					Cinematographer/Media Specialist, Providence, RI<br/><br/>
+
+					<a href="https://wheatoncollege.edu/academics/library/about-the-library/library-staff/kate-boylan/" target="_blank">Kate Boylan</a><br/>
+					Director of Archives and Digital Initiatives, Wheaton College, Norton, MA<br/><br/>
 
 
 					<a href="http://www.kellygoff.net/" target="_blank">Kelly Goff</a><br/>
@@ -84,8 +85,9 @@ Director of Archives and Digital Initiatives, Wheaton College, Norton, MA
 					<img src="images/about/cave-team.jpg" width="100%" alt="Gilles Chauwin, Kelly Goff, Keith Heyward, and Mark LeBlanc, setting up equipment in the cave."/>
 
 					<p>
-						In August of 2019, a team from Wheaton College in Norton, Massachusetts undertook a two-day expedition into the caves at Braye-en-Laonnois, France to capture the panorama images that comprise the tour on this site along with 3D LIDAR laser scans. 
-<br/><br/>
+						In August of 2019, a team from Wheaton College in Norton, Massachusetts undertook a two-day expedition into the caves at Braye-en-Laonnois, France to capture the panorama images that comprise the tour on this site along with 3D LIDAR laser scans.
+
+						<br/><br/>
 
 						Artifacts in both quarries have suffered from vandalism and theft, as well as natural environmental effects such as cave-ins and water damage. These sites face an uncertain and, potentially, imperiled future. Without efforts to document the carvings and writings of these Americans, their messages - sometimes the last message from a soldier - may be lost forever. Securing a 3D footprint is one immediate act to address the caves&apos; vulnerability.
 					</p>
@@ -104,9 +106,9 @@ Director of Archives and Digital Initiatives, Wheaton College, Norton, MA
 					<img src="images/about/from-maine-to-france.jpg" width="35%" alt="Book cover with a photo of a seated soldier and the text: From Maine to France and Somehow Back Again. World War I Experiences of John M. Longley and the 26th Yankee Division. Mark D. LeBlanc and John M. LeBlanc."/>
 
 					<p>
-						This project follows over a decade of research by Mark LeBlanc (documented in his book <a href="https://www.lulu.com/en/us/shop/john-m-leblanc-and-mark-d-leblanc/from-maine-to-france-and-somehow-back-again-world-war-i-experiences-of-john-m-longley-and-the-26th-yankee-division/paperback/product-1p7jqek9.html" target="_blank">From Maine to France</a>) and 
-more recently the vision of pilgrimage scholar, Heather Warfield.
-<br/><br/>
+						This project follows over a decade of research by Mark LeBlanc (documented in his book <a href="https://www.lulu.com/en/us/shop/john-m-leblanc-and-mark-d-leblanc/from-maine-to-france-and-somehow-back-again-world-war-i-experiences-of-john-m-longley-and-the-26th-yankee-division/paperback/product-1p7jqek9.html" target="_blank">From Maine to France</a>) and more recently the vision of pilgrimage scholar, Heather Warfield.
+
+						<br/><br/>
 
 						The Picardy region of France is peppered with abandoned quarries, many dating to the Middle Ages and mined for stone used in the construction of dwellings from cottages to cathedrals. Some of these caverns are miles in length. During World War I, the caves were occupied by U.S. National Guard soldiers from New England - from the American Expeditionary Force (AEF) 26th &quot;Yankee&quot; Division.<br/><br/>
 

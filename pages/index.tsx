@@ -45,10 +45,9 @@ export default observer(function Index(): JSX.Element {
 			<div className={Styles.section}>
 				<h1>{Constants.websiteName}</h1>
 
-				<p>The WWI Underground project is a digital preservation of French caves where U.S. soldiers took refuge in during WWI.  The scope of the initiative is the 
-American Expeditionary Force (AEF) 26th “Yankee” Division,
-comprised of soldiers from Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont.
-Securing a 3D footprint addresses the cave’s vulnerability and is part of a multi-year plan to archive and build digital resources so others can leverage the data-rich models and imagery as we continue to remember the sacrifices made and preserve the “messages left” by these soldiers from New England.
+				<p>
+					The WWI Underground project is a digital preservation of French caves where U.S. soldiers took refuge in during WWI.  The scope of the initiative is the American Expeditionary Force (AEF) 26th &quot;Yankee&quot; Division, comprised of soldiers from Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, and Vermont. Securing a 3D footprint addresses the cave’s vulnerability and is part of a multi-year plan to archive and build digital resources so others can leverage the data-rich models and imagery as we continue to remember the sacrifices made and preserve the messages left by these soldiers from New England.
+				</p>
 			</div>
 
 		</div>
