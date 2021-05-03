@@ -34,7 +34,7 @@ export default function Help(): JSX.Element {
 					During your virtual visit, you will encounter labels overlaid on the panoramas. You can click these labels to see their associated article. These notes give greater context to the historical artifacts within the cave.
 				</p>
 
-				<iframe className="tileSection" src="https://www.youtube-nocookie.com/embed/1ZSeQ06XLCs" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>			</div>
+				<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/CZHEobJ0YLU" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>			</div>
 		</div>
 	</>);
 }
