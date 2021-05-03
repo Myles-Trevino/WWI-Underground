@@ -50,20 +50,43 @@
 
 .editModeTileTop {
 	display: grid;
-	justify-items: center;;
+	justify-items: center;
 
 	h2{ margin-bottom: .5rem; }
 }
 
-.featuredNodesPopup {
+.nodeList {
 	position: fixed;
 	top: calc(var(--navbar-height) + 6rem);
 	left: calc(var(--small-gap));
-	display: grid;
-	gap: var(--small-gap);
 	width: 20rem;
-	height: 10rem;
-	overflow-y: auto;
+	height: 25rem;
+	padding-bottom: 0;
 
-	:global { animation: fadeIn var(--medium-transition-duration) forwards; }
+	:global {
+		animation: fadeIn var(--medium-transition-duration) forwards;
+
+		.solidDivider, .dashedDivider { border-color: var(--hover-color); }
+	}
+
+	.nodeListWrapper {
+		display: grid;
+		grid-template-rows: min-content auto;
+		min-height: 0;
+	}
+
+	.nodeListList {
+		display: grid;
+		height: min-content;
+		overflow-x: hidden;
+	}
+
+	span {
+		width: 20rem;
+		padding: var(--medium-gap);
+	}
+
+	p {
+		font-size: 0.8rem;
+	}
 }

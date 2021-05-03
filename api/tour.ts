@@ -12,6 +12,14 @@ import Constants from '../common/constants';
 import type * as Types from '../common/types';
 
 
+// Removes the given tour.
+export function remove(id: string): void {
+	const directory = `${Constants.toursFolder}/${id}`;
+	FSE.removeSync(directory);
+}
+
+
+// Saves the given tour.
 export function save(id: string, tour: Types.Tour): void {
 	const directory = `${Constants.toursFolder}/${id}`;
 

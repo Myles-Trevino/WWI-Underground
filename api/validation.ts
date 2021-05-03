@@ -86,7 +86,7 @@ export const nodeSchema = Joi.object({
 	position: positionSchema.required(),
 	panorama: nameSchema.allow(''),
 	imageUrl: uriSchema.allow(''),
-	article: Joi.string()
+	article: Joi.string().allow('')
 });
 
 export const panoramaSchema = Joi.object({
@@ -95,11 +95,17 @@ export const panoramaSchema = Joi.object({
 	nodes: Joi.object().pattern(nameSchema, nodeSchema).required()
 });
 
+export const featuredNodeSchema = Joi.object({
+	name: nameSchema.allow('').required(),
+	panorama: nameSchema.allow('').required()
+});
+
 export const tourSchema = Joi.object({
 	name: nameSchema.required(),
 	authors: Joi.array().items(nameSchema).required(),
 	panoramas: Joi.object().pattern(nameSchema, panoramaSchema).required(),
-	defaultPanorama: nameSchema.required()
+	defaultPanorama: nameSchema.required(),
+	featuredNodes: Joi.array().items(featuredNodeSchema).required()
 });
 
 

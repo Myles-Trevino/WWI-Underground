@@ -81,8 +81,13 @@ export type Tour = {
 	authors: string[];
 	panoramas: Record<string, Panorama>;
 	defaultPanorama: string;
+	featuredNodes: FeaturedNode[];
 };
 
+export type FeaturedNode = {
+	name: string;
+	panorama: string;
+};
 
 // Requests.
 export type SecuredRequest = {accessCredentials: AccessCredentials};
@@ -101,7 +106,13 @@ export type GetTourRequest = {
 	id?: string;
 };
 
+export type IsEditableRequest = SecuredRequest & {id: string};
+
+export type isEditableResponse = {editable: boolean};
+
 export type AddTourRequest = SecuredRequest & {tour: Tour};
+
+export type RemoveTourRequest = SecuredRequest & {id: string};
 
 export type SaveTourRequest = SecuredRequest & {
 	id: string;
@@ -173,6 +184,7 @@ export type TourInformation = {
 	name: string;
 	authors: string[];
 	defaultPanorama: string;
+	featuredNodes: FeaturedNode[];
 };
 
 export type PanoramaInformation = {

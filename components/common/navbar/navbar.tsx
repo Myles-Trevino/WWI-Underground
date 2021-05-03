@@ -28,6 +28,7 @@ export default function Navbar(): JSX.Element {
 		<polygon className="svg-filled-glyph" points="22.82 10.64 21.61 9.36 16 14.67 10.39 9.36 9.18 10.64 14.73 15.88 9.18 21.11 10.39 22.39 16 17.08 21.61 22.39 22.82 21.11 17.27 15.88 22.82 10.64"/>
 	</svg>;
 
+
 	// Render.
 	return (<div className={Styles.navbar}>
 
@@ -48,11 +49,12 @@ export default function Navbar(): JSX.Element {
 		<Link href="/help"><span className="button">Help</span></Link>
 		<Link href="/about"><span className="button">About</span></Link>
 		<Link href="/theme"><span className="button">Theme</span></Link>
+
 		{/* Menu SVG. */}
 		{menu ? closeMenuSvg : openMenuSvg}
 
 		{/* Menu overlay. */}
-		{menu && <div className={classNames('overlay', Styles.menuOverlay)}>
+		{menu && <div className={classNames('overlay', Styles.menuOverlay)} onClick={(): void => { setMenu(false); }}>
 			<Link href="/tour"><h2>Tour</h2></Link>
 			<Link href="/account"><h2>Account</h2></Link>
 			<Link href="/help"><h2>Help</h2></Link>
