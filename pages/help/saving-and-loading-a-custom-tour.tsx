@@ -51,7 +51,7 @@ export default function Help(): JSX.Element {
 					<p>To load a custom cave tour, open your &quot;Account&quot; page. Then, simply click on the name of the custom tour you wish to open in the &quot;Tours&quot; section.
 					</p>
 
-					<iframe className="tileSection" src="https://www.youtube-nocookie.com/embed/L_6gniUxIt8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>			</div>
+					<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ngOsGdBIscs" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>			</div>
 			</div>
 		</div>
 	</>);

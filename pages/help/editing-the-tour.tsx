@@ -16,14 +16,14 @@ export default function Help(): JSX.Element {
 
 		{/* Head. */}
 		<Head>
-			<title>Editing the Tour - Help - {Constants.websiteName}</title>
+			<title>Editing a Custom Tour - Help - {Constants.websiteName}</title>
 		</Head>
 
 		{/* Content. */}
 		<div className="articleContainer">
 			<div className="gridTile">
 
-				<h2 className="tileSection">Editing the Tour</h2>
+				<h2 className="tileSection">Editing a Custom Tour</h2>
 				<div className="solidDivider"></div>
 
 				{/* Overview. */}
@@ -31,7 +31,7 @@ export default function Help(): JSX.Element {
 					<h3>Overview</h3>
 
 					<p>
-						The cave tour supports user-submitted edits to add new information and points of interest. To enable editing mode, simply click on the edit button. Then, look to the &quot;Adding your own information&quot; section below. To return to viewing mode, click on the button that has replaced the Edit button.
+						This website supports creating custom tours, so anyone can add information to the cave tour and share it with others. Check out the &quot;Creating, Saving, and Loading a Custom tour&quot; help document for more information.
 					</p>
 				</div>
 
@@ -51,7 +51,7 @@ export default function Help(): JSX.Element {
 						<u>Add Navigation</u>: This button allows you to create a link to another panorama file, like the buttons you click to view different cave panoramas on the Tour.
 					</p>
 
-					<iframe className="tileSection" src="https://www.youtube-nocookie.com/embed/McL-FIM-Xm4" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+					<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ACWIg-aGwD8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 				</div>
 			</div>
 		</div>
